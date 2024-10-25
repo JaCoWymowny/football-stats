@@ -4,6 +4,12 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-
+    "pcheck": "prettier --check 'client/src/**/*' 'server/src/**/*'",
+    "pformat": "prettier --write 'client/src/**/*' 'server/src/**/*'",
+    "prepare": "husky install"
+  },
+  "devDependencies": {
+    "husky": "^8.0.0",
+    "prettier": "^3.3.3"
   }
 }
