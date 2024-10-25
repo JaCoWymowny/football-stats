@@ -10,7 +10,7 @@
     "dev": "concurrently -k -n \"TypeScript,Server\" \"tsc --watch\" \"nodemon dist/app.js\"",
     "watch": "tsc --watch",
     "lint": "eslint 'src/**/*.ts'",
-    "lint:fix": "eslint 'src/**/*.ts' --fix"
+    "fix": "eslint 'src/**/*.ts' --fix"
   },
   "keywords": [],
   "author": "",
