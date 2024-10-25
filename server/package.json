@@ -2,13 +2,15 @@
   "name": "server-app",
   "version": "1.0.0",
   "description": "My server application",
-  "type": "commonjs",
+  "type": "module",
   "main": "dist/app.js",
   "scripts": {
     "start": "node dist/app.js",
     "build": "tsc",
-    "dev": "tsc && nodemon dist/app.js",
-    "watch": "nodemon --exec ts-node src/app.ts"
+    "dev": "concurrently -k -n \"TypeScript,Server\" \"tsc --watch\" \"nodemon dist/app.js\"",
+    "watch": "tsc --watch",
+    "lint": "eslint 'src/**/*.ts'",
+    "lint:fix": "eslint 'src/**/*.ts' --fix"
   },
   "keywords": [],
   "author": "",
@@ -27,7 +29,11 @@
   "devDependencies": {
     "@types/cors": "^2.8.17",
     "@types/express": "^5.0.0",
-    "@types/node": "^22.7.9",
+    "@types/node": "^22.8.0",
+    "@typescript-eslint/eslint-plugin": "^8.11.0",
+    "@typescript-eslint/parser": "^8.11.0",
+    "concurrently": "^9.0.1",
+    "eslint": "^9.13.0",
     "nodemon": "^3.1.7",
     "ts-node": "^10.9.2",
     "typescript": "^5.6.3"
