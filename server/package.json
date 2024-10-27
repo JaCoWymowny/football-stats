@@ -2,15 +2,14 @@
   "name": "server-app",
   "version": "1.0.0",
   "description": "My server application",
+  "module": "src/app.ts",
   "type": "module",
-  "main": "dist/app.js",
   "scripts": {
-    "start": "node dist/app.js",
-    "build": "tsc",
-    "dev": "concurrently -k -n \"TypeScript,Server\" \"tsc --watch\" \"nodemon dist/app.js\"",
-    "watch": "tsc --watch",
+    "start": "tsx src/app.ts",
+    "watch": "tsx watch src/app.ts",
     "lint": "eslint 'src/**/*.ts'",
-    "fix": "eslint 'src/**/*.ts' --fix"
+    "fix": "eslint 'src/**/*.ts' --fix",
+    "prisma": "npx prisma studio"
   },
   "keywords": [],
   "author": "",
@@ -27,6 +26,7 @@
     "prisma": "^5.21.1"
   },
   "devDependencies": {
+    "@types/bcrypt": "^5.0.2",
     "@types/cors": "^2.8.17",
     "@types/express": "^5.0.0",
     "@types/node": "^22.8.0",
@@ -34,8 +34,8 @@
     "@typescript-eslint/parser": "^8.11.0",
     "concurrently": "^9.0.1",
     "eslint": "^9.13.0",
-    "nodemon": "^3.1.7",
     "ts-node": "^10.9.2",
+    "tsx": "^4.19.2",
     "typescript": "^5.6.3"
   }
 }
