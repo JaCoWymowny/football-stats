@@ -9,12 +9,13 @@
     "install": "npm run client-install && npm run server-install ",
     "server": "cd server && npm run watch",
     "client": "cd client && npm run dev",
-    "dev": "npm run server && npm run client",
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
     "pcheck": "prettier --check 'client/src/**/*' 'server/src/**/*'",
     "pformat": "prettier --write 'client/src/**/*' 'server/src/**/*'",
     "prepare": "husky install"
   },
   "devDependencies": {
+    "concurrently": "^9.0.1",
     "husky": "^8.0.0",
     "prettier": "^3.3.3"
   }
