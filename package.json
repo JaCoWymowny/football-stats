@@ -4,6 +4,12 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
+    "server-install": "cd server && npm install",
+    "client-install": "cd client && npm install",
+    "install": "npm run client-install && npm run server-install ",
+    "server": "cd server && npm run watch",
+    "client": "cd client && npm run dev",
+    "dev": "npm run server && npm run client",
     "pcheck": "prettier --check 'client/src/**/*' 'server/src/**/*'",
     "pformat": "prettier --write 'client/src/**/*' 'server/src/**/*'",
     "prepare": "husky install"

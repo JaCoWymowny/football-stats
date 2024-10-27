@@ -1,10 +1,11 @@
-import express, { Request, Response } from 'express';
+import express, { NextFunction, Request, Response } from 'express';
 import cors from 'cors';
 import { PrismaClient } from '@prisma/client';
+import apiRouter from './routes/api';
 
 const app = express();
 const prisma = new PrismaClient();
-// Middleware
+
 app.use(express.json());
 app.use(
   cors({
@@ -12,8 +13,9 @@ app.use(
   })
 );
 
-// Obsługa nieznalezionych tras (404)
-app.use((req: Request, res: Response) => {
+app.use('/api', apiRouter);
+
+app.use((req: Request, res: Response, next: NextFunction) => {
   res.status(404).json({ message: 'Not Found' });
 });
 
