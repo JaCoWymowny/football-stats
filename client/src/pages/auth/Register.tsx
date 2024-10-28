@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from '@/ui/form';
 import { Input } from '@/ui/input';
 import { Button } from '@/ui/button';
+import { authApi } from '@/services/authApi';
 
 const Register = () => {
   const navigate = useNavigate();
@@ -18,9 +19,18 @@ const Register = () => {
     },
   });
 
-  const onSubmit = (data: RegisterSchemaType) => {
-    console.log('Form submitted:', data);
-    navigate('/login');
+  const onSubmit = async (data: RegisterSchemaType) => {
+    try {
+      const response = await authApi.register(data);
+      if (response && response.user) {
+        console.log('Registration successful:', response);
+        navigate('/login');
+      } else {
+        console.error('Registration failed: Unexpected response');
+      }
+    } catch (error) {
+      console.error('Error during registration:', error);
+    }
   };
 
   return (

@@ -1,7 +1,10 @@
 import { z } from 'zod';
 
 export const loginSchema = z.object({
-  email: z.string().email('Wprowadź poprawny adres email'),
+  username: z
+    .string()
+    .min(1, 'Nazwa użytkownika jest wymagana')
+    .regex(/^[a-zA-Z0-9_]+$/, 'Nazwa użytkownika może zawierać tylko litery, cyfry i podkreślenia'),
   password: z.string().min(1, 'Hasło jest wymagane'),
 });
 

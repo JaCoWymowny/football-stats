@@ -1,8 +1,11 @@
+// src/controllers/user.controller.ts
 import { Request, Response } from 'express';
 import { PrismaClient } from '@prisma/client';
 import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
 
 const prisma = new PrismaClient();
+const JWT_SECRET = process.env.JWT_SECRET || 'secret-key';
 
 export async function httpRegisterUser(req: Request, res: Response): Promise<void> {
   try {
@@ -36,6 +39,11 @@ export async function httpRegisterUser(req: Request, res: Response): Promise<voi
       },
     });
 
+    // Generowanie JWT
+    const token = jwt.sign({ id: newUser.id, username: newUser.username }, JWT_SECRET, {
+      expiresIn: '1h',
+    });
+
     res.status(201).json({
       message: 'User registered successfully',
       user: {
@@ -43,6 +51,7 @@ export async function httpRegisterUser(req: Request, res: Response): Promise<voi
         username: newUser.username,
         email: newUser.email,
       },
+      token,
     });
   } catch (error) {
     console.error('Error creating user:', error);
@@ -71,6 +80,10 @@ export async function httpLoginUser(req: Request, res: Response): Promise<void> 
       return;
     }
 
+    const token = jwt.sign({ id: user.id, username: user.username }, JWT_SECRET, {
+      expiresIn: '1h',
+    });
+
     res.status(200).json({
       message: 'Login successful',
       user: {
@@ -78,9 +91,45 @@ export async function httpLoginUser(req: Request, res: Response): Promise<void> 
         username: user.username,
         email: user.email,
       },
+      token,
     });
   } catch (error) {
     console.error('Error logging in user:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+}
+
+export async function httpGetUserById(req: Request, res: Response): Promise<void> {
+  try {
+    const userId: number = parseInt(req.params.id);
+
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+    });
+
+    if (!user) {
+      res.status(404).json({ message: 'User not found' });
+      return;
+    }
+
+    res.status(200).json({
+      id: user.id,
+      username: user.username,
+      email: user.email,
+      role: user.role,
+    });
+  } catch (error) {
+    console.error('Error fetching user:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+}
+
+export async function httpGetAllUsers(req: Request, res: Response): Promise<void> {
+  try {
+    const users = await prisma.user.findMany();
+    res.status(200).json(users);
+  } catch (error) {
+    console.error('Error fetching users:', error);
     res.status(500).json({ message: 'Server error' });
   }
 }

@@ -13,7 +13,7 @@ app.use(
   })
 );
 
-app.use('/api', apiRouter);
+app.use('/', apiRouter);
 
 app.use((req: Request, res: Response, next: NextFunction) => {
   res.status(404).json({ message: 'Not Found' });

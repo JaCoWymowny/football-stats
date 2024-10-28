@@ -5,34 +5,46 @@ import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from '
 import { Input } from '@/ui/input';
 import { Button } from '@/ui/button';
 import { useNavigate } from 'react-router-dom';
+import { authApi } from '@/services/authApi';
 
 const Login = () => {
   const navigate = useNavigate();
   const form = useForm<LoginSchemaType>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
-      email: '',
+      username: '',
       password: '',
     },
   });
 
-  const onSubmit = (data: LoginSchemaType) => {
-    console.log('Login data:', data);
-    navigate('/home');
+  const onSubmit = async (data: LoginSchemaType) => {
+    console.log('test 21');
+    try {
+      const response = await authApi.login(data);
+      console.log('test 24');
+      if (response && response.token) {
+        console.log('Login successful:', response);
+        navigate('/home');
+      } else {
+        console.error('Login failed: No token received');
+      }
+    } catch (error) {
+      console.error('Error during login:', error);
+    }
   };
 
   return (
     <div className='w-full max-w-md p-8 space-y-6 bg-white shadow-md rounded-lg mx-auto'>
       <h2 className='text-2xl font-bold text-center text-gray-800'>Logowanie</h2>
-      <form onSubmit={form.handleSubmit(onSubmit)}>
-        <Form {...form}>
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-4'>
           <FormField
-            name='email'
+            name='username'
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Email</FormLabel>
+                <FormLabel>Nazwa użytkownika</FormLabel>
                 <FormControl>
-                  <Input {...field} placeholder='Wprowadź swój email' />
+                  <Input {...field} placeholder='Wprowadź nazwę użytkownika' />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -56,8 +68,8 @@ const Login = () => {
           >
             Zaloguj się
           </Button>
-        </Form>
-      </form>
+        </form>
+      </Form>
     </div>
   );
 };
