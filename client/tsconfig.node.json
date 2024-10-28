@@ -4,11 +4,6 @@
     "allowImportingTsExtensions": false,
     "noUncheckedSideEffectImports": true,
     "baseUrl": ".",
-    "paths": {
-      "@/*": [
-        "./src/*"
-      ]
-    }
   },
   "include": ["vite.config.ts"]
 }
