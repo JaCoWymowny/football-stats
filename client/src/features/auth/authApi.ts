@@ -1,4 +1,4 @@
-import { ApiClient } from './ApiClient';
+import { ApiClient } from '@/services/ApiClient';
 import { RegisterData, LoginData } from '@/types/types';
 
 export const authApi = {
