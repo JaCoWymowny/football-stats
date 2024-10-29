@@ -12,16 +12,19 @@ import { Button } from '@/components/ui/Button';
 import { useLoginForm } from '@/helpers/useFormHelper';
 import { authApi } from '@/features/auth/authApi';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '@/features/hooks/useAuth';
 
 const LoginForm = () => {
   const navigate = useNavigate();
   const form = useLoginForm();
+  const { initializeAuth } = useAuth();
 
   const onSubmit = async (data: LoginSchemaType) => {
     try {
       const response = await authApi.login(data);
       if (response && response.token) {
-        navigate('/home');
+        initializeAuth();
+        navigate('/');
       } else {
         console.error('Login failed: No token received');
       }

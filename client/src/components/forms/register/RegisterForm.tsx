@@ -22,7 +22,7 @@ const RegisterForm = () => {
       const response = await authApi.register(data);
       if (response && response.user) {
         console.log('Registration successful:', response);
-        navigate('/login');
+        navigate('/auth/login');
       } else {
         console.error('Registration failed: Unexpected response');
       }
