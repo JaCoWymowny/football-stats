@@ -7,9 +7,9 @@ import {
   FormLabel,
   FormControl,
   FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
+} from '@/components/ui/Form';
+import { Input } from '@/components/ui/Input';
+import { Button } from '@/components/ui/Button';
 import { authApi } from '@/features/auth/authApi';
 import { useNavigate } from 'react-router-dom';
 
@@ -33,14 +33,18 @@ const RegisterForm = () => {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-4'>
+      <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-6'>
         <FormField
           name='username'
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Nazwa użytkownika</FormLabel>
+              <FormLabel className='text-gray-700'>Nazwa użytkownika</FormLabel>
               <FormControl>
-                <Input {...field} placeholder='Wprowadź nazwę użytkownika' />
+                <Input
+                  {...field}
+                  placeholder='Wprowadź nazwę użytkownika'
+                  className='border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500'
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -51,9 +55,13 @@ const RegisterForm = () => {
           name='email'
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Email</FormLabel>
+              <FormLabel className='text-gray-700'>Email</FormLabel>
               <FormControl>
-                <Input {...field} placeholder='Wprowadź swój email' />
+                <Input
+                  {...field}
+                  placeholder='Wprowadź swój email'
+                  className='border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500'
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -64,9 +72,14 @@ const RegisterForm = () => {
           name='password'
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Hasło</FormLabel>
+              <FormLabel className='text-gray-700'>Hasło</FormLabel>
               <FormControl>
-                <Input {...field} type='password' placeholder='Wprowadź hasło' />
+                <Input
+                  {...field}
+                  type='password'
+                  placeholder='Wprowadź hasło'
+                  className='border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500'
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -77,9 +90,14 @@ const RegisterForm = () => {
           name='confirmPassword'
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Potwierdź hasło</FormLabel>
+              <FormLabel className='text-gray-700'>Potwierdź hasło</FormLabel>
               <FormControl>
-                <Input {...field} type='password' placeholder='Potwierdź hasło' />
+                <Input
+                  {...field}
+                  type='password'
+                  placeholder='Potwierdź hasło'
+                  className='border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500'
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -88,7 +106,7 @@ const RegisterForm = () => {
 
         <Button
           type='submit'
-          className='w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 rounded-md mt-6'
+          className='w-full py-3 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700 transition-colors'
         >
           Zarejestruj się
         </Button>
