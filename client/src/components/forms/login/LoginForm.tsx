@@ -6,9 +6,9 @@ import {
   FormLabel,
   FormControl,
   FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
+} from '@/components/ui/Form';
+import { Input } from '@/components/ui/Input';
+import { Button } from '@/components/ui/Button';
 import { useLoginForm } from '@/helpers/useFormHelper';
 import { authApi } from '@/features/auth/authApi';
 import { useNavigate } from 'react-router-dom';
@@ -21,7 +21,6 @@ const LoginForm = () => {
     try {
       const response = await authApi.login(data);
       if (response && response.token) {
-        console.log('Login successful:', response);
         navigate('/home');
       } else {
         console.error('Login failed: No token received');
@@ -33,14 +32,18 @@ const LoginForm = () => {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-4'>
+      <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-6'>
         <FormField
           name='username'
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Nazwa użytkownika</FormLabel>
+              <FormLabel className='text-gray-700'>Nazwa użytkownika</FormLabel>
               <FormControl>
-                <Input {...field} placeholder='Wprowadź nazwę użytkownika' />
+                <Input
+                  {...field}
+                  placeholder='Wprowadź nazwę użytkownika'
+                  className='border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500'
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -50,9 +53,14 @@ const LoginForm = () => {
           name='password'
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Hasło</FormLabel>
+              <FormLabel className='text-gray-700'>Hasło</FormLabel>
               <FormControl>
-                <Input {...field} type='password' placeholder='Wprowadź hasło' />
+                <Input
+                  {...field}
+                  type='password'
+                  placeholder='Wprowadź hasło'
+                  className='border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500'
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -60,7 +68,7 @@ const LoginForm = () => {
         />
         <Button
           type='submit'
-          className='w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 rounded-md mt-4'
+          className='w-full py-3 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700 transition-colors'
         >
           Zaloguj się
         </Button>

@@ -11,7 +11,7 @@ const router = createBrowserRouter(
   createRoutesFromElements(
     <Route element={<Layout />}>
       {/* Public Routes */}
-      <Route path='auth'>
+      <Route path='/auth'>
         <Route index element={<WelcomePage />} />
         <Route path='login' element={<LoginPage />} />
         <Route path='register' element={<RegisterPage />} />
