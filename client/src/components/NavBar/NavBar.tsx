@@ -28,12 +28,20 @@ const NavBar = () => {
           Contact
         </li>
       </ul>
-      `{/* AUTH BUTTONS */}
+      {/* AUTH BUTTONS */}
       <div className='flex items-center space-x-4'>
-        <Button onClick={() => navigate('/auth/login')} variant='outline'>
+        <Button
+          onClick={() => navigate('/auth/login')}
+          className='border border-gray-300 text-gray-300 cursor-pointer hover:text-stone-400'
+        >
           Login
         </Button>
-        <Button onClick={() => navigate('/auth/register')}>Register</Button>
+        <Button
+          onClick={() => navigate('/auth/register')}
+          className='border border-gray-300 text-gray-300 cursor-pointer hover:text-stone-400'
+        >
+          Register
+        </Button>
       </div>
     </nav>
   );
