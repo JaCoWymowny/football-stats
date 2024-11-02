@@ -1,4 +1,10 @@
+import { useNavigate } from 'react-router-dom';
 import { LoginSchemaType } from '@/components/forms/login/loginSchema';
+import { authApi } from '@/features/auth/authApi';
+import { useAuth } from '@/features/hooks/useAuth';
+import { useLoginForm } from '@/helpers/useFormHelper';
+import { Input } from '@/components/ui/Input';
+import { Button } from '@/components/ui/Button';
 import {
   Form,
   FormField,
@@ -7,23 +13,17 @@ import {
   FormControl,
   FormMessage,
 } from '@/components/ui/Form';
-import { Input } from '@/components/ui/Input';
-import { Button } from '@/components/ui/Button';
-import { useLoginForm } from '@/helpers/useFormHelper';
-import { authApi } from '@/features/auth/authApi';
-import { useNavigate } from 'react-router-dom';
-import { useAuth } from '@/features/hooks/useAuth';
 
 const LoginForm = () => {
   const navigate = useNavigate();
   const form = useLoginForm();
-  const { initializeAuth } = useAuth();
+  const { login } = useAuth();
 
   const onSubmit = async (data: LoginSchemaType) => {
     try {
       const response = await authApi.login(data);
       if (response && response.token) {
-        initializeAuth();
+        login(response.token);
         navigate('/');
       } else {
         console.error('Login failed: No token received');

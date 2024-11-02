@@ -1,16 +1,21 @@
+import { useNavigate } from 'react-router-dom';
+import { useQueryClient } from '@tanstack/react-query';
 import { useAuth } from '@/features/hooks/useAuth';
+import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/Avatar';
 import Logo from '../../assets/ball.svg';
 import { Button } from '@/components/ui/Button';
-import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/Avatar';
-import { useNavigate } from 'react-router-dom';
 
 const NavBar = () => {
   const navigate = useNavigate();
   const { isAuthenticated, logout } = useAuth();
+  const queryClient = useQueryClient();
 
   const handleLogout = () => {
     logout();
     navigate('/');
+    queryClient.invalidateQueries({ queryKey: ['user'] }).catch(error => {
+      console.error('Error while invalidating user cache:', error);
+    });
   };
 
   return (

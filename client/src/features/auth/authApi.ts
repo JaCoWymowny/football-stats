@@ -4,6 +4,10 @@ import { RegisterData, LoginData } from '@/types/types';
 export const authApi = {
   register: async (data: RegisterData) => {
     const response = await ApiClient.post('/users/register', data);
+    const token = response.data.token;
+    if (token) {
+      localStorage.setItem('authToken', token);
+    }
     return response.data;
   },
 
