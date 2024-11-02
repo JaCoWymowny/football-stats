@@ -10,7 +10,7 @@ interface AppProvidersProps {
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      staleTime: 300000, // 5 min
+      staleTime: 300000,
       retry: 1,
     },
   },
@@ -18,12 +18,10 @@ const queryClient = new QueryClient({
 
 const AppProviders = ({ children }: AppProvidersProps) => {
   return (
-    <AuthProvider>
-      <QueryClientProvider client={queryClient}>
-        {children}
-        <ReactQueryDevtools initialIsOpen={false} position='bottom' />
-      </QueryClientProvider>
-    </AuthProvider>
+    <QueryClientProvider client={queryClient}>
+      <AuthProvider>{children}</AuthProvider>
+      <ReactQueryDevtools initialIsOpen={false} position='bottom' />
+    </QueryClientProvider>
   );
 };
 
