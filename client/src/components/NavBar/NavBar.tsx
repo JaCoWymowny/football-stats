@@ -10,12 +10,14 @@ const NavBar = () => {
   const { isAuthenticated, logout } = useAuth();
   const queryClient = useQueryClient();
 
-  const handleLogout = () => {
-    logout();
-    navigate('/');
-    queryClient.invalidateQueries({ queryKey: ['user'] }).catch(error => {
+  const handleLogout = async () => {
+    try {
+      await queryClient.invalidateQueries({ queryKey: ['user'] });
+      logout();
+      navigate('/');
+    } catch (error) {
       console.error('Error while invalidating user cache:', error);
-    });
+    }
   };
 
   return (
