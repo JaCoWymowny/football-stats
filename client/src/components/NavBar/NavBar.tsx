@@ -36,7 +36,10 @@ const NavBar = () => {
         {isAuthenticated ? (
           <>
             {!isLoading && user && (
-              <Link to='/profile' className='text-gray-300 hover:text-stone-400 cursor-pointer'>
+              <Link
+                to={`/profile/${user.id}`}
+                className='text-gray-300 hover:text-stone-400 cursor-pointer'
+              >
                 {user.username}
               </Link>
             )}
