@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient, User } from '@prisma/client';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
@@ -136,6 +136,27 @@ export async function httpGetAllUsers(req: Request, res: Response): Promise<void
     res.status(200).json(users);
   } catch (error) {
     console.error('Error fetching users:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+}
+
+export async function httpGetCurrentUser(req: Request, res: Response): Promise<void> {
+  try {
+    const user = req.user as User;
+
+    if (!user) {
+      res.status(404).json({ message: 'User not found' });
+      return;
+    }
+
+    res.status(200).json({
+      id: user.id,
+      username: user.username,
+      email: user.email,
+      role: user.role,
+    });
+  } catch (error) {
+    console.error('Error fetching current user:', error);
     res.status(500).json({ message: 'Server error' });
   }
 }

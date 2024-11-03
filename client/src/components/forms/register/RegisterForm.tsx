@@ -1,7 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { RegisterSchemaType } from './registerSchema';
-import { authApi } from '@/features/auth/authApi';
-import { useAuth } from '@/features/hooks/useAuth';
+import { useAuthActions } from '@/features/hooks/useAuthActions';
 import { useRegisterForm } from '@/helpers/useFormHelper';
 import { Input } from '@/components/ui/Input';
 import { Button } from '@/components/ui/Button';
@@ -17,17 +16,12 @@ import {
 const RegisterForm = () => {
   const navigate = useNavigate();
   const form = useRegisterForm();
-  const { login } = useAuth();
+  const { registerAndLogin } = useAuthActions();
 
   const onSubmit = async (data: RegisterSchemaType) => {
     try {
-      const response = await authApi.register(data);
-      if (response && response.token) {
-        login(response.token);
-        navigate('/');
-      } else {
-        console.error('Registration failed: No token received');
-      }
+      await registerAndLogin(data);
+      navigate('/');
     } catch (error) {
       console.error('Error during registration:', error);
     }
