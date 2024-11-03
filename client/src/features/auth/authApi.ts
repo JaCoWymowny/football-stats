@@ -25,6 +25,11 @@ export const authApi = {
     return response.data;
   },
 
+  getUserById: async (id: number): Promise<User> => {
+    const response = await ApiClient.get(`/users/${id}`);
+    return response.data;
+  },
+
   getUsers: async () => {
     const response = await ApiClient.get('/users');
     return response.data;

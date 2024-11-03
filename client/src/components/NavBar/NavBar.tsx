@@ -41,6 +41,14 @@ const NavBar = () => {
               </Link>
             )}
             <Button
+              onClick={() => navigate('/users-list')}
+              className='border border-gray-300 text-gray-300 cursor-pointer hover:text-stone-400'
+            >
+              {' '}
+              {/* Temporary site for test*/}
+              Users List
+            </Button>
+            <Button
               onClick={handleLogout}
               className='border border-gray-300 text-gray-300 cursor-pointer hover:text-stone-400'
             >
