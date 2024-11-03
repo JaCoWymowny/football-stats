@@ -1,5 +1,5 @@
 import { ApiClient } from '@/services/ApiClient';
-import { RegisterData, LoginData } from '@/types/types';
+import { RegisterData, LoginData, User } from '@/types/types';
 
 export const authApi = {
   register: async (data: RegisterData) => {
@@ -17,6 +17,11 @@ export const authApi = {
     if (token) {
       localStorage.setItem('authToken', token);
     }
+    return response.data;
+  },
+
+  fetchUser: async (): Promise<User> => {
+    const response = await ApiClient.get('/users/me');
     return response.data;
   },
 

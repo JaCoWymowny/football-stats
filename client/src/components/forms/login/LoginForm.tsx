@@ -1,7 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { LoginSchemaType } from '@/components/forms/login/loginSchema';
-import { authApi } from '@/features/auth/authApi';
-import { useAuth } from '@/features/hooks/useAuth';
+import { useAuthActions } from '@/features/hooks/useAuthActions';
 import { useLoginForm } from '@/helpers/useFormHelper';
 import { Input } from '@/components/ui/Input';
 import { Button } from '@/components/ui/Button';
@@ -17,17 +16,12 @@ import {
 const LoginForm = () => {
   const navigate = useNavigate();
   const form = useLoginForm();
-  const { login } = useAuth();
+  const { loginAndSetCache } = useAuthActions();
 
   const onSubmit = async (data: LoginSchemaType) => {
     try {
-      const response = await authApi.login(data);
-      if (response && response.token) {
-        login(response.token);
-        navigate('/');
-      } else {
-        console.error('Login failed: No token received');
-      }
+      await loginAndSetCache(data);
+      navigate('/');
     } catch (error) {
       console.error('Error during login:', error);
     }
