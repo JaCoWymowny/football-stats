@@ -5,6 +5,7 @@ import {
   httpGetUserById,
   httpGetAllUsers,
   httpGetCurrentUser,
+  httpUpdateCurrentUser,
 } from '../controllers/user.controller';
 import { authenticateJWT } from '../middlewares/auth.middleware';
 
@@ -14,6 +15,7 @@ userRouter.post('/register', httpRegisterUser);
 userRouter.post('/login', httpLoginUser);
 
 userRouter.get('/me', authenticateJWT, httpGetCurrentUser);
+userRouter.patch('/me', authenticateJWT, httpUpdateCurrentUser);
 userRouter.get('/:id', authenticateJWT, httpGetUserById);
 userRouter.get('/', authenticateJWT, httpGetAllUsers);
 

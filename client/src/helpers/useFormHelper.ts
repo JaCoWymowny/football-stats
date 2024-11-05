@@ -2,6 +2,8 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { loginSchema, LoginSchemaType } from '@/components/forms/login/loginSchema';
 import { registerSchema, RegisterSchemaType } from '@/components/forms/register/registerSchema';
+import { editUserSchema, EditUserSchemaType } from '@/components/forms/edit/editSchema';
+import { User } from '@/types/types';
 
 export const useLoginForm = () => {
   return useForm<LoginSchemaType>({
@@ -19,6 +21,19 @@ export const useRegisterForm = () => {
     defaultValues: {
       username: '',
       email: '',
+      password: '',
+      confirmPassword: '',
+    },
+  });
+};
+
+export const useEditForm = (user: User) => {
+  return useForm<EditUserSchemaType>({
+    resolver: zodResolver(editUserSchema),
+    defaultValues: {
+      username: user.username || '',
+      email: user.email || '',
+      currentPassword: '',
       password: '',
       confirmPassword: '',
     },
