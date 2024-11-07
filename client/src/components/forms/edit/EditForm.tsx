@@ -27,8 +27,18 @@ const EditForm: FC<EditFormProps> = ({ user, onCancel }) => {
   const form = useEditForm(user);
   const { mutate, isPending, isError, error } = useUpdateUserProfile();
 
-  const onSubmit = (data: EditUserSchemaType) => {
-    mutate(data, {
+  const onSubmit = () => {
+    const {
+      getValues,
+      formState: { dirtyFields },
+    } = form;
+
+    const allValues = getValues();
+    const changedData: Partial<EditUserSchemaType> = Object.fromEntries(
+      Object.entries(allValues).filter(([key]) => dirtyFields[key as keyof EditUserSchemaType])
+    );
+
+    mutate(changedData, {
       onSuccess: () => {
         alert('Profil został zaktualizowany pomyślnie.');
         onCancel();

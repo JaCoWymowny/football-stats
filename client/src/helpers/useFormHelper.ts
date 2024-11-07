@@ -31,7 +31,6 @@ export const useEditForm = (user: User) => {
   return useForm<EditUserSchemaType>({
     resolver: zodResolver(editUserSchema),
     defaultValues: {
-      username: user.username || '',
       email: user.email || '',
       currentPassword: '',
       password: '',

@@ -166,6 +166,12 @@ export async function httpUpdateCurrentUser(req: Request, res: Response): Promis
   try {
     const user = req.user as User;
     const { email, currentPassword, password, confirmPassword } = req.body;
+    console.log('Otrzymane dane od użytkownika:', {
+      email,
+      currentPassword,
+      password,
+      confirmPassword,
+    });
 
     const passwordValidationError = validatePasswordChange({
       currentPassword,
