@@ -37,5 +37,6 @@ export const useEditForm = (user: User) => {
       password: '',
       confirmPassword: '',
     },
+    mode: 'onChange',
   });
 };

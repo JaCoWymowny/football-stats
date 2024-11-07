@@ -155,6 +155,23 @@ const FormMessage = React.forwardRef<
 });
 FormMessage.displayName = 'FormMessage';
 
+const FormSection = ({
+  title,
+  children,
+  className,
+}: {
+  title?: string;
+  children: React.ReactNode;
+  className?: string;
+}) => {
+  return (
+    <section className={cn('space-y-4', className)}>
+      {title && <h3 className='text-lg font-semibold text-gray-700'>{title}</h3>}
+      {children}
+    </section>
+  );
+};
+
 export {
   // useFormField,
   Form,
@@ -164,4 +181,5 @@ export {
   FormDescription,
   FormMessage,
   FormField,
+  FormSection,
 };
