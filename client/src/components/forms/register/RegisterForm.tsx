@@ -1,7 +1,8 @@
 import { useNavigate } from 'react-router-dom';
-import { RegisterSchemaType } from './registerSchema';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { registerSchema, RegisterSchemaType } from '@/components/forms/register/registerSchema';
 import { useAuthActions } from '@/features/hooks/useAuthActions';
-import { useRegisterForm } from '@/helpers/useFormHelper';
 import { Input } from '@/components/ui/Input';
 import { Button } from '@/components/ui/Button';
 import {
@@ -15,8 +16,17 @@ import {
 
 const RegisterForm = () => {
   const navigate = useNavigate();
-  const form = useRegisterForm();
   const { registerAndLogin } = useAuthActions();
+
+  const form = useForm<RegisterSchemaType>({
+    resolver: zodResolver(registerSchema),
+    defaultValues: {
+      username: '',
+      email: '',
+      password: '',
+      confirmPassword: '',
+    },
+  });
 
   const onSubmit = async (data: RegisterSchemaType) => {
     try {

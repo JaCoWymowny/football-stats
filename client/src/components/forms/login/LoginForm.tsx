@@ -1,7 +1,8 @@
 import { useNavigate } from 'react-router-dom';
-import { LoginSchemaType } from '@/components/forms/login/loginSchema';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { loginSchema, LoginSchemaType } from '@/components/forms/login/loginSchema';
 import { useAuthActions } from '@/features/hooks/useAuthActions';
-import { useLoginForm } from '@/helpers/useFormHelper';
 import { Input } from '@/components/ui/Input';
 import { Button } from '@/components/ui/Button';
 import {
@@ -15,8 +16,15 @@ import {
 
 const LoginForm = () => {
   const navigate = useNavigate();
-  const form = useLoginForm();
   const { loginAndSetCache } = useAuthActions();
+
+  const form = useForm<LoginSchemaType>({
+    resolver: zodResolver(loginSchema),
+    defaultValues: {
+      username: '',
+      password: '',
+    },
+  });
 
   const onSubmit = async (data: LoginSchemaType) => {
     try {

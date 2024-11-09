@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import { PrismaClient, User } from '@prisma/client';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+import { validatePasswordChange } from '../helpers/validationHelper';
 
 const prisma = new PrismaClient();
 const JWT_SECRET = process.env.JWT_SECRET || 'secret-key';
@@ -158,5 +159,55 @@ export async function httpGetCurrentUser(req: Request, res: Response): Promise<v
   } catch (error) {
     console.error('Error fetching current user:', error);
     res.status(500).json({ message: 'Server error' });
+  }
+}
+
+export async function httpUpdateCurrentUser(req: Request, res: Response): Promise<void> {
+  try {
+    const user = req.user as User;
+    const { email, currentPassword, password, confirmPassword } = req.body;
+    console.log('Otrzymane dane od użytkownika:', {
+      email,
+      currentPassword,
+      password,
+      confirmPassword,
+    });
+
+    const passwordValidationError = validatePasswordChange({
+      currentPassword,
+      password,
+      confirmPassword,
+    });
+    if (passwordValidationError) {
+      console.error('Walidacja nie powiodła się:', passwordValidationError); // Logowanie błędu walidacji
+      res.status(400).json({ message: passwordValidationError });
+      return;
+    }
+
+    if (password && currentPassword) {
+      const isPasswordValid = await bcrypt.compare(currentPassword, user.password);
+      if (!isPasswordValid) {
+        res.status(403).json({ message: 'Nieprawidłowe obecne hasło.' });
+        return;
+      }
+
+      const hashedNewPassword = await bcrypt.hash(password, 10);
+      await prisma.user.update({
+        where: { id: user.id },
+        data: { password: hashedNewPassword },
+      });
+    }
+
+    if (email && email !== user.email) {
+      await prisma.user.update({
+        where: { id: user.id },
+        data: { email },
+      });
+    }
+
+    res.status(200).json({ message: 'Profil został pomyślnie zaktualizowany.' });
+  } catch (error) {
+    console.error('Błąd podczas aktualizacji profilu:', error);
+    res.status(500).json({ message: 'Błąd serwera.' });
   }
 }
