@@ -1,5 +1,6 @@
-import React, { FC, useState } from 'react';
-import { useEditForm } from '@/helpers/useFormHelper';
+import { FC, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { Input } from '@/components/ui/Input';
 import { Button } from '@/components/ui/Button';
 import {
@@ -13,7 +14,7 @@ import {
 } from '@/components/ui/Form';
 import { useUpdateUserProfile } from '@/features/hooks/useUpdateUserProfile';
 import { User } from '@/types/types';
-import { EditUserSchemaType } from '@/components/forms/edit/editSchema';
+import { EditUserSchemaType, editUserSchema } from '@/components/forms/edit/editSchema';
 import { AxiosError } from 'axios';
 
 interface EditFormProps {
@@ -24,7 +25,18 @@ interface EditFormProps {
 const EditForm: FC<EditFormProps> = ({ user, onCancel }) => {
   const [isEditingEmail, setIsEditingEmail] = useState(false);
   const [isEditingPassword, setIsEditingPassword] = useState(false);
-  const form = useEditForm(user);
+
+  const form = useForm<EditUserSchemaType>({
+    resolver: zodResolver(editUserSchema),
+    defaultValues: {
+      email: user.email || '',
+      currentPassword: '',
+      password: '',
+      confirmPassword: '',
+    },
+    mode: 'onChange',
+  });
+
   const { mutate, isPending, isError, error } = useUpdateUserProfile();
 
   const onSubmit = () => {
