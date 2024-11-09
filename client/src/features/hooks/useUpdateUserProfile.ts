@@ -17,11 +17,9 @@ export const useUpdateUserProfile = () => {
       return await authApi.updateUserProfile(data);
     },
     onSuccess: () => {
-      // Aktualizacja danych użytkownika po udanej mutacji
       queryClient.invalidateQueries({ queryKey: ['user'] });
     },
     onError: error => {
-      // Konsola dla sprawdzenia szczegółów błędu
       console.error('Błąd podczas aktualizacji profilu:', error.message);
     },
   });
