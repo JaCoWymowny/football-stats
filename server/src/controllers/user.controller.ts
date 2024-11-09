@@ -50,7 +50,7 @@ export async function httpRegisterUser(req: Request, res: Response): Promise<voi
     const token = generateToken(newUser);
 
     res.status(201).json({
-      message: 'User registered successfully',
+      message: 'user registered successfully',
       user: {
         id: newUser.id,
         username: newUser.username,
@@ -115,7 +115,7 @@ export async function httpGetUserById(req: Request, res: Response): Promise<void
     });
 
     if (!user) {
-      res.status(404).json({ message: 'User not found' });
+      res.status(404).json({ message: 'user not found' });
       return;
     }
 
@@ -146,7 +146,7 @@ export async function httpGetCurrentUser(req: Request, res: Response): Promise<v
     const user = req.user as User;
 
     if (!user) {
-      res.status(404).json({ message: 'User not found' });
+      res.status(404).json({ message: 'user not found' });
       return;
     }
 
@@ -162,52 +162,63 @@ export async function httpGetCurrentUser(req: Request, res: Response): Promise<v
   }
 }
 
-export async function httpUpdateCurrentUser(req: Request, res: Response): Promise<void> {
+export async function httpUpdateUserEmail(req: Request, res: Response): Promise<void> {
   try {
     const user = req.user as User;
-    const { email, currentPassword, password, confirmPassword } = req.body;
-    console.log('Otrzymane dane od użytkownika:', {
-      email,
-      currentPassword,
-      password,
-      confirmPassword,
-    });
+    const { email } = req.body;
 
-    const passwordValidationError = validatePasswordChange({
-      currentPassword,
-      password,
-      confirmPassword,
-    });
-    if (passwordValidationError) {
-      console.error('Walidacja nie powiodła się:', passwordValidationError); // Logowanie błędu walidacji
-      res.status(400).json({ message: passwordValidationError });
+    if (!email) {
+      res.status(400).json({ message: 'Email jest wymagany.' });
       return;
     }
 
-    if (password && currentPassword) {
-      const isPasswordValid = await bcrypt.compare(currentPassword, user.password);
-      if (!isPasswordValid) {
-        res.status(403).json({ message: 'Nieprawidłowe obecne hasło.' });
-        return;
-      }
+    const existingUser = await prisma.user.findUnique({
+      where: { email },
+    });
 
-      const hashedNewPassword = await bcrypt.hash(password, 10);
-      await prisma.user.update({
-        where: { id: user.id },
-        data: { password: hashedNewPassword },
-      });
+    if (existingUser) {
+      res.status(400).json({ message: 'Podany email jest już zajęty.' });
+      return;
     }
 
-    if (email && email !== user.email) {
-      await prisma.user.update({
-        where: { id: user.id },
-        data: { email },
-      });
-    }
+    await prisma.user.update({
+      where: { id: user.id },
+      data: { email },
+    });
 
-    res.status(200).json({ message: 'Profil został pomyślnie zaktualizowany.' });
+    res.status(200).json({ message: 'Email został zaktualizowany pomyślnie.' });
   } catch (error) {
-    console.error('Błąd podczas aktualizacji profilu:', error);
+    console.error('Błąd podczas aktualizacji emaila:', error);
+    res.status(500).json({ message: 'Błąd serwera.' });
+  }
+}
+
+export async function httpUpdateUserPassword(req: Request, res: Response): Promise<void> {
+  try {
+    const user = req.user as User;
+    const { currentPassword, password, confirmPassword } = req.body;
+
+    const validationError = validatePasswordChange({ currentPassword, password, confirmPassword });
+    if (validationError) {
+      res.status(400).json({ message: validationError });
+      return;
+    }
+
+    const isPasswordValid = await bcrypt.compare(currentPassword, user.password);
+    if (!isPasswordValid) {
+      res.status(403).json({ message: 'Nieprawidłowe obecne hasło.' });
+      return;
+    }
+
+    const hashedNewPassword = await bcrypt.hash(password, 10);
+    await prisma.user.update({
+      where: { id: user.id },
+      data: { password: hashedNewPassword },
+    });
+
+    res.status(200).json({ message: 'Hasło zostało zaktualizowane pomyślnie.' });
+  } catch (error) {
+    console.error('Błąd podczas aktualizacji hasła:', error);
     res.status(500).json({ message: 'Błąd serwera.' });
   }
 }

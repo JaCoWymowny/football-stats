@@ -35,11 +35,7 @@ export const authApi = {
     return response.data;
   },
 
-  updateUserProfile: async (data: {
-    email?: string;
-    currentPassword?: string;
-    newPassword?: string;
-  }) => {
+  updateUser: async (data: { email?: string; currentPassword?: string; newPassword?: string }) => {
     const response = await ApiClient.patch('/users/me', data);
     return response.data;
   },

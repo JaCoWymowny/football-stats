@@ -1,0 +1,77 @@
+import { FC } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+import { useUserByIdQuery } from '@/features/hooks/useUserByIdQuery';
+import { useUserQuery } from '@/features/hooks/UseUserQuery';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card';
+import { Button } from '@/components/ui/Button';
+
+const UserProfileView: FC = () => {
+  const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
+  const { data: loggedInUser } = useUserQuery();
+  const { data: user, isLoading, error } = useUserByIdQuery(Number(id));
+
+  if (isLoading) {
+    return <div className='text-center mt-6'>Ładowanie danych użytkownika...</div>;
+  }
+
+  if (error) {
+    return (
+      <div className='text-center mt-6 text-red-600'>
+        Wystąpił błąd podczas pobierania danych użytkownika: {error.message}
+      </div>
+    );
+  }
+
+  const isCurrentUser = loggedInUser?.id === user?.id;
+
+  return (
+    <div className='w-full max-w-lg px-4 sm:px-6 md:px-8 lg:px-12 mx-auto mt-6 sm:mt-12 space-y-6'>
+      <Card className='shadow-md rounded-2xl'>
+        <CardHeader>
+          <CardTitle className='text-center text-gray-800'>
+            {isCurrentUser ? 'Twój Profil' : 'Profil Użytkownika'}
+          </CardTitle>
+        </CardHeader>
+        <CardContent className='space-y-4'>
+          <div className='flex justify-between'>
+            <span className='text-gray-700 font-semibold'>Email:</span>
+            <span className='text-gray-800'>{user?.email}</span>
+          </div>
+          <div className='flex justify-between'>
+            <span className='text-gray-700 font-semibold'>Nazwa Użytkownika:</span>
+            <span className='text-gray-800'>{user?.username}</span>
+          </div>
+          <div className='flex justify-between'>
+            <span className='text-gray-700 font-semibold'>Rola:</span>
+            <span className='text-gray-800'>{user?.role}</span>
+          </div>
+        </CardContent>
+      </Card>
+
+      {isCurrentUser && (
+        <Card className='shadow-md rounded-2xl'>
+          <CardHeader>
+            <CardTitle className='text-center text-gray-800'>Ustawienia Konta</CardTitle>
+          </CardHeader>
+          <CardContent className='flex flex-col space-y-4 items-center'>
+            <Button
+              onClick={() => navigate('/settings/change-email')}
+              className='w-full max-w-xs bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700 transition-colors'
+            >
+              Zmień Email
+            </Button>
+            <Button
+              onClick={() => navigate('/settings/change-password')}
+              className='w-full max-w-xs bg-gray-600 text-white font-semibold rounded-lg hover:bg-gray-700 transition-colors'
+            >
+              Zmień Hasło
+            </Button>
+          </CardContent>
+        </Card>
+      )}
+    </div>
+  );
+};
+
+export default UserProfileView;
