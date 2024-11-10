@@ -7,10 +7,17 @@ import { validatePasswordChange } from '../helpers/validationHelper';
 const prisma = new PrismaClient();
 const JWT_SECRET = process.env.JWT_SECRET || 'secret-key';
 const TOKEN_EXPIRATION = '1h';
+const REFRESH_TOKEN_EXPIRATION = '7d';
 
 const generateToken = (user: { id: number; username: string }) => {
   return jwt.sign({ id: user.id, username: user.username }, JWT_SECRET, {
     expiresIn: TOKEN_EXPIRATION,
+  });
+};
+
+const generateRefreshToken = (user: { id: number; username: string }) => {
+  return jwt.sign({ id: user.id, username: user.username }, JWT_SECRET, {
+    expiresIn: REFRESH_TOKEN_EXPIRATION,
   });
 };
 
@@ -48,15 +55,17 @@ export async function httpRegisterUser(req: Request, res: Response): Promise<voi
     });
 
     const token = generateToken(newUser);
+    const refreshToken = generateRefreshToken(newUser);
 
     res.status(201).json({
-      message: 'user registered successfully',
+      message: 'User registered successfully',
       user: {
         id: newUser.id,
         username: newUser.username,
         email: newUser.email,
       },
       token,
+      refreshToken,
     });
   } catch (error) {
     console.error('Error creating user:', error);
@@ -86,6 +95,7 @@ export async function httpLoginUser(req: Request, res: Response): Promise<void> 
     }
 
     const token = generateToken(user);
+    const refreshToken = generateRefreshToken(user);
 
     res.status(200).json({
       message: 'Login successful',
@@ -95,10 +105,37 @@ export async function httpLoginUser(req: Request, res: Response): Promise<void> 
         email: user.email,
       },
       token,
+      refreshToken,
     });
   } catch (error) {
     console.error('Error logging in user:', error);
     res.status(500).json({ message: 'Server error' });
+  }
+}
+
+export async function httpRefreshToken(req: Request, res: Response): Promise<void> {
+  const { refreshToken } = req.body;
+
+  if (!refreshToken) {
+    res.status(400).json({ message: 'Refresh token is required' });
+    return;
+  }
+
+  try {
+    const decoded = jwt.verify(refreshToken, JWT_SECRET) as { id: number; username: string };
+    const user = await prisma.user.findUnique({ where: { id: decoded.id } });
+
+    if (!user) {
+      res.status(403).json({ message: 'Invalid refresh token' });
+      return;
+    }
+
+    const newAccessToken = generateToken(user);
+
+    res.status(200).json({ token: newAccessToken });
+  } catch (error) {
+    console.error('Error refreshing token:', error);
+    res.status(403).json({ message: 'Invalid or expired refresh token' });
   }
 }
 
@@ -115,7 +152,7 @@ export async function httpGetUserById(req: Request, res: Response): Promise<void
     });
 
     if (!user) {
-      res.status(404).json({ message: 'user not found' });
+      res.status(404).json({ message: 'User not found' });
       return;
     }
 
@@ -146,7 +183,7 @@ export async function httpGetCurrentUser(req: Request, res: Response): Promise<v
     const user = req.user as User;
 
     if (!user) {
-      res.status(404).json({ message: 'user not found' });
+      res.status(404).json({ message: 'User not found' });
       return;
     }
 
@@ -166,10 +203,9 @@ export async function httpUpdateUserEmail(req: Request, res: Response): Promise<
   try {
     const user = req.user as User;
     const { email } = req.body;
-    console.log('mail: ', req.body);
 
     if (!email) {
-      res.status(400).json({ message: 'Email jest wymagany.' });
+      res.status(400).json({ message: 'Email is required' });
       return;
     }
 
@@ -178,7 +214,7 @@ export async function httpUpdateUserEmail(req: Request, res: Response): Promise<
     });
 
     if (existingUser) {
-      res.status(400).json({ message: 'Podany email jest już zajęty.' });
+      res.status(400).json({ message: 'Email is already taken' });
       return;
     }
 
@@ -187,10 +223,10 @@ export async function httpUpdateUserEmail(req: Request, res: Response): Promise<
       data: { email },
     });
 
-    res.status(200).json({ message: 'Email został zaktualizowany pomyślnie.' });
+    res.status(200).json({ message: 'Email updated successfully' });
   } catch (error) {
-    console.error('Błąd podczas aktualizacji emaila:', error);
-    res.status(500).json({ message: 'Błąd serwera.' });
+    console.error('Error updating email:', error);
+    res.status(500).json({ message: 'Server error' });
   }
 }
 
@@ -198,8 +234,6 @@ export async function httpUpdateUserPassword(req: Request, res: Response): Promi
   try {
     const user = req.user as User;
     const { currentPassword, newPassword } = req.body;
-
-    console.log('Password: ', req.body);
 
     const validationError = validatePasswordChange({ currentPassword, newPassword });
     if (validationError) {
@@ -209,7 +243,7 @@ export async function httpUpdateUserPassword(req: Request, res: Response): Promi
 
     const isPasswordValid = await bcrypt.compare(currentPassword, user.password);
     if (!isPasswordValid) {
-      res.status(403).json({ message: 'Nieprawidłowe obecne hasło.' });
+      res.status(403).json({ message: 'Incorrect current password' });
       return;
     }
 
@@ -219,9 +253,9 @@ export async function httpUpdateUserPassword(req: Request, res: Response): Promi
       data: { password: hashedNewPassword },
     });
 
-    res.status(200).json({ message: 'Hasło zostało zaktualizowane pomyślnie.' });
+    res.status(200).json({ message: 'Password updated successfully' });
   } catch (error) {
-    console.error('Błąd podczas aktualizacji hasła:', error);
-    res.status(500).json({ message: 'Błąd serwera.' });
+    console.error('Error updating password:', error);
+    res.status(500).json({ message: 'Server error' });
   }
 }

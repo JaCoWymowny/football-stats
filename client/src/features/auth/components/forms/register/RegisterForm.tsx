@@ -27,12 +27,13 @@ const RegisterForm: FC = () => {
       password: '',
       confirmPassword: '',
     },
+    mode: 'onChange',
   });
 
   const onSubmit = (data: RegisterSchemaType) => {
     register(data, {
       onSuccess: () => {
-        navigate('/'); // Przekierowanie po udanej rejestracji
+        navigate('/');
       },
       onError: error => {
         form.setError('username', {

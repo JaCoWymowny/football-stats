@@ -7,10 +7,12 @@ import { useAuth } from '@/features/hooks/useAuth';
 
 export interface RegisterResponse {
   token: string;
+  refreshToken: string;
 }
 
 export interface LoginResponse {
   token: string;
+  refreshToken: string;
 }
 
 export const useRegisterMutation = (): UseMutationResult<
@@ -24,9 +26,9 @@ export const useRegisterMutation = (): UseMutationResult<
   return useMutation({
     mutationFn: authApi.register,
     onSuccess: response => {
-      const token = response.token;
-      if (token) {
-        login(token); // Zapis tokena w stanie globalnym
+      const { token, refreshToken } = response;
+      if (token && refreshToken) {
+        login(token, refreshToken);
         queryClient.invalidateQueries({ queryKey: ['user'] });
       }
     },
@@ -46,9 +48,11 @@ export const useLoginMutation = (): UseMutationResult<LoginResponse, AxiosError,
       return await authApi.login(data);
     },
     onSuccess: response => {
-      const token = response.token;
-      login(token);
-      queryClient.invalidateQueries({ queryKey: ['user'] });
+      const { token, refreshToken } = response;
+      if (token && refreshToken) {
+        login(token, refreshToken);
+        queryClient.invalidateQueries({ queryKey: ['user'] });
+      }
     },
     onError: (error: AxiosError) => {
       console.error('Error during login:', error.message);

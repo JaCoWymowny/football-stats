@@ -4,19 +4,25 @@ import { RegisterData, LoginData, User } from '@/types/types';
 export const authApi = {
   register: async (data: RegisterData) => {
     const response = await ApiClient.post('/users/register', data);
-    const token = response.data.token;
-    if (token) {
+    const { token, refreshToken } = response.data;
+
+    if (token && refreshToken) {
       localStorage.setItem('authToken', token);
+      localStorage.setItem('refreshToken', refreshToken);
     }
+
     return response.data;
   },
 
   login: async (data: LoginData) => {
     const response = await ApiClient.post('/users/login', data);
-    const token = response.data.token;
-    if (token) {
+    const { token, refreshToken } = response.data;
+
+    if (token && refreshToken) {
       localStorage.setItem('authToken', token);
+      localStorage.setItem('refreshToken', refreshToken);
     }
+
     return response.data;
   },
 
@@ -46,5 +52,16 @@ export const authApi = {
 
     const response = await ApiClient.patch(endpoint, data);
     return response.data;
+  },
+
+  refreshToken: async (refreshToken: string) => {
+    const response = await ApiClient.post('/users/refresh-token', { refreshToken });
+    const { token } = response.data;
+
+    if (token) {
+      localStorage.setItem('authToken', token);
+    }
+
+    return token;
   },
 };
