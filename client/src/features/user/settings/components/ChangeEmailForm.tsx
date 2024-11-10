@@ -15,6 +15,7 @@ import { ChangeEmailSchemaType, changeEmailSchema } from './changeEmailSchema';
 import { useEditMutation } from '@/features/user/settings/services/mutations';
 import { useNavigate } from 'react-router-dom';
 import { AxiosError } from 'axios';
+import { useUserQuery } from '@/features/hooks/UseUserQuery';
 
 const ChangeEmailForm: FC = () => {
   const form = useForm<ChangeEmailSchemaType>({
@@ -27,6 +28,7 @@ const ChangeEmailForm: FC = () => {
 
   const { mutate, isPending, isError, error } = useEditMutation();
   const navigate = useNavigate();
+  const { data: loggedInUser } = useUserQuery();
 
   const onSubmit = (data: ChangeEmailSchemaType) => {
     mutate(
@@ -35,7 +37,7 @@ const ChangeEmailForm: FC = () => {
         onSuccess: () => {
           alert('Email został zaktualizowany pomyślnie.');
           form.reset();
-          navigate('/profile');
+          navigate(`/profile/${loggedInUser?.id}`);
         },
         onError: mutationError => {
           const axiosError = mutationError as AxiosError<{ message?: string }>;
@@ -78,7 +80,7 @@ const ChangeEmailForm: FC = () => {
         <div className='flex justify-between space-x-4'>
           <Button
             type='submit'
-            disabled={isPending}
+            disabled={isPending || !form.formState.isValid}
             className='w-full py-3 text-white font-semibold rounded-lg transition-colors bg-indigo-600 hover:bg-indigo-700'
           >
             {isPending ? 'Zapisywanie...' : 'Zapisz'}

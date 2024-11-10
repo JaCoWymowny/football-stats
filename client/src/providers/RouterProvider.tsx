@@ -5,6 +5,7 @@ import LoginPage from '@/pages/auth/Login';
 import RegisterPage from '@/pages/auth/Register';
 import HomePage from '@/pages/home/Home';
 import UserProfileView from '@/pages/userProfile/UserProfileView';
+import SettingsLayout from '@/features/user/settings/pages/SettingsLayout';
 import ChangeEmail from '@/features/user/settings/pages/ChangeEmail';
 import ChangePassword from '@/features/user/settings/pages/ChangePassword';
 import NotFoundPage from '@/pages/404/NotFound';
@@ -27,7 +28,7 @@ const router = createBrowserRouter(
       <Route element={<AuthGuard />}>
         <Route path='/' element={<HomePage />} />
         <Route path='/profile/:id' element={<UserProfileView />} />
-        <Route path='/settings'>
+        <Route path='/settings' element={<SettingsLayout />}>
           <Route path='change-email' element={<ChangeEmail />} />
           <Route path='change-password' element={<ChangePassword />} />
         </Route>

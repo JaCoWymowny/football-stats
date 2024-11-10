@@ -50,25 +50,14 @@ const UserProfileView: FC = () => {
       </Card>
 
       {isCurrentUser && (
-        <Card className='shadow-md rounded-2xl'>
-          <CardHeader>
-            <CardTitle className='text-center text-gray-800'>Ustawienia Konta</CardTitle>
-          </CardHeader>
-          <CardContent className='flex flex-col space-y-4 items-center'>
-            <Button
-              onClick={() => navigate('/settings/change-email')}
-              className='w-full max-w-xs bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700 transition-colors'
-            >
-              Zmień Email
-            </Button>
-            <Button
-              onClick={() => navigate('/settings/change-password')}
-              className='w-full max-w-xs bg-gray-600 text-white font-semibold rounded-lg hover:bg-gray-700 transition-colors'
-            >
-              Zmień Hasło
-            </Button>
-          </CardContent>
-        </Card>
+        <div className='text-center mt-4'>
+          <Button
+            onClick={() => navigate('/settings')}
+            className='bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700 transition-colors'
+          >
+            Przejdź do ustawień
+          </Button>
+        </div>
       )}
     </div>
   );

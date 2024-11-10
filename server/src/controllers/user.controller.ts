@@ -166,6 +166,7 @@ export async function httpUpdateUserEmail(req: Request, res: Response): Promise<
   try {
     const user = req.user as User;
     const { email } = req.body;
+    console.log('mail: ', req.body);
 
     if (!email) {
       res.status(400).json({ message: 'Email jest wymagany.' });
@@ -196,9 +197,11 @@ export async function httpUpdateUserEmail(req: Request, res: Response): Promise<
 export async function httpUpdateUserPassword(req: Request, res: Response): Promise<void> {
   try {
     const user = req.user as User;
-    const { currentPassword, password, confirmPassword } = req.body;
+    const { currentPassword, newPassword } = req.body;
 
-    const validationError = validatePasswordChange({ currentPassword, password, confirmPassword });
+    console.log('Password: ', req.body);
+
+    const validationError = validatePasswordChange({ currentPassword, newPassword });
     if (validationError) {
       res.status(400).json({ message: validationError });
       return;
@@ -210,7 +213,7 @@ export async function httpUpdateUserPassword(req: Request, res: Response): Promi
       return;
     }
 
-    const hashedNewPassword = await bcrypt.hash(password, 10);
+    const hashedNewPassword = await bcrypt.hash(newPassword, 10);
     await prisma.user.update({
       where: { id: user.id },
       data: { password: hashedNewPassword },

@@ -15,6 +15,7 @@ import { useEditMutation } from '@/features/user/settings/services/mutations';
 import { ChangePasswordSchemaType, changePasswordSchema } from './changePasswordSchema';
 import { AxiosError } from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { useUserQuery } from '@/features/hooks/UseUserQuery';
 
 const ChangePasswordForm: FC = () => {
   const form = useForm<ChangePasswordSchemaType>({
@@ -29,6 +30,7 @@ const ChangePasswordForm: FC = () => {
 
   const { mutate, isPending, isError, error } = useEditMutation();
   const navigate = useNavigate();
+  const { data: loggedInUser } = useUserQuery();
 
   const onSubmit = (data: ChangePasswordSchemaType) => {
     mutate(
@@ -40,7 +42,7 @@ const ChangePasswordForm: FC = () => {
         onSuccess: () => {
           alert('Hasło zostało zaktualizowane pomyślnie.');
           form.reset();
-          navigate('/profile');
+          navigate(`/profile/${loggedInUser?.id}`);
         },
         onError: (mutationError: unknown) => {
           const axiosError = mutationError as AxiosError<{ message?: string }>;
@@ -56,7 +58,7 @@ const ChangePasswordForm: FC = () => {
   };
 
   const handleCancel = () => {
-    navigate(-1); // Cofnięcie się do poprzedniego widoku
+    navigate(-1);
   };
 
   return (
@@ -109,7 +111,7 @@ const ChangePasswordForm: FC = () => {
         <div className='flex justify-between space-x-4'>
           <Button
             type='submit'
-            disabled={isPending}
+            disabled={isPending || !form.formState.isValid}
             className='w-full py-3 text-white font-semibold rounded-lg transition-colors bg-indigo-600 hover:bg-indigo-700'
           >
             {isPending ? 'Zapisywanie...' : 'Zapisz'}
