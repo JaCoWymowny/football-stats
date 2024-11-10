@@ -1,8 +1,7 @@
-import { useNavigate } from 'react-router-dom';
+import { FC } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { registerSchema, RegisterSchemaType } from '@/components/forms/register/registerSchema';
-import { useAuthActions } from '@/features/hooks/useAuthActions';
+import { registerSchema, RegisterSchemaType } from './registerSchema';
 import { Input } from '@/components/ui/Input';
 import { Button } from '@/components/ui/Button';
 import {
@@ -13,10 +12,12 @@ import {
   FormControl,
   FormMessage,
 } from '@/components/ui/Form';
+import { useRegisterMutation } from '@/features/auth/services/mutations';
+import { useNavigate } from 'react-router-dom';
 
-const RegisterForm = () => {
+const RegisterForm: FC = () => {
   const navigate = useNavigate();
-  const { registerAndLogin } = useAuthActions();
+  const { mutate: register, isPending } = useRegisterMutation();
 
   const form = useForm<RegisterSchemaType>({
     resolver: zodResolver(registerSchema),
@@ -28,13 +29,17 @@ const RegisterForm = () => {
     },
   });
 
-  const onSubmit = async (data: RegisterSchemaType) => {
-    try {
-      await registerAndLogin(data);
-      navigate('/');
-    } catch (error) {
-      console.error('Error during registration:', error);
-    }
+  const onSubmit = (data: RegisterSchemaType) => {
+    register(data, {
+      onSuccess: () => {
+        navigate('/'); // Przekierowanie po udanej rejestracji
+      },
+      onError: error => {
+        form.setError('username', {
+          message: error.message || 'Wystąpił błąd podczas rejestracji.',
+        });
+      },
+    });
   };
 
   return (
@@ -56,7 +61,6 @@ const RegisterForm = () => {
             </FormItem>
           )}
         />
-
         <FormField
           name='email'
           render={({ field }) => (
@@ -73,7 +77,6 @@ const RegisterForm = () => {
             </FormItem>
           )}
         />
-
         <FormField
           name='password'
           render={({ field }) => (
@@ -91,7 +94,6 @@ const RegisterForm = () => {
             </FormItem>
           )}
         />
-
         <FormField
           name='confirmPassword'
           render={({ field }) => (
@@ -109,12 +111,12 @@ const RegisterForm = () => {
             </FormItem>
           )}
         />
-
         <Button
           type='submit'
+          disabled={isPending}
           className='w-full py-3 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700 transition-colors'
         >
-          Zarejestruj się
+          {isPending ? 'Rejestrowanie...' : 'Zarejestruj się'}
         </Button>
       </form>
     </Form>

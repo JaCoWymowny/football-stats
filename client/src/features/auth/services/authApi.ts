@@ -35,12 +35,16 @@ export const authApi = {
     return response.data;
   },
 
-  updateUserProfile: async (data: {
-    email?: string;
-    currentPassword?: string;
-    newPassword?: string;
-  }) => {
-    const response = await ApiClient.patch('/users/me', data);
+  updateUser: async (data: { email?: string; currentPassword?: string; newPassword?: string }) => {
+    let endpoint = '/users/me';
+
+    if (data.email) {
+      endpoint = '/users/me/change-email';
+    } else if (data.currentPassword && data.newPassword) {
+      endpoint = '/users/me/change-password';
+    }
+
+    const response = await ApiClient.patch(endpoint, data);
     return response.data;
   },
 };

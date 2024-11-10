@@ -1,4 +1,4 @@
-import LoginForm from '@/components/forms/login/LoginForm';
+import LoginForm from '@/features/auth/components/forms/login/LoginForm';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card';
 
 const Login = () => {

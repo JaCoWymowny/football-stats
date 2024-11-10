@@ -1,30 +1,21 @@
 interface PasswordChangeData {
   currentPassword?: string;
-  password?: string;
-  confirmPassword?: string;
+  newPassword?: string;
 }
 
 export function validatePasswordChange(data: PasswordChangeData): string | null {
-  const { currentPassword, password, confirmPassword } = data;
+  const { currentPassword, newPassword } = data;
 
-  if (password || confirmPassword) {
+  if (newPassword) {
     if (!currentPassword) {
       return 'Obecne hasło jest wymagane, aby ustawić nowe hasło.';
     }
 
-    if (!password) {
+    if (!newPassword) {
       return 'Nowe hasło jest wymagane.';
     }
 
-    if (!confirmPassword) {
-      return 'Potwierdzenie nowego hasła jest wymagane.';
-    }
-
-    if (password !== confirmPassword) {
-      return 'Nowe hasło i jego potwierdzenie muszą być identyczne.';
-    }
-
-    if (password === currentPassword) {
+    if (newPassword === currentPassword) {
       return 'Nowe hasło nie może być takie samo jak obecne.';
     }
   }
