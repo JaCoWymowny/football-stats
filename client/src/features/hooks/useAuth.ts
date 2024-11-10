@@ -4,7 +4,7 @@ interface UseAuth {
   isAuthenticated: boolean;
   isInitialized: boolean;
   initializeAuth: () => void;
-  login: (token: string) => void;
+  login: (token: string, refreshToken: string) => void;
   logout: () => void;
 }
 

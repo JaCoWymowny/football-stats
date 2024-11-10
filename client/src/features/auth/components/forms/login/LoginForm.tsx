@@ -25,12 +25,13 @@ const LoginForm: FC = () => {
       username: '',
       password: '',
     },
+    mode: 'onChange',
   });
 
   const onSubmit = (data: LoginSchemaType) => {
     login(data, {
       onSuccess: () => {
-        navigate('/'); // Przekierowanie po udanym logowaniu
+        navigate('/');
       },
       onError: error => {
         form.setError('username', { message: error.message || 'Wystąpił błąd podczas logowania.' });

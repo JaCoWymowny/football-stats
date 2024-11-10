@@ -7,6 +7,7 @@ import {
   httpGetCurrentUser,
   httpUpdateUserEmail,
   httpUpdateUserPassword,
+  httpRefreshToken,
 } from '../controllers/user.controller';
 import { authenticateJWT } from '../middlewares/auth.middleware';
 
@@ -14,10 +15,11 @@ const userRouter = express.Router();
 
 userRouter.post('/register', httpRegisterUser);
 userRouter.post('/login', httpLoginUser);
+userRouter.post('/refresh-token', httpRefreshToken);
 
 userRouter.get('/me', authenticateJWT, httpGetCurrentUser);
-userRouter.patch('/me/change-email', authenticateJWT, httpUpdateUserEmail); // Zmiana emaila
-userRouter.patch('/me/change-password', authenticateJWT, httpUpdateUserPassword); // Zmiana hasła
+userRouter.patch('/me/change-email', authenticateJWT, httpUpdateUserEmail);
+userRouter.patch('/me/change-password', authenticateJWT, httpUpdateUserPassword);
 userRouter.get('/:id', authenticateJWT, httpGetUserById);
 userRouter.get('/', authenticateJWT, httpGetAllUsers);
 
