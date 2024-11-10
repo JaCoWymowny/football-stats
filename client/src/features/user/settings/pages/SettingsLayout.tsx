@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { Outlet } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card';
-import SettingsNavigation from '@/features/user/settings/components/SettingsNavigation';
+import SettingsNavigation from '@/features/user/settings/components/SettingsNavigation/SettingsNavigation';
 
 const SettingsLayout: FC = () => {
   return (

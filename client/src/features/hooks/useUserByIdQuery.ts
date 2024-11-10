@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { authApi } from '@/features/auth/authApi';
+import { authApi } from '@/features/auth/services/authApi';
 import { User } from '@/types/types';
 
 export const useUserByIdQuery = (userId: number) => {

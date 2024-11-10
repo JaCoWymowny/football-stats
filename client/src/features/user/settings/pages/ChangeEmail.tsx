@@ -1,4 +1,4 @@
-import ChangeEmailForm from '../components/ChangeEmailForm';
+import ChangeEmailForm from '@/features/user/settings/components/forms/changeEmail/ChangeEmailForm';
 import { CardContent, CardHeader, CardTitle } from '@/components/ui/Card';
 
 const ChangeEmail = () => {

@@ -10,8 +10,8 @@ import ChangeEmail from '@/features/user/settings/pages/ChangeEmail';
 import ChangePassword from '@/features/user/settings/pages/ChangePassword';
 import NotFoundPage from '@/pages/404/NotFound';
 import UserListPage from '@/pages/userListPage/UserListPage';
-import AuthGuard from '@/features/auth/AuthGuard';
-import UnAuthGuard from '@/features/auth/UnAuthGuard';
+import AuthGuard from '@/features/auth/guards/AuthGuard';
+import UnAuthGuard from '@/features/auth/guards/UnAuthGuard';
 
 const router = createBrowserRouter(
   createRoutesFromElements(

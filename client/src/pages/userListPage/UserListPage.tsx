@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
-import { authApi } from '@/features/auth/authApi';
+import { authApi } from '@/features/auth/services/authApi';
 import { User } from '@/types/types';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card';
 

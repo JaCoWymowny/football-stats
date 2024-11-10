@@ -1,4 +1,4 @@
-import ChangePasswordForm from '../components/ChangePasswordForm';
+import ChangePasswordForm from '@/features/user/settings/components/forms/changePassword/ChangePasswordForm';
 import { CardContent, CardHeader, CardTitle } from '@/components/ui/Card';
 
 const ChangePassword = () => {

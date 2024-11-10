@@ -1,8 +1,7 @@
-import { useNavigate } from 'react-router-dom';
+import { FC } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { loginSchema, LoginSchemaType } from '@/components/forms/login/loginSchema';
-import { useAuthActions } from '@/features/hooks/useAuthActions';
+import { loginSchema, LoginSchemaType } from './loginSchema';
 import { Input } from '@/components/ui/Input';
 import { Button } from '@/components/ui/Button';
 import {
@@ -13,10 +12,12 @@ import {
   FormControl,
   FormMessage,
 } from '@/components/ui/Form';
+import { useLoginMutation } from '@/features/auth/services/mutations';
+import { useNavigate } from 'react-router-dom';
 
-const LoginForm = () => {
+const LoginForm: FC = () => {
   const navigate = useNavigate();
-  const { loginAndSetCache } = useAuthActions();
+  const { mutate: login, isPending } = useLoginMutation();
 
   const form = useForm<LoginSchemaType>({
     resolver: zodResolver(loginSchema),
@@ -26,13 +27,15 @@ const LoginForm = () => {
     },
   });
 
-  const onSubmit = async (data: LoginSchemaType) => {
-    try {
-      await loginAndSetCache(data);
-      navigate('/');
-    } catch (error) {
-      console.error('Error during login:', error);
-    }
+  const onSubmit = (data: LoginSchemaType) => {
+    login(data, {
+      onSuccess: () => {
+        navigate('/'); // Przekierowanie po udanym logowaniu
+      },
+      onError: error => {
+        form.setError('username', { message: error.message || 'Wystąpił błąd podczas logowania.' });
+      },
+    });
   };
 
   return (
@@ -73,9 +76,10 @@ const LoginForm = () => {
         />
         <Button
           type='submit'
+          disabled={isPending}
           className='w-full py-3 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700 transition-colors'
         >
-          Zaloguj się
+          {isPending ? 'Logowanie...' : 'Zaloguj się'}
         </Button>
       </form>
     </Form>
