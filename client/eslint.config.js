@@ -26,9 +26,13 @@ export default tseslint.config(
             'no-console': 'warn',
             'eqeqeq': 'error', // ===
             'curly': ['error', 'all'], // if {}
-            'no-unused-vars': ['warn', { 'argsIgnorePattern': '^_' }], // Ostrzega o nieużywanych zmiennych, ale ignoruje te zaczynające się od "_"
-            'react/react-in-jsx-scope': 'off',
-            'semi': ['error', 'always'],
+            'no-unused-vars': ['warn', { 'argsIgnorePattern': '^_', 'caughtErrors': 'none' }],
+            '@typescript-eslint/no-unused-vars': [
+            'warn',
+            { 'varsIgnorePattern': '^_', 'argsIgnorePattern': '^_', 'caughtErrors': 'all' }
+          ],
+          'react/react-in-jsx-scope': 'off',
+          'semi': ['error', 'always'],
         },
         settings: {
             'import/resolver': {

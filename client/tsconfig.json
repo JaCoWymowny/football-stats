@@ -25,7 +25,8 @@
         "./src/*"
       ]
     },
-    "types": ["vite/client", "@types/node"]
+    "types": ["vite/client", "@types/node"],
+    "allowUnusedLabels": false
   },
   "include": [
     "src",

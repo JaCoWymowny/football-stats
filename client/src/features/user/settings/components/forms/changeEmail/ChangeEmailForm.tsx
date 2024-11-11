@@ -14,8 +14,10 @@ import {
 import { ChangeEmailSchemaType, changeEmailSchema } from './changeEmailSchema';
 import { useEditMutation } from '@/features/user/settings/services/mutations';
 import { useNavigate } from 'react-router-dom';
-import { AxiosError } from 'axios';
+import { useToast } from '@/components/hooks/use-toast';
 import { useUserQuery } from '@/features/hooks/UseUserQuery';
+import { useQueryClient } from '@tanstack/react-query';
+import { handleError } from '@/services/ErrorHandler';
 
 const ChangeEmailForm: FC = () => {
   const form = useForm<ChangeEmailSchemaType>({
@@ -26,30 +28,36 @@ const ChangeEmailForm: FC = () => {
     mode: 'onChange',
   });
 
-  const { mutate, isPending, isError, error } = useEditMutation();
+  const editMutation = useEditMutation();
   const navigate = useNavigate();
   const { data: loggedInUser } = useUserQuery();
+  const { toast } = useToast();
+  const queryClient = useQueryClient();
 
-  const onSubmit = (data: ChangeEmailSchemaType) => {
-    mutate(
-      { email: data.email },
-      {
-        onSuccess: () => {
-          alert('Email został zaktualizowany pomyślnie.');
-          form.reset();
-          navigate(`/profile/${loggedInUser?.id}`);
-        },
-        onError: mutationError => {
-          const axiosError = mutationError as AxiosError<{ message?: string }>;
-          const errorMessage =
-            axiosError.response?.data?.message || 'Wystąpił nieoczekiwany błąd. Spróbuj ponownie.';
-          form.setError('email', {
-            type: 'manual',
-            message: errorMessage,
+  const handleSubmit = async (data: ChangeEmailSchemaType) => {
+    try {
+      await editMutation.mutateAsync({ email: data.email });
+      toast({
+        title: 'Sukces',
+        description: 'Email został zaktualizowany pomyślnie!',
+        variant: 'positive',
+      });
+      queryClient.invalidateQueries({ queryKey: ['user'] });
+      form.reset();
+      navigate(`/profile/${loggedInUser?.id}`);
+    } catch (error) {
+      handleError({
+        error,
+        form,
+        onToast: message => {
+          toast({
+            title: 'Błąd',
+            description: message,
+            variant: 'destructive',
           });
         },
-      }
-    );
+      });
+    }
   };
 
   const handleCancel = () => {
@@ -58,7 +66,7 @@ const ChangeEmailForm: FC = () => {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-6'>
+      <form onSubmit={form.handleSubmit(handleSubmit)} className='space-y-6'>
         <FormField
           name='email'
           render={({ field }) => (
@@ -71,19 +79,13 @@ const ChangeEmailForm: FC = () => {
             </FormItem>
           )}
         />
-        {isError && (
-          <div className='text-red-600 mt-2'>
-            {(error as AxiosError<{ message?: string }>)?.response?.data?.message ||
-              'Wystąpił błąd. Spróbuj ponownie.'}
-          </div>
-        )}
         <div className='flex justify-between space-x-4'>
           <Button
             type='submit'
-            disabled={isPending || !form.formState.isValid}
+            disabled={editMutation.isPending || !form.formState.isValid}
             className='w-full py-3 text-white font-semibold rounded-lg transition-colors bg-indigo-600 hover:bg-indigo-700'
           >
-            {isPending ? 'Zapisywanie...' : 'Zapisz'}
+            {editMutation.isPending ? 'Zapisywanie...' : 'Zapisz'}
           </Button>
           <Button
             type='button'

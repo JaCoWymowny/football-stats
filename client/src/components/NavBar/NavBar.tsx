@@ -4,11 +4,31 @@ import { useUserQuery } from '@/features/hooks/UseUserQuery';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/Avatar';
 import Logo from '@/assets/ball.svg';
 import { Button } from '@/components/ui/Button';
+import { useToast } from '@/components/hooks/use-toast';
 
 const NavBar = () => {
   const navigate = useNavigate();
   const { isAuthenticated, logout } = useAuth();
   const { data: user, isLoading } = useUserQuery();
+  const { toast } = useToast();
+
+  const handleLogout = async () => {
+    try {
+      logout();
+      toast({
+        title: 'Wylogowanie',
+        description: 'Zostałeś pomyślnie wylogowany.',
+        variant: 'destructive',
+      });
+      navigate('/');
+    } catch (error) {
+      toast({
+        title: 'Błąd',
+        description: 'Wystąpił problem z wylogowaniem. Spróbuj ponownie.',
+        variant: 'destructive',
+      });
+    }
+  };
 
   return (
     <nav className='flex justify-between items-center py-4 px-8 bg-stone-800 text-white shadow-md overflow-hidden'>
@@ -48,7 +68,7 @@ const NavBar = () => {
               Users List
             </Button>
             <Button
-              onClick={logout}
+              onClick={handleLogout}
               className='border border-gray-300 text-gray-300 cursor-pointer hover:text-stone-400 px-2 py-1 md:px-4 md:py-2'
             >
               Logout
