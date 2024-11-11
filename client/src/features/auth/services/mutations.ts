@@ -1,5 +1,4 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-
 import { authApi } from '@/features/auth/services/authApi';
 import { AuthData } from '@/types/types';
 import { useAuth } from '@/features/hooks/useAuth';
@@ -27,23 +26,3 @@ export const useLoginMutation = () => {
     },
   });
 };
-
-//export const useRegisterMutation = (): UseMutationResult<
-//   RegisterResponse,
-//   AxiosError,
-//   RegisterData
-// > => {
-//   const queryClient = useQueryClient();
-//   const { login } = useAuth();
-//
-//   return useMutation({
-//     mutationFn: authApi.register,
-//     onSuccess: response => {
-//       const { token, refreshToken } = response;
-//       if (token && refreshToken) {
-//         login(token, refreshToken);
-//         queryClient.invalidateQueries({ queryKey: ['user'] });
-//       }
-//     },
-//   });
-// };

@@ -233,7 +233,10 @@ export async function httpUpdateUserEmail(req: Request, res: Response): Promise<
     });
 
     if (existingUser) {
-      res.status(400).json({ message: 'Podany email jest już zajęty.' });
+      res.status(400).json({
+        message: 'Podany email jest już zajęty.',
+        fields: { email: 'Podany email jest już zajęty.' },
+      });
       return;
     }
 
@@ -254,15 +257,32 @@ export async function httpUpdateUserPassword(req: Request, res: Response): Promi
     const user = req.user as User;
     const { currentPassword, newPassword } = req.body;
 
+    if (!currentPassword || !newPassword) {
+      res.status(400).json({
+        message: 'Obecne hasło i nowe hasło są wymagane.',
+        fields: {
+          ...(currentPassword ? {} : { currentPassword: 'Obecne hasło jest wymagane.' }),
+          ...(newPassword ? {} : { newPassword: 'Nowe hasło jest wymagane.' }),
+        },
+      });
+      return;
+    }
+
     const validationError = validatePasswordChange({ currentPassword, newPassword });
     if (validationError) {
-      res.status(400).json({ message: validationError });
+      res.status(400).json({
+        message: validationError,
+        fields: { newPassword: validationError },
+      });
       return;
     }
 
     const isPasswordValid = await bcrypt.compare(currentPassword, user.password);
     if (!isPasswordValid) {
-      res.status(403).json({ message: 'Incorrect current password' });
+      res.status(403).json({
+        message: 'Obecne hasło jest nieprawidłowe.',
+        fields: { currentPassword: 'Obecne hasło jest nieprawidłowe.' },
+      });
       return;
     }
 
@@ -272,9 +292,9 @@ export async function httpUpdateUserPassword(req: Request, res: Response): Promi
       data: { password: hashedNewPassword },
     });
 
-    res.status(200).json({ message: 'Password updated successfully' });
+    res.status(200).json({ message: 'Hasło zostało zaktualizowane pomyślnie.' });
   } catch (error) {
-    console.error('Error updating password:', error);
-    res.status(500).json({ message: 'Database connection error' });
+    console.error('Błąd podczas aktualizacji hasła:', error);
+    res.status(500).json({ message: 'Wystąpił błąd serwera podczas aktualizacji hasła.' });
   }
 }

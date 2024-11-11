@@ -13,9 +13,11 @@ import {
 } from '@/components/ui/Form';
 import { useEditMutation } from '@/features/user/settings/services/mutations';
 import { ChangePasswordSchemaType, changePasswordSchema } from './changePasswordSchema';
-import { AxiosError } from 'axios';
+import { useToast } from '@/components/hooks/use-toast';
 import { useNavigate } from 'react-router-dom';
 import { useUserQuery } from '@/features/hooks/UseUserQuery';
+import { useQueryClient } from '@tanstack/react-query';
+import { handleError } from '@/services/ErrorHandler';
 
 const ChangePasswordForm: FC = () => {
   const form = useForm<ChangePasswordSchemaType>({
@@ -28,33 +30,39 @@ const ChangePasswordForm: FC = () => {
     mode: 'onChange',
   });
 
-  const { mutate, isPending, isError, error } = useEditMutation();
+  const queryClient = useQueryClient();
+  const editMutation = useEditMutation();
   const navigate = useNavigate();
   const { data: loggedInUser } = useUserQuery();
+  const { toast } = useToast();
 
-  const onSubmit = (data: ChangePasswordSchemaType) => {
-    mutate(
-      {
+  const handleSubmit = async (data: ChangePasswordSchemaType) => {
+    try {
+      await editMutation.mutateAsync({
         currentPassword: data.currentPassword,
         newPassword: data.newPassword,
-      },
-      {
-        onSuccess: () => {
-          alert('Hasło zostało zaktualizowane pomyślnie.');
-          form.reset();
-          navigate(`/profile/${loggedInUser?.id}`);
-        },
-        onError: (mutationError: unknown) => {
-          const axiosError = mutationError as AxiosError<{ message?: string }>;
-          const errorMessage =
-            axiosError.response?.data?.message || 'Wystąpił nieoczekiwany błąd. Spróbuj ponownie.';
-          form.setError('currentPassword', {
-            type: 'manual',
-            message: errorMessage,
+      });
+      toast({
+        title: 'Sukces',
+        description: 'Hasło zostało zaktualizowane pomyślnie!',
+        variant: 'positive',
+      });
+      queryClient.invalidateQueries({ queryKey: ['user'] });
+      form.reset();
+      navigate(`/profile/${loggedInUser?.id}`);
+    } catch (error) {
+      handleError({
+        error,
+        form,
+        onToast: message => {
+          toast({
+            title: 'Błąd',
+            description: message,
+            variant: 'destructive',
           });
         },
-      }
-    );
+      });
+    }
   };
 
   const handleCancel = () => {
@@ -63,7 +71,7 @@ const ChangePasswordForm: FC = () => {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-6'>
+      <form onSubmit={form.handleSubmit(handleSubmit)} className='space-y-6'>
         <FormField
           name='currentPassword'
           render={({ field }) => (
@@ -101,20 +109,13 @@ const ChangePasswordForm: FC = () => {
           )}
         />
 
-        {isError && (
-          <div className='text-red-600 mt-2'>
-            {(error as AxiosError<{ message?: string }>)?.response?.data?.message ||
-              'Wystąpił błąd. Spróbuj ponownie.'}
-          </div>
-        )}
-
         <div className='flex justify-between space-x-4'>
           <Button
             type='submit'
-            disabled={isPending || !form.formState.isValid}
+            disabled={editMutation.isPending || !form.formState.isValid}
             className='w-full py-3 text-white font-semibold rounded-lg transition-colors bg-indigo-600 hover:bg-indigo-700'
           >
-            {isPending ? 'Zapisywanie...' : 'Zapisz'}
+            {editMutation.isPending ? 'Zapisywanie...' : 'Zapisz'}
           </Button>
           <Button
             type='button'
