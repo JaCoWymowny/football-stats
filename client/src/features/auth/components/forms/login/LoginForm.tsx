@@ -13,11 +13,12 @@ import {
   FormMessage,
 } from '@/components/ui/Form';
 import { useLoginMutation } from '@/features/auth/services/mutations';
-import { useNavigate } from 'react-router-dom';
+import { useToast } from '@/components/hooks/use-toast';
+import { handleError } from '@/services/ErrorHandler';
 
 const LoginForm: FC = () => {
-  const navigate = useNavigate();
-  const { mutate: login, isPending } = useLoginMutation();
+  const loginMutation = useLoginMutation();
+  const { toast } = useToast();
 
   const form = useForm<LoginSchemaType>({
     resolver: zodResolver(loginSchema),
@@ -28,20 +29,32 @@ const LoginForm: FC = () => {
     mode: 'onChange',
   });
 
-  const onSubmit = (data: LoginSchemaType) => {
-    login(data, {
-      onSuccess: () => {
-        navigate('/');
-      },
-      onError: error => {
-        form.setError('username', { message: error.message || 'Wystąpił błąd podczas logowania.' });
-      },
-    });
+  const handleSubmit = async (data: LoginSchemaType) => {
+    try {
+      await loginMutation.mutateAsync(data);
+      toast({
+        title: 'Sukces',
+        description: 'Zalogowano pomyślnie!',
+        variant: 'positive',
+      });
+    } catch (error) {
+      handleError({
+        error,
+        form,
+        onToast: message => {
+          toast({
+            title: 'Błąd logowania',
+            description: message,
+            variant: 'destructive',
+          });
+        },
+      });
+    }
   };
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-6'>
+      <form onSubmit={form.handleSubmit(handleSubmit)} className='space-y-6'>
         <FormField
           name='username'
           render={({ field }) => (
@@ -77,10 +90,12 @@ const LoginForm: FC = () => {
         />
         <Button
           type='submit'
-          disabled={isPending}
+          disabled={
+            !form.formState.isValid || form.formState.isSubmitting || loginMutation.isPending
+          }
           className='w-full py-3 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700 transition-colors'
         >
-          {isPending ? 'Logowanie...' : 'Zaloguj się'}
+          {loginMutation.isPending ? 'Logowanie...' : 'Zaloguj się'}
         </Button>
       </form>
     </Form>

@@ -1,8 +1,8 @@
 import { ApiClient } from '@/services/ApiClient';
-import { RegisterData, LoginData, User } from '@/types/types';
+import { User, AuthData } from '@/types/types';
 
 export const authApi = {
-  register: async (data: RegisterData) => {
+  register: async (data: AuthData) => {
     const response = await ApiClient.post('/users/register', data);
     const { token, refreshToken } = response.data;
 
@@ -14,7 +14,7 @@ export const authApi = {
     return response.data;
   },
 
-  login: async (data: LoginData) => {
+  login: async (data: AuthData) => {
     const response = await ApiClient.post('/users/login', data);
     const { token, refreshToken } = response.data;
 

@@ -12,12 +12,20 @@ import {
   FormControl,
   FormMessage,
 } from '@/components/ui/Form';
-import { useRegisterMutation } from '@/features/auth/services/mutations';
+import { useRegisterMutation, useLoginMutation } from '@/features/auth/services/mutations';
 import { useNavigate } from 'react-router-dom';
+import { handleError } from '@/services/ErrorHandler';
+import { useToast } from '@/components/hooks/use-toast';
+import { useQueryClient } from '@tanstack/react-query';
+import { useAuth } from '@/features/hooks/useAuth';
 
 const RegisterForm: FC = () => {
   const navigate = useNavigate();
-  const { mutate: register, isPending } = useRegisterMutation();
+  const { toast } = useToast();
+  const { login } = useAuth();
+  const queryClient = useQueryClient();
+  const registerMutation = useRegisterMutation();
+  const loginMutation = useLoginMutation();
 
   const form = useForm<RegisterSchemaType>({
     resolver: zodResolver(registerSchema),
@@ -30,22 +38,45 @@ const RegisterForm: FC = () => {
     mode: 'onChange',
   });
 
-  const onSubmit = (data: RegisterSchemaType) => {
-    register(data, {
-      onSuccess: () => {
-        navigate('/');
-      },
-      onError: error => {
-        form.setError('username', {
-          message: error.message || 'Wystąpił błąd podczas rejestracji.',
-        });
-      },
-    });
+  const handleSubmit = async (values: RegisterSchemaType) => {
+    const credentials = {
+      username: values.username,
+      password: values.password,
+      email: values.email,
+    };
+
+    try {
+      await registerMutation.mutateAsync(credentials);
+      const loginResponse = await loginMutation.mutateAsync({
+        username: values.username,
+        password: values.password,
+      });
+
+      login(loginResponse.token, loginResponse.refreshToken);
+      queryClient.invalidateQueries({ queryKey: ['user'] });
+      toast({
+        title: 'Sukces',
+        description: 'Zarejestrowano i zalogowano pomyślnie!',
+      });
+      navigate('/');
+    } catch (error) {
+      handleError({
+        error,
+        form,
+        onToast: message => {
+          toast({
+            title: 'Błąd',
+            description: message,
+            variant: 'destructive',
+          });
+        },
+      });
+    }
   };
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-6'>
+      <form onSubmit={form.handleSubmit(handleSubmit)} className='space-y-6'>
         <FormField
           name='username'
           render={({ field }) => (
@@ -114,10 +145,12 @@ const RegisterForm: FC = () => {
         />
         <Button
           type='submit'
-          disabled={isPending}
+          disabled={
+            !form.formState.isValid || form.formState.isSubmitting || registerMutation.isPending
+          }
           className='w-full py-3 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700 transition-colors'
         >
-          {isPending ? 'Rejestrowanie...' : 'Zarejestruj się'}
+          {registerMutation.isPending ? 'Rejestrowanie...' : 'Zarejestruj się'}
         </Button>
       </form>
     </Form>

@@ -12,10 +12,11 @@ import NotFoundPage from '@/pages/404/NotFound';
 import UserListPage from '@/pages/userListPage/UserListPage';
 import AuthGuard from '@/features/auth/guards/AuthGuard';
 import UnAuthGuard from '@/features/auth/guards/UnAuthGuard';
+import RootErrorBoundary from '@/pages/RootErrorBoundary';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
-    <Route element={<Layout />}>
+    <Route element={<Layout />} errorElement={<RootErrorBoundary />}>
       {/* Public Routes */}
       <Route path='/auth' element={<UnAuthGuard />}>
         <Route index element={<WelcomePage />} />
@@ -28,7 +29,7 @@ const router = createBrowserRouter(
       <Route element={<AuthGuard />}>
         <Route path='/' element={<HomePage />} />
         <Route path='/profile/:id' element={<UserProfileView />} />
-        <Route path='/settings' element={<SettingsLayout />}>
+        <Route path='/settings' element={<SettingsLayout />} errorElement={<RootErrorBoundary />}>
           <Route path='change-email' element={<ChangeEmail />} />
           <Route path='change-password' element={<ChangePassword />} />
         </Route>

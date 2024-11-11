@@ -26,7 +26,7 @@ export async function httpRegisterUser(req: Request, res: Response): Promise<voi
     const { username, password, email } = req.body;
 
     if (!username || !password || !email) {
-      res.status(400).json({ message: 'Username, password, and email are required' });
+      res.status(400).json({ message: 'Nazwa użytkownika, hasło oraz email są wymagane.' });
       return;
     }
 
@@ -37,9 +37,16 @@ export async function httpRegisterUser(req: Request, res: Response): Promise<voi
     });
 
     if (existingUser) {
-      const message =
-        existingUser.username === username ? 'Username already exists' : 'Email already exists';
-      res.status(400).json({ message });
+      console.log('existinguser', existingUser);
+      res.status(400).json({
+        fields: {
+          ...(existingUser.username === username && {
+            username: 'Nazwa użytkownika już istnieje.',
+          }),
+          ...(existingUser.email === email && { email: 'Email już istnieje.' }),
+        },
+        message: 'Wystąpiły błędy walidacyjne.',
+      });
       return;
     }
 
@@ -58,7 +65,7 @@ export async function httpRegisterUser(req: Request, res: Response): Promise<voi
     const refreshToken = generateRefreshToken(newUser);
 
     res.status(201).json({
-      message: 'User registered successfully',
+      message: 'Rejestracja zakończona sukcesem.',
       user: {
         id: newUser.id,
         username: newUser.username,
@@ -68,8 +75,10 @@ export async function httpRegisterUser(req: Request, res: Response): Promise<voi
       refreshToken,
     });
   } catch (error) {
-    console.error('Error creating user:', error);
-    res.status(500).json({ message: 'Server error' });
+    console.error('Błąd podczas tworzenia użytkownika:', error);
+    res
+      .status(500)
+      .json({ message: 'Wystąpił błąd serwera podczas rejestracji. Spróbuj ponownie później.' });
   }
 }
 
@@ -78,19 +87,25 @@ export async function httpLoginUser(req: Request, res: Response): Promise<void> 
     const { username, password } = req.body;
 
     if (!username || !password) {
-      res.status(400).json({ message: 'Username and password are required' });
+      res.status(400).json({ message: 'Nazwa użytkownika i hasło są wymagane.' });
       return;
     }
 
     const user = await prisma.user.findUnique({ where: { username } });
     if (!user) {
-      res.status(400).json({ message: 'Invalid credentials' });
+      res.status(401).json({
+        fields: { username: 'Nieprawidłowa nazwa użytkownika lub hasło.' },
+        message: 'Nieprawidłowa nazwa użytkownika lub hasło.',
+      });
       return;
     }
 
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid) {
-      res.status(400).json({ message: 'Invalid credentials' });
+      res.status(401).json({
+        fields: { password: 'Nieprawidłowa nazwa użytkownika lub hasło.' },
+        message: 'Nieprawidłowa nazwa użytkownika lub hasło.',
+      });
       return;
     }
 
@@ -98,7 +113,7 @@ export async function httpLoginUser(req: Request, res: Response): Promise<void> 
     const refreshToken = generateRefreshToken(user);
 
     res.status(200).json({
-      message: 'Login successful',
+      message: 'Logowanie zakończone sukcesem.',
       user: {
         id: user.id,
         username: user.username,
@@ -108,8 +123,10 @@ export async function httpLoginUser(req: Request, res: Response): Promise<void> 
       refreshToken,
     });
   } catch (error) {
-    console.error('Error logging in user:', error);
-    res.status(500).json({ message: 'Server error' });
+    console.error('Błąd podczas logowania:', error);
+    res
+      .status(500)
+      .json({ message: 'Wystąpił błąd serwera podczas logowania. Spróbuj ponownie później.' });
   }
 }
 
@@ -117,7 +134,7 @@ export async function httpRefreshToken(req: Request, res: Response): Promise<voi
   const { refreshToken } = req.body;
 
   if (!refreshToken) {
-    res.status(400).json({ message: 'Refresh token is required' });
+    res.status(400).json({ message: 'Token odświeżenia jest wymagany.' });
     return;
   }
 
@@ -126,7 +143,7 @@ export async function httpRefreshToken(req: Request, res: Response): Promise<voi
     const user = await prisma.user.findUnique({ where: { id: decoded.id } });
 
     if (!user) {
-      res.status(403).json({ message: 'Invalid refresh token' });
+      res.status(403).json({ message: 'Nieprawidłowy token odświeżenia.' });
       return;
     }
 
@@ -134,8 +151,8 @@ export async function httpRefreshToken(req: Request, res: Response): Promise<voi
 
     res.status(200).json({ token: newAccessToken });
   } catch (error) {
-    console.error('Error refreshing token:', error);
-    res.status(403).json({ message: 'Invalid or expired refresh token' });
+    console.error('Błąd podczas odświeżania tokena:', error);
+    res.status(403).json({ message: 'Token odświeżenia jest nieprawidłowy lub wygasł.' });
   }
 }
 
@@ -143,7 +160,7 @@ export async function httpGetUserById(req: Request, res: Response): Promise<void
   try {
     const userId = parseInt(req.params.id);
     if (isNaN(userId)) {
-      res.status(400).json({ message: 'Invalid user ID' });
+      res.status(400).json({ message: 'ID użytkownika jest nieprawidłowe.' });
       return;
     }
 
@@ -152,7 +169,7 @@ export async function httpGetUserById(req: Request, res: Response): Promise<void
     });
 
     if (!user) {
-      res.status(404).json({ message: 'User not found' });
+      res.status(404).json({ message: 'Nie znaleziono użytkownika.' });
       return;
     }
 
@@ -163,8 +180,10 @@ export async function httpGetUserById(req: Request, res: Response): Promise<void
       role: user.role,
     });
   } catch (error) {
-    console.error('Error fetching user:', error);
-    res.status(500).json({ message: 'Server error' });
+    console.error('Błąd podczas pobierania użytkownika:', error);
+    res
+      .status(500)
+      .json({ message: 'Wystąpił błąd serwera podczas pobierania danych użytkownika.' });
   }
 }
 
@@ -174,7 +193,7 @@ export async function httpGetAllUsers(req: Request, res: Response): Promise<void
     res.status(200).json(users);
   } catch (error) {
     console.error('Error fetching users:', error);
-    res.status(500).json({ message: 'Server error' });
+    res.status(500).json({ message: 'Database connection error' });
   }
 }
 
@@ -195,7 +214,7 @@ export async function httpGetCurrentUser(req: Request, res: Response): Promise<v
     });
   } catch (error) {
     console.error('Error fetching current user:', error);
-    res.status(500).json({ message: 'Server error' });
+    res.status(500).json({ message: 'Database connection error' });
   }
 }
 
@@ -205,7 +224,7 @@ export async function httpUpdateUserEmail(req: Request, res: Response): Promise<
     const { email } = req.body;
 
     if (!email) {
-      res.status(400).json({ message: 'Email is required' });
+      res.status(400).json({ message: 'Email jest wymagany.' });
       return;
     }
 
@@ -214,7 +233,7 @@ export async function httpUpdateUserEmail(req: Request, res: Response): Promise<
     });
 
     if (existingUser) {
-      res.status(400).json({ message: 'Email is already taken' });
+      res.status(400).json({ message: 'Podany email jest już zajęty.' });
       return;
     }
 
@@ -223,10 +242,10 @@ export async function httpUpdateUserEmail(req: Request, res: Response): Promise<
       data: { email },
     });
 
-    res.status(200).json({ message: 'Email updated successfully' });
+    res.status(200).json({ message: 'Email został zaktualizowany pomyślnie.' });
   } catch (error) {
-    console.error('Error updating email:', error);
-    res.status(500).json({ message: 'Server error' });
+    console.error('Błąd podczas aktualizacji emaila:', error);
+    res.status(500).json({ message: 'Wystąpił błąd serwera podczas aktualizacji emaila.' });
   }
 }
 
@@ -256,6 +275,6 @@ export async function httpUpdateUserPassword(req: Request, res: Response): Promi
     res.status(200).json({ message: 'Password updated successfully' });
   } catch (error) {
     console.error('Error updating password:', error);
-    res.status(500).json({ message: 'Server error' });
+    res.status(500).json({ message: 'Database connection error' });
   }
 }
