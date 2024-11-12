@@ -15,10 +15,16 @@ import {
 import { useLoginMutation } from '@/features/auth/services/mutations';
 import { useToast } from '@/components/hooks/use-toast';
 import { handleError } from '@/services/ErrorHandler';
+import { UserQueries } from '@/features/hooks/UserQueries';
+import { useQueryClient } from '@tanstack/react-query';
+import { AuthStatus } from '@/store/authStatus';
+import { useAuthStore } from '@/store/useAuthStore';
 
 const LoginForm: FC = () => {
   const loginMutation = useLoginMutation();
   const { toast } = useToast();
+  const queryClient = useQueryClient();
+  const { setStatus } = useAuthStore();
 
   const form = useForm<LoginSchemaType>({
     resolver: zodResolver(loginSchema),
@@ -31,13 +37,16 @@ const LoginForm: FC = () => {
 
   const handleSubmit = async (data: LoginSchemaType) => {
     try {
-      await loginMutation.mutateAsync(data);
+      const loginResponse = await loginMutation.mutateAsync(data);
+      queryClient.setQueryData(UserQueries.getCurrentUser().queryKey, loginResponse.user);
+      setStatus(AuthStatus.AUTHENTICATED);
       toast({
         title: 'Sukces',
         description: 'Zalogowano pomyślnie!',
         variant: 'positive',
       });
     } catch (error) {
+      console.error('Błąd logowania:', error);
       handleError({
         error,
         form,

@@ -37,7 +37,6 @@ export async function httpRegisterUser(req: Request, res: Response): Promise<voi
     });
 
     if (existingUser) {
-      console.log('existinguser', existingUser);
       res.status(400).json({
         fields: {
           ...(existingUser.username === username && {

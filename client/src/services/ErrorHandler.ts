@@ -21,10 +21,8 @@ export function handleError<T extends FieldValues>({
 
   if (error instanceof AxiosError) {
     const data = error.response?.data as ErrorResponse;
-    console.log('Error data Errorhandler:   ', data);
     if (data?.fields && form) {
       Object.entries(data.fields).forEach(([field, message]) => {
-        console.log(`Set error on field ${field}: ${message}`); // Logujemy ustawienie błędu
         form.setError(field as Path<T>, { type: 'manual', message });
       });
 
