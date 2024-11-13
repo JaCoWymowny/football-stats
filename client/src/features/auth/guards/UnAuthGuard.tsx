@@ -11,7 +11,7 @@ const UnAuthGuard: FC<AuthGuardProps> = ({ redirectPath = '/', ...props }) => {
     return <GlobalLoader />;
   }
 
-  const isAllowed = status === AuthStatus.UNAUTHENTICATED;
+  const isAllowed = status !== AuthStatus.AUTHENTICATED;
 
   return <ProtectedRoute isAllowed={isAllowed} redirectPath={redirectPath} {...props} />;
 };

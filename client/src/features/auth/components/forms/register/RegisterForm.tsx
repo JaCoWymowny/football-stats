@@ -57,6 +57,7 @@ const RegisterForm: FC = () => {
       toast({
         title: 'Sukces',
         description: 'Zarejestrowano i zalogowano pomyślnie!',
+        variant: 'positive',
       });
     } catch (error) {
       console.error('Błąd rejestracji:   ', error);
