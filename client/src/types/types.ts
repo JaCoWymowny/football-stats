@@ -1,9 +1,4 @@
-export interface RegisterData {
-  username: string;
-  email: string;
-  password: string;
-  confirmPassword?: string;
-}
+import { ReactNode } from 'react';
 
 export interface AuthData {
   username: string;
@@ -16,3 +11,8 @@ export interface User {
   email: string;
   role: string;
 }
+
+export type AuthGuardProps = {
+  redirectPath?: string;
+  children?: ReactNode;
+};

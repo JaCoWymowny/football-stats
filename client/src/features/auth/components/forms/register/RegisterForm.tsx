@@ -13,19 +13,19 @@ import {
   FormMessage,
 } from '@/components/ui/Form';
 import { useRegisterMutation, useLoginMutation } from '@/features/auth/services/mutations';
-import { useNavigate } from 'react-router-dom';
 import { handleError } from '@/services/ErrorHandler';
 import { useToast } from '@/components/hooks/use-toast';
 import { useQueryClient } from '@tanstack/react-query';
-import { useAuth } from '@/features/hooks/useAuth';
+import { UserQueries } from '@/features/hooks/UserQueries';
+import { AuthStatus } from '@/store/authStatus';
+import { useAuthStore } from '@/store/useAuthStore';
 
 const RegisterForm: FC = () => {
-  const navigate = useNavigate();
   const { toast } = useToast();
-  const { login } = useAuth();
   const queryClient = useQueryClient();
   const registerMutation = useRegisterMutation();
   const loginMutation = useLoginMutation();
+  const { setStatus } = useAuthStore();
 
   const form = useForm<RegisterSchemaType>({
     resolver: zodResolver(registerSchema),
@@ -52,14 +52,16 @@ const RegisterForm: FC = () => {
         password: values.password,
       });
 
-      login(loginResponse.token, loginResponse.refreshToken);
-      queryClient.invalidateQueries({ queryKey: ['user'] });
+      queryClient.setQueryData(UserQueries.getCurrentUser().queryKey, loginResponse.user);
+      setStatus(AuthStatus.AUTHENTICATED);
       toast({
         title: 'Sukces',
         description: 'Zarejestrowano i zalogowano pomyślnie!',
+        variant: 'positive',
       });
-      navigate('/');
     } catch (error) {
+      console.error('Błąd rejestracji:   ', error);
+      setStatus(AuthStatus.UNAUTHENTICATED);
       handleError({
         error,
         form,

@@ -1,33 +1,29 @@
 import { useNavigate, Link } from 'react-router-dom';
-import { useAuth } from '@/features/hooks/useAuth';
 import { useUserQuery } from '@/features/hooks/UseUserQuery';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/Avatar';
 import Logo from '@/assets/ball.svg';
 import { Button } from '@/components/ui/Button';
 import { useToast } from '@/components/hooks/use-toast';
+import { AuthStatus } from '@/store/authStatus';
+import { useAuthStore } from '@/store/useAuthStore';
+import { useQueryClient } from '@tanstack/react-query';
 
 const NavBar = () => {
   const navigate = useNavigate();
-  const { isAuthenticated, logout } = useAuth();
-  const { data: user, isLoading } = useUserQuery();
+  const { data: user, isPending } = useUserQuery();
   const { toast } = useToast();
+  const { status: authStatus, setStatus } = useAuthStore();
+  const queryClient = useQueryClient();
 
-  const handleLogout = async () => {
-    try {
-      logout();
-      toast({
-        title: 'Wylogowanie',
-        description: 'Zostałeś pomyślnie wylogowany.',
-        variant: 'destructive',
-      });
-      navigate('/');
-    } catch (error) {
-      toast({
-        title: 'Błąd',
-        description: 'Wystąpił problem z wylogowaniem. Spróbuj ponownie.',
-        variant: 'destructive',
-      });
-    }
+  const handleLogout = () => {
+    setStatus(AuthStatus.UNAUTHENTICATED);
+    queryClient.removeQueries({ queryKey: ['user'] });
+    toast({
+      title: 'Wylogowanie',
+      description: 'Zostałeś pomyślnie wylogowany.',
+      variant: 'destructive',
+    });
+    navigate('/');
   };
 
   return (
@@ -51,9 +47,9 @@ const NavBar = () => {
         </li>
       </ul>
       <div className='flex items-center space-x-2 md:space-x-4'>
-        {isAuthenticated ? (
+        {user && authStatus === AuthStatus.AUTHENTICATED ? (
           <>
-            {!isLoading && user && (
+            {!isPending && (
               <Link
                 to={`/profile/${user.id}`}
                 className='text-gray-300 hover:text-stone-400 cursor-pointer'

@@ -27,7 +27,7 @@ export default [
             '@typescript-eslint/no-namespace': 'error',
             '@typescript-eslint/no-non-null-assertion': 'warn',
             '@typescript-eslint/no-this-alias': 'warn',
-            '@typescript-eslint/no-var-requires': 'off', // Tak jak chciałeś wyłączyć
+            '@typescript-eslint/no-var-requires': 'off',
 
             // Własne reguły projektu
             'no-console': 'warn',

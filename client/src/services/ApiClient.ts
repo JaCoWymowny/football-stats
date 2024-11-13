@@ -7,16 +7,16 @@ export const ApiClient = axios.create({
   },
 });
 
-// Interceptor do obsługi tokenów autoryzacji w nagłówkach
 ApiClient.interceptors.request.use(config => {
   const token = localStorage.getItem('authToken');
+
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
+
   return config;
 });
 
-// Interceptor do obsługi odpowiedzi, w tym ponownego odświeżenia tokena
 ApiClient.interceptors.response.use(
   response => response,
   async error => {
@@ -41,7 +41,6 @@ ApiClient.interceptors.response.use(
       }
     }
 
-    // Przekazanie błędu dalej, aby można go było obsłużyć w komponentach frontendu (np. NavBar)
     return Promise.reject(error);
   }
 );

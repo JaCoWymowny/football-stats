@@ -57,11 +57,6 @@ export const authApi = {
   refreshToken: async (refreshToken: string) => {
     const response = await ApiClient.post('/users/refresh-token', { refreshToken });
     const { token } = response.data;
-
-    if (token) {
-      localStorage.setItem('authToken', token);
-    }
-
     return token;
   },
 };

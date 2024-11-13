@@ -1,7 +1,6 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 import { authApi } from '@/features/auth/services/authApi';
 import { AuthData } from '@/types/types';
-import { useAuth } from '@/features/hooks/useAuth';
 
 export const useRegisterMutation = () => {
   return useMutation({
@@ -12,17 +11,9 @@ export const useRegisterMutation = () => {
 };
 
 export const useLoginMutation = () => {
-  const queryClient = useQueryClient();
-  const { login } = useAuth();
-
   return useMutation({
     mutationFn: async (credentials: AuthData) => {
       return await authApi.login(credentials);
-    },
-    onSuccess: response => {
-      const { token, refreshToken } = response;
-      login(token, refreshToken);
-      queryClient.invalidateQueries({ queryKey: ['user'] });
     },
   });
 };
