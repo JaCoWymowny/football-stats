@@ -7,7 +7,7 @@ import { ProtectedRoute } from '@/features/auth/guards/ProtectedRoute';
 
 const UnAuthGuard: FC<AuthGuardProps> = ({ redirectPath = '/', ...props }) => {
   const { status } = useAuthStore();
-  if (status === AuthStatus.INITIALIZING) {
+  if (status === AuthStatus.UNINITIALIZED || status === AuthStatus.INITIALIZING) {
     return <GlobalLoader />;
   }
 

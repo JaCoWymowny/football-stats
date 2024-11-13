@@ -7,7 +7,8 @@ import { AuthGuardProps } from '@/types/types';
 
 const AuthGuard: FC<AuthGuardProps> = ({ redirectPath = '/auth', ...props }) => {
   const { status } = useAuthStore();
-  if (status === AuthStatus.INITIALIZING) {
+
+  if (status === AuthStatus.UNINITIALIZED || status === AuthStatus.INITIALIZING) {
     return <GlobalLoader />;
   }
 
