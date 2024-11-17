@@ -1,29 +1,22 @@
 import { FC } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useUserByIdQuery } from '@/features/hooks/useUserByIdQuery';
-import { useUserQuery } from '@/features/hooks/UseUserQuery';
+import { useCurrentUser } from '@/features/hooks/useCurrentUser';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
+import GlobalLoader from '@/components/ui/GLobalLoader';
 
 const UserProfileView: FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  const { data: loggedInUser } = useUserQuery();
-  const { data: user, isLoading, error } = useUserByIdQuery(Number(id));
+  const { currentUser } = useCurrentUser();
+  const { data: user, isPending } = useUserByIdQuery(Number(id));
 
-  if (isLoading) {
-    return <div className='text-center mt-6'>Ładowanie danych użytkownika...</div>;
+  if (isPending) {
+    return <GlobalLoader />;
   }
 
-  if (error) {
-    return (
-      <div className='text-center mt-6 text-red-600'>
-        Wystąpił błąd podczas pobierania danych użytkownika: {error.message}
-      </div>
-    );
-  }
-
-  const isCurrentUser = loggedInUser?.id === user?.id;
+  const isCurrentUser = currentUser?.id === user?.id;
 
   return (
     <div className='w-full max-w-lg px-4 sm:px-6 md:px-8 lg:px-12 mx-auto mt-6 sm:mt-12 space-y-6'>
