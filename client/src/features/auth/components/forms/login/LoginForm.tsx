@@ -37,8 +37,8 @@ const LoginForm: FC = () => {
 
   const handleSubmit = async (data: LoginSchemaType) => {
     try {
-      const loginResponse = await loginMutation.mutateAsync(data);
-      queryClient.setQueryData(UserQueries.getCurrentUser().queryKey, loginResponse.user);
+      await loginMutation.mutateAsync(data);
+      queryClient.invalidateQueries({ queryKey: ['user'] });
       setStatus(AuthStatus.AUTHENTICATED);
       toast({
         title: 'Sukces',

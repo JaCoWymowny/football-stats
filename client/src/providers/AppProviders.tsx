@@ -2,6 +2,7 @@ import { ReactNode } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import AuthProvider from './AuthProvider';
+import { UserProvider } from '@/context/UserContext';
 import { Toaster } from '@/components/ui/Toaster';
 
 interface AppProvidersProps {
@@ -20,7 +21,9 @@ const queryClient = new QueryClient({
 const AppProviders = ({ children }: AppProvidersProps) => {
   return (
     <QueryClientProvider client={queryClient}>
-      <AuthProvider>{children}</AuthProvider>
+      <AuthProvider>
+        <UserProvider>{children}</UserProvider>
+      </AuthProvider>
       <Toaster />
       <ReactQueryDevtools initialIsOpen={false} position='bottom' />
     </QueryClientProvider>

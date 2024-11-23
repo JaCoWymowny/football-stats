@@ -28,6 +28,7 @@ export const authApi = {
 
   fetchUser: async (): Promise<User> => {
     const response = await ApiClient.get('/users/me');
+    console.log(response.data);
     return response.data;
   },
 
