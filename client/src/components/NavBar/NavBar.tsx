@@ -1,4 +1,5 @@
 import { useNavigate, Link } from 'react-router-dom';
+import { useUserQuery } from '@/features/hooks/UseUserQuery';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/Avatar';
 import Logo from '@/assets/ball.svg';
 import { Button } from '@/components/ui/Button';
@@ -6,18 +7,16 @@ import { useToast } from '@/components/hooks/use-toast';
 import { AuthStatus } from '@/store/authStatus';
 import { useAuthStore } from '@/store/useAuthStore';
 import { useQueryClient } from '@tanstack/react-query';
-import { useCurrentUser } from '@/features/hooks/useCurrentUser';
 
 const NavBar = () => {
   const navigate = useNavigate();
-  const { currentUser, setCurrentUser } = useCurrentUser();
+  const { data: user, isPending } = useUserQuery();
   const { toast } = useToast();
   const { status: authStatus, setStatus } = useAuthStore();
   const queryClient = useQueryClient();
 
   const handleLogout = () => {
     setStatus(AuthStatus.UNAUTHENTICATED);
-    setCurrentUser(null);
     queryClient.removeQueries({ queryKey: ['user'] });
     toast({
       title: 'Wylogowanie',
@@ -48,14 +47,16 @@ const NavBar = () => {
         </li>
       </ul>
       <div className='flex items-center space-x-2 md:space-x-4'>
-        {currentUser && authStatus === AuthStatus.AUTHENTICATED ? (
+        {user && authStatus === AuthStatus.AUTHENTICATED ? (
           <>
-            <Link
-              to={`/profile/${currentUser.id}`}
-              className='text-gray-300 hover:text-stone-400 cursor-pointer'
-            >
-              {currentUser.username}
-            </Link>
+            {!isPending && (
+              <Link
+                to={`/profile/${user.id}`}
+                className='text-gray-300 hover:text-stone-400 cursor-pointer'
+              >
+                {user.username}
+              </Link>
+            )}
             <Button
               onClick={() => navigate('/users-list')}
               className='border border-gray-300 text-gray-300 cursor-pointer hover:text-stone-400 px-2 py-1 md:px-4 md:py-2'
