@@ -1,9 +1,10 @@
+import React from 'react';
+import Tile from '@/components/ui/Tile';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card';
-import { Link } from 'react-router-dom';
 
 const Home = () => {
   return (
-    <div className='w-[75%] mx-auto p-8'>
+    <div className='w-full max-w-screen-lg mx-auto p-4 sm:p-6 md:p-8'>
       <div className='mb-8'>
         <Card className='shadow-md rounded-2xl'>
           <CardHeader>
@@ -21,24 +22,23 @@ const Home = () => {
       </div>
 
       {/* Grid of Tiles */}
-      <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8'>
-        {/* Tile 1: Settings */}
-        <Link to='/settings'>
-          <Card
-            className='relative shadow-md border border-gray-300 rounded-2xl overflow-hidden cursor-pointer
-            animate-rotate-360 delay-500 transition-transform w-64 h-56'
-          >
-            <div className='absolute inset-0 bg-gradient-to-r from-gray-100 via-gray-200 to-gray-100 opacity-80' />
-            <CardHeader className='relative z-10'>
-              <CardTitle className='text-2xl font-semibold text-gray-800 text-center'>
-                Ustawienia
-              </CardTitle>
-            </CardHeader>
-            <CardContent className='relative z-10 text-center text-gray-600'>
-              <p>Przejdź do ustawień konta, aby zaktualizować swój email lub zmienić hasło.</p>
-            </CardContent>
-          </Card>
-        </Link>
+      <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8'>
+        <Tile
+          title='Ustawienia'
+          description='Przejdź do ustawień konta, aby zaktualizować swój email lub zmienić hasło.'
+          link='/settings'
+        />
+        <Tile
+          title='Statystyki'
+          description='Śledź swoje wyniki i postępy na bieżąco.'
+          link='/statistics'
+        />
+        <Tile
+          title='Inna Funkcja'
+          description='Opis innej funkcji, do której masz dostęp.'
+          link='/another-feature'
+        />
+        {/* Dodaj kolejne kafelki wedle potrzeby */}
       </div>
     </div>
   );

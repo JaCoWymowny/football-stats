@@ -57,13 +57,13 @@ const NavBar = () => {
             </Link>
             <Button
               onClick={() => navigate('/users-list')}
-              className='border border-gray-300 text-gray-300 cursor-pointer hover:text-stone-400 px-2 py-1 md:px-4 md:py-2'
+              className='border border-gray-300 text-gray-300 cursor-pointer rounded-full hover:text-stone-400 px-2 py-1 md:px-4 md:py-2'
             >
               Users List
             </Button>
             <Button
               onClick={handleLogout}
-              className='border border-gray-300 text-gray-300 cursor-pointer hover:text-stone-400 px-2 py-1 md:px-4 md:py-2'
+              className='border border-gray-300 text-gray-300 cursor-pointer rounded-full hover:text-stone-400 px-2 py-1 md:px-4 md:py-2'
             >
               Logout
             </Button>
@@ -72,13 +72,13 @@ const NavBar = () => {
           <>
             <Button
               onClick={() => navigate('/auth/login')}
-              className='border border-gray-300 text-gray-300 cursor-pointer hover:text-stone-400 px-2 py-1 md:px-4 md:py-2'
+              className='border border-gray-300 text-gray-300 cursor-pointer rounded-full hover:text-stone-400 px-2 py-1 md:px-4 md:py-2'
             >
               Login
             </Button>
             <Button
               onClick={() => navigate('/auth/register')}
-              className='border border-gray-300 text-gray-300 cursor-pointer hover:text-stone-400 px-2 py-1 md:px-4 md:py-2'
+              className='border border-gray-300 text-gray-300 cursor-pointer rounded-full hover:text-stone-400 px-2 py-1 md:px-4 md:py-2'
             >
               Register
             </Button>

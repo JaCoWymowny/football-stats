@@ -15,7 +15,6 @@ import {
 import { useLoginMutation } from '@/features/auth/services/mutations';
 import { useToast } from '@/components/hooks/use-toast';
 import { handleError } from '@/services/ErrorHandler';
-import { UserQueries } from '@/features/hooks/UserQueries';
 import { useQueryClient } from '@tanstack/react-query';
 import { AuthStatus } from '@/store/authStatus';
 import { useAuthStore } from '@/store/useAuthStore';

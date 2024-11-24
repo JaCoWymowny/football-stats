@@ -1,29 +1,24 @@
 import { FC } from 'react';
-import { NavLink } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { Button } from '@/components/ui/Button';
 
 const SettingsNav: FC = () => {
+  const navigate = useNavigate();
+
   return (
-    <div className='flex justify-around mb-6'>
-      <NavLink
-        to='/settings/change-email'
-        className={({ isActive }) =>
-          `px-4 py-2 rounded-lg transition-colors ${
-            isActive ? 'bg-indigo-600 text-white' : 'bg-gray-200 text-gray-800 hover:bg-gray-300'
-          }`
-        }
+    <div className='flex justify-around mb-6 space-x-4'>
+      <Button
+        onClick={() => navigate('/settings/change-email')}
+        className='bg-gray-800 text-white px-4 py-2 shadow hover:bg-gray-700 rounded-full transition-all'
       >
         Zmień Email
-      </NavLink>
-      <NavLink
-        to='/settings/change-password'
-        className={({ isActive }) =>
-          `px-4 py-2 rounded-lg transition-colors ${
-            isActive ? 'bg-indigo-600 text-white' : 'bg-gray-200 text-gray-800 hover:bg-gray-300'
-          }`
-        }
+      </Button>
+      <Button
+        onClick={() => navigate('/settings/change-password')}
+        className='bg-gray-800 text-white px-4 py-2 shadow hover:bg-gray-700 rounded-full transition-all'
       >
         Zmień Hasło
-      </NavLink>
+      </Button>
     </div>
   );
 };
