@@ -15,7 +15,6 @@ import {
 import { useLoginMutation } from '@/features/auth/services/mutations';
 import { useToast } from '@/components/hooks/use-toast';
 import { handleError } from '@/services/ErrorHandler';
-import { UserQueries } from '@/features/hooks/UserQueries';
 import { useQueryClient } from '@tanstack/react-query';
 import { AuthStatus } from '@/store/authStatus';
 import { useAuthStore } from '@/store/useAuthStore';
@@ -102,7 +101,7 @@ const LoginForm: FC = () => {
           disabled={
             !form.formState.isValid || form.formState.isSubmitting || loginMutation.isPending
           }
-          className='w-full py-3 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700 transition-colors'
+          className='w-full py-3 bg-gray-800 text-white font-semibold rounded-full shadow hover:bg-gray-700 transition-all'
         >
           {loginMutation.isPending ? 'Logowanie...' : 'Zaloguj się'}
         </Button>

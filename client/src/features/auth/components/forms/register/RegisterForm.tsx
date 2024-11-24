@@ -150,7 +150,7 @@ const RegisterForm: FC = () => {
           disabled={
             !form.formState.isValid || form.formState.isSubmitting || registerMutation.isPending
           }
-          className='w-full py-3 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700 transition-colors'
+          className='w-full py-3 bg-gray-800 text-white font-semibold rounded-full shadow hover:bg-gray-700 transition-all'
         >
           {registerMutation.isPending ? 'Rejestrowanie...' : 'Zarejestruj się'}
         </Button>

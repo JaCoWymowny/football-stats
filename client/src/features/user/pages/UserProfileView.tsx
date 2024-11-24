@@ -44,7 +44,7 @@ const UserProfileView: FC = () => {
         <div className='text-center mt-4'>
           <Button
             onClick={() => navigate('/settings')}
-            className='bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700 transition-colors'
+            className='bg-gray-800 text-white px-4 py-2 shadow hover:bg-gray-700 rounded-full transition-all'
           >
             Przejdź do ustawień
           </Button>
