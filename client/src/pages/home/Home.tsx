@@ -1,11 +1,11 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card';
+import { Link } from 'react-router-dom';
 
 const Home = () => {
   return (
-    <div className='w-[90%] mx-auto p-8'>
-      <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8'>
-        {/* Hero Section */}
-        <Card className='shadow-md rounded-2xl col-span-1 md:col-span-2 lg:col-span-3'>
+    <div className='w-[75%] mx-auto p-8'>
+      <div className='mb-8'>
+        <Card className='shadow-md rounded-2xl'>
           <CardHeader>
             <CardTitle className='text-3xl font-bold text-gray-800 text-center'>
               Witaj w MyApp!
@@ -13,79 +13,32 @@ const Home = () => {
           </CardHeader>
           <CardContent className='text-center text-gray-600'>
             <p>
-              Cieszymy się, że jesteś z nami! MyApp to aplikacja do zarządzania wynikami i
-              statystykami w piłce nożnej. Dołącz do nas, aby śledzić swoje postępy!
+              MyApp to aplikacja do zarządzania wynikami i statystykami w piłce nożnej. Dołącz do
+              nas i śledź swoje postępy!
             </p>
           </CardContent>
         </Card>
+      </div>
 
-        {/* News Section */}
-        <Card className='shadow-md rounded-2xl'>
-          <CardHeader>
-            <CardTitle className='text-2xl font-semibold text-gray-800'>Aktualności</CardTitle>
-          </CardHeader>
-          <CardContent className='space-y-4'>
-            <div>
-              <h3 className='font-semibold text-gray-700'>Nowa funkcjonalność - Analiza meczów</h3>
-              <p className='text-gray-600'>
-                Dodaliśmy nową funkcję, która pozwala na szczegółową analizę wyników i wydajności w
-                meczach. Sprawdź teraz!
-              </p>
-            </div>
-            <div>
-              <h3 className='font-semibold text-gray-700'>Aktualizacja aplikacji</h3>
-              <p className='text-gray-600'>
-                Najnowsza aktualizacja poprawia wydajność i wprowadza nowe funkcje.
-              </p>
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* Stats Section */}
-        <Card className='shadow-md rounded-2xl'>
-          <CardHeader>
-            <CardTitle className='text-2xl font-semibold text-gray-800'>Statystyki</CardTitle>
-          </CardHeader>
-          <CardContent className='space-y-4'>
-            <div className='flex justify-between'>
-              <span className='text-gray-700'>Rozegrane mecze:</span>
-              <span className='font-bold text-gray-800'>25</span>
-            </div>
-            <div className='flex justify-between'>
-              <span className='text-gray-700'>Wygrane mecze:</span>
-              <span className='font-bold text-green-600'>18</span>
-            </div>
-            <div className='flex justify-between'>
-              <span className='text-gray-700'>Przegrane mecze:</span>
-              <span className='font-bold text-red-600'>7</span>
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* Upcoming Events Section */}
-        <Card className='shadow-md rounded-2xl col-span-1 md:col-span-2 lg:col-span-1'>
-          <CardHeader>
-            <CardTitle className='text-2xl font-semibold text-gray-800'>
-              Nadchodzące Wydarzenia
-            </CardTitle>
-          </CardHeader>
-          <CardContent className='space-y-4'>
-            <div>
-              <h3 className='font-semibold text-gray-700'>Turniej Międzynarodowy</h3>
-              <p className='text-gray-600'>
-                Zbliża się międzynarodowy turniej piłkarski. Zarejestruj się i weź udział w
-                rozgrywkach!
-              </p>
-            </div>
-            <div>
-              <h3 className='font-semibold text-gray-700'>Mecz przyjaźni</h3>
-              <p className='text-gray-600'>
-                W przyszłym miesiącu organizujemy mecz przyjaźni z lokalną drużyną. Zapraszamy do
-                kibicowania!
-              </p>
-            </div>
-          </CardContent>
-        </Card>
+      {/* Grid of Tiles */}
+      <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8'>
+        {/* Tile 1: Settings */}
+        <Link to='/settings'>
+          <Card
+            className='relative shadow-md border border-gray-300 rounded-2xl overflow-hidden cursor-pointer
+            animate-rotate-360 delay-500 transition-transform w-64 h-56'
+          >
+            <div className='absolute inset-0 bg-gradient-to-r from-gray-100 via-gray-200 to-gray-100 opacity-80' />
+            <CardHeader className='relative z-10'>
+              <CardTitle className='text-2xl font-semibold text-gray-800 text-center'>
+                Ustawienia
+              </CardTitle>
+            </CardHeader>
+            <CardContent className='relative z-10 text-center text-gray-600'>
+              <p>Przejdź do ustawień konta, aby zaktualizować swój email lub zmienić hasło.</p>
+            </CardContent>
+          </Card>
+        </Link>
       </div>
     </div>
   );

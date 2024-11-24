@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { NavLink } from 'react-router-dom';
 
-const SettingsNavigation: FC = () => {
+const SettingsNav: FC = () => {
   return (
     <div className='flex justify-around mb-6'>
       <NavLink
@@ -28,4 +28,4 @@ const SettingsNavigation: FC = () => {
   );
 };
 
-export default SettingsNavigation;
+export default SettingsNav;

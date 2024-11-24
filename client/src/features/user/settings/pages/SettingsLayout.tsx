@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { Outlet } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card';
-import SettingsNavigation from '@/features/user/settings/components/SettingsNavigation/SettingsNavigation';
+import SettingsNav from '@/features/user/components/SettingsNav/SettingsNav';
 
 const SettingsLayout: FC = () => {
   return (
@@ -11,7 +11,7 @@ const SettingsLayout: FC = () => {
           <CardTitle className='text-center text-gray-800'>Ustawienia Konta</CardTitle>
         </CardHeader>
         <CardContent>
-          <SettingsNavigation />
+          <SettingsNav />
           <Outlet />
         </CardContent>
       </Card>
