@@ -13,8 +13,8 @@ const UserProfileView: FC = () => {
   if (isPending) {
     return <GlobalLoader />;
   }
-  console.log(currentUser);
-  const isCurrentUser = currentUser?.id === id;
+
+  const isCurrentUser = currentUser?.id === Number(id);
 
   return (
     <div className='w-full max-w-lg px-4 sm:px-6 md:px-8 lg:px-12 mx-auto mt-6 sm:mt-12 space-y-6'>
