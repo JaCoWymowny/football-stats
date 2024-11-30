@@ -13,6 +13,7 @@ import UserListPage from '@/features/user/pages/UserListPage';
 import AuthGuard from '@/features/auth/guards/AuthGuard';
 import UnAuthGuard from '@/features/auth/guards/UnAuthGuard';
 import RootErrorBoundary from '@/pages/RootErrorBoundary';
+import MatchesPage from '@/features/matches/pages/MatchesPage';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -34,6 +35,7 @@ const router = createBrowserRouter(
           <Route path='change-password' element={<ChangePassword />} />
         </Route>
         <Route path='/users-list' element={<UserListPage />} />
+        <Route path='/matches' element={<MatchesPage />} />
         <Route path='*' element={<NotFoundPage />} />
       </Route>
     </Route>

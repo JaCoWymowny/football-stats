@@ -22,10 +22,10 @@ const Home = () => {
       </div>
 
       {/* Grid of Tiles */}
-      <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8'>
+      <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mt-8'>
         <Tile
           title='Ustawienia'
-          description='Przejdź do ustawień konta, aby zaktualizować swój email lub zmienić hasło.'
+          description='Przejdź do ustawień konta, aby zaktualizować swój dane'
           link='/settings'
         />
         <Tile
@@ -38,7 +38,11 @@ const Home = () => {
           description='Opis innej funkcji, do której masz dostęp.'
           link='/another-feature'
         />
-        {/* Dodaj kolejne kafelki wedle potrzeby */}
+        <Tile
+          title='Dane Meczów'
+          description='Śledź nadchodzące mecze i ich wyniki.'
+          link='/matches'
+        />
       </div>
     </div>
   );
