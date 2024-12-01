@@ -51,7 +51,6 @@
     "eslint-plugin-react-hooks": "^5.0.0",
     "eslint-plugin-react-refresh": "^0.4.14",
     "eslint-plugin-unused-imports": "^4.1.4",
-    "formik": "^2.4.6",
     "globals": "^15.11.0",
     "postcss": "^8.4.47",
     "react-toastify": "^10.0.6",

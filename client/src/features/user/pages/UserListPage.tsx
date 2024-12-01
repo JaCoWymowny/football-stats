@@ -10,7 +10,7 @@ const UserListPage = () => {
 
   const {
     data: users,
-    isLoading,
+    isPending,
     error,
   } = useQuery<User[]>({
     queryKey: ['users'],
@@ -19,7 +19,7 @@ const UserListPage = () => {
     retry: false,
   });
 
-  if (isLoading) {
+  if (isPending) {
     return <div className='text-center mt-6'>Ładowanie listy użytkowników...</div>;
   }
 

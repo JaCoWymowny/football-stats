@@ -5,8 +5,8 @@ import apiRouter from './routes/api';
 
 const app = express();
 const prisma = new PrismaClient();
-
 app.use(express.json());
+
 app.use(
   cors({
     origin: 'http://localhost:5173',
