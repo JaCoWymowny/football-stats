@@ -21,7 +21,6 @@ const Home = () => {
         </Card>
       </div>
 
-      {/* Grid of Tiles */}
       <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mt-8'>
         <Tile
           title='Ustawienia'
@@ -34,14 +33,14 @@ const Home = () => {
           link='/statistics'
         />
         <Tile
-          title='Inna Funkcja'
-          description='Opis innej funkcji, do której masz dostęp.'
-          link='/another-feature'
-        />
-        <Tile
           title='Dane Meczów'
           description='Śledź nadchodzące mecze i ich wyniki.'
           link='/matches'
+        />
+        <Tile
+          title='Inna Funkcja'
+          description='Opis innej funkcji, do której masz dostęp.'
+          link='/another-feature'
         />
       </div>
     </div>
