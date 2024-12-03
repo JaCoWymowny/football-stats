@@ -45,7 +45,6 @@ const LoginForm: FC = () => {
         variant: 'positive',
       });
     } catch (error) {
-      console.error('Błąd logowania:', error);
       handleError({
         error,
         form,

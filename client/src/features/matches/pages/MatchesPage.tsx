@@ -6,9 +6,9 @@ import ErrorAlert from '@/components/ui/ErrorAlert';
 import MatchesList from '../components/MatchesList/MatchesList';
 
 const MatchesPage: React.FC = () => {
-  const { data, isLoading, isError, error } = useMatchesQuery();
-
-  if (isLoading) {
+  const { data, isPending, isError, error } = useMatchesQuery();
+  const errorMessage = error?.response?.data?.message;
+  if (isPending) {
     return <GlobalLoader />;
   }
 
@@ -24,13 +24,7 @@ const MatchesPage: React.FC = () => {
           {isError || !data?.matches?.length ? (
             <ErrorAlert
               title={isError ? 'Błąd' : 'Brak danych'}
-              description={
-                isError
-                  ? error?.response?.status === 429
-                    ? 'Limit zapytań został przekroczony. Spróbuj ponownie za chwilę.'
-                    : 'Wystąpił problem podczas pobierania danych.'
-                  : 'Nie znaleziono danych meczów.'
-              }
+              description={errorMessage || 'Nie znaleziono danych meczów.'}
             />
           ) : (
             <MatchesList matches={data.matches} />

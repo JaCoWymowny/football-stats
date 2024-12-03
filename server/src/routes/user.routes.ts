@@ -10,12 +10,13 @@ import {
   httpRefreshToken,
 } from '../controllers/user.controller';
 import { authenticateJWT } from '../middlewares/auth.middleware';
+import { rateLimiter } from '../middlewares/rateLimit.middleware';
 
 const userRouter = express.Router();
 
 userRouter.post('/register', httpRegisterUser);
-userRouter.post('/login', httpLoginUser);
-userRouter.post('/refresh-token', httpRefreshToken);
+userRouter.post('/login', rateLimiter, httpLoginUser);
+userRouter.post('/refresh-token', rateLimiter, httpRefreshToken);
 
 userRouter.get('/me', authenticateJWT, httpGetCurrentUser);
 userRouter.patch('/me/change-email', authenticateJWT, httpUpdateUserEmail);
