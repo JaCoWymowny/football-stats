@@ -36,11 +36,6 @@ export function handleError<T extends FieldValues>({
       toastMessage = data.message;
     }
   }
-
-  if (error instanceof Error) {
-    toastMessage = error.message;
-  }
-
   if (onToast) {
     onToast(toastMessage);
   }
