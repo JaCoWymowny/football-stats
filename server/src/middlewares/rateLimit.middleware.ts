@@ -4,7 +4,7 @@ import { User } from '@prisma/client';
 
 export const rateLimiter = rateLimit({
   windowMs: 60 * 500,
-  limit: 2,
+  limit: 10,
   keyGenerator: (req: Request) => {
     const user = req.user as User | undefined;
     return user && user.id ? user.id.toString() : req.ip || 'default';
