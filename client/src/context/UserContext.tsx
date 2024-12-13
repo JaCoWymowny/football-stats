@@ -1,5 +1,4 @@
-import React, { createContext, ReactNode } from 'react';
-import { useUserQuery } from '@/features/hooks/UseUserQuery';
+import { createContext } from 'react';
 import { User } from '@/types/types';
 
 interface UserContextValue {
@@ -7,12 +6,4 @@ interface UserContextValue {
   isPending: boolean;
 }
 
-const UserContext = createContext<UserContextValue | null>(null);
-
-export const UserProvider = ({ children }: { children: ReactNode }) => {
-  const { data: user, isPending } = useUserQuery();
-  const currentUser = user || null;
-  return <UserContext.Provider value={{ currentUser, isPending }}>{children}</UserContext.Provider>;
-};
-
-export { UserContext };
+export const UserContext = createContext<UserContextValue | null>(null);
