@@ -24,4 +24,21 @@ export const useAuthEffect = () => {
       localStorage.removeItem('refreshToken');
     }
   }, [status]);
+
+  useEffect(() => {
+    const handleStorageChange = () => {
+      const token = localStorage.getItem('authToken');
+      const refreshToken = localStorage.getItem('refreshToken');
+
+      if (!token || !refreshToken) {
+        setStatus(AuthStatus.UNAUTHENTICATED);
+      }
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+    };
+  }, [setStatus]);
 };

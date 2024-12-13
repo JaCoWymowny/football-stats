@@ -2,7 +2,7 @@ import { ReactNode } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import AuthProvider from './AuthProvider';
-import { UserProvider } from '@/context/UserContext';
+import { UserProvider } from '@/providers/UserProvider';
 import { Toaster } from '@/components/ui/Toaster';
 
 interface AppProvidersProps {
