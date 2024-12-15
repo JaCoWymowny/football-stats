@@ -10,7 +10,7 @@ export const authenticateJWT = (req: Request, res: Response, next: NextFunction)
     if (!user) {
       return res.status(401).json({ message: 'Unauthorized' });
     }
-    req.user = user as User;
+    req.user = user;
     next();
   })(req, res, next);
 };
