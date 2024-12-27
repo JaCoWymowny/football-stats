@@ -66,6 +66,9 @@ export async function httpPlaceBet(req: Request, res: Response): Promise<void> {
         betById: user.id,
         matchId,
         predictedScore,
+        matchStartTime: new Date(matchData.utcDate),
+        homeTeam: matchData.homeTeam.name,
+        awayTeam: matchData.awayTeam.name,
       },
     });
 
@@ -86,27 +89,47 @@ export const updateBetResults = async () => {
     console.log('Rozpoczęcie aktualizacji wyników zakładów...');
 
     const bets = await prisma.bet.findMany({
-      where: { finalScore: null },
+      where: {
+        finalScore: null,
+        matchStartTime: {
+          lte: new Date(Date.now() - 2 * 60 * 60 * 1000),
+        },
+      },
       include: { betBy: true },
     });
 
     if (!bets.length) {
-      console.log('Brak zakładów do aktualizacji.');
+      console.log('Brak zakładów do aktualizacji');
       return;
     }
 
-    const matchIds = [...new Set(bets.map(bet => bet.matchId))];
-    const matchResults: { [key: number]: string } = {};
+    const dateFrom = new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
+    const dateTo = new Date().toISOString().split('T')[0];
+    const response = await apiClient.get<API.MatchResponse>(`/matches`, {
+      params: {
+        dateFrom,
+        dateTo,
+      },
+    });
 
-    for (const matchId of matchIds) {
-      try {
-        const response = await apiClient.get(`/matches/${matchId}`);
-        const { home, away } = response.data.score.fullTime;
-        matchResults[matchId] = `${home}-${away}`;
-      } catch (err) {
-        console.error(`Błąd dla meczu ID ${matchId}:`);
-      }
+    const matches = response.data.matches;
+    console.log(`Liczba meczów pobranych z API: ${matches.length}`);
+
+    if (!matches || !matches.length) {
+      console.log('Brak meczów do analizy.');
+      return;
     }
+
+    const matchResults = matches
+      .filter(match => match.status === 'FINISHED')
+      .reduce(
+        (acc, match) => {
+          const { id, score } = match;
+          acc[id] = `${score.fullTime.home}-${score.fullTime.away}`;
+          return acc;
+        },
+        {} as { [key: number]: string }
+      );
 
     const updates = bets.map(bet => {
       const actualScore = matchResults[bet.matchId];
@@ -125,11 +148,11 @@ export const updateBetResults = async () => {
       });
     });
 
-    await Promise.all(updates.filter(Boolean));
+    const results = await Promise.all(updates.filter(Boolean));
 
-    console.log('Wyniki zakładów zostały zaktualizowane.');
+    console.log(`Zaktualizowano ${results.length} zakładów`);
   } catch (error) {
-    console.error('Błąd podczas aktualizacji wyników zakładów:');
+    console.error('Błąd podczas aktualizacji wyników zakładów:', error);
   }
 };
 

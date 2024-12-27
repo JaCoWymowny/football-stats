@@ -20,11 +20,14 @@ model User {
 model Bet {
   id             Int      @id @default(autoincrement())
   betById        Int
-  betBy          User     @relation(fields: [betById], references: [id]) // Osoba obstawiająca zakład
+  betBy          User     @relation(fields: [betById], references: [id])
   matchId        Int
   predictedScore String
   finalScore     String?
   pointsEarned   Int?     @default(0)
+  matchStartTime DateTime @default("1970-01-01T00:00:00Z")
+  homeTeam       String   @default("UNKNOWN_HOME")
+  awayTeam       String   @default("UNKNOWN_AWAY")
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
 }

@@ -4,7 +4,7 @@ import { updateBetResults } from '../controllers/bet.controller';
 const runScheduledTasks = () => {
   console.log('Rozpoczęcie zaplanowanych zadań...');
 
-  cron.schedule('*/55 * * * *', async () => {
+  cron.schedule('*/0 * * * *', async () => {
     console.log('Uruchamianie aktualizacji wyników zakładów...');
     await updateBetResults();
   });
