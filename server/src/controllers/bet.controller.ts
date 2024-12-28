@@ -26,6 +26,24 @@ export async function httpPlaceBet(req: Request, res: Response): Promise<void> {
       return;
     }
 
+    if (!/^\d+-\d+$/.test(predictedScore)) {
+      res.status(400).json({
+        message: 'Przewidywany wynik musi zawierać same cyfry np. 2-1',
+        fields: { predictedScore: 'Niepoprawny format wyniku.' },
+      });
+      return;
+    }
+
+    const [homeScore, awayScore] = predictedScore.split('-').map(Number);
+
+    if (homeScore > 999 || awayScore > 999) {
+      res.status(400).json({
+        message: 'Wynik nie może przekraczać 999 dla żadnej drużyny.',
+        fields: { predictedScore: 'Nieprawidłowy wynik.' },
+      });
+      return;
+    }
+
     const existingBet = await prisma.bet.findFirst({
       where: { betById: user.id, matchId },
     });
