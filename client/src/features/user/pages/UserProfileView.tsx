@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import React, { FC } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useUserContext } from '@/context/useUserContext';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card';

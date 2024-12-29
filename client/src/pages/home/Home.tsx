@@ -38,9 +38,9 @@ const Home = () => {
           link='/matches'
         />
         <Tile
-          title='Inna Funkcja'
+          title='Obstawianie'
           description='Opis innej funkcji, do której masz dostęp.'
-          link='/another-feature'
+          link='/bets'
         />
       </div>
     </div>
