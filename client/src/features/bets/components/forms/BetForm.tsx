@@ -1,34 +1,21 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
+import { useModalStore } from '@/store/useModalStore';
+import { betSchema, BetSchemaType } from './betSchema';
+import { usePlaceBetMutation } from '@/features/bets/services/mutations';
+import { handleError } from '@/services/ErrorHandler';
+import { useToast } from '@/components/hooks/use-toast';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { Form, FormField, FormItem, FormControl, FormMessage } from '@/components/ui/Form';
-import { useModalStore } from '@/store/useModalStore';
-
-const betSchema = z.object({
-  homeScore: z
-    .string()
-    .regex(/^([1-9][0-9]{0,2}|0)$/, 'Nieprawidłowy format wyniku') // Uproszczony komunikat
-    .refine(
-      val => parseInt(val, 10) >= 0 && parseInt(val, 10) <= 999,
-      'Wynik musi być w zakresie 0-999'
-    ),
-  awayScore: z
-    .string()
-    .regex(/^([1-9][0-9]{0,2}|0)$/, 'Nieprawidłowy format wyniku') // Uproszczony komunikat
-    .refine(
-      val => parseInt(val, 10) >= 0 && parseInt(val, 10) <= 999,
-      'Wynik musi być w zakresie 0-999'
-    ),
-});
-
-type BetFormType = z.infer<typeof betSchema>;
 
 const BetForm: React.FC<{ matchId: number }> = ({ matchId }) => {
   const { closeModal } = useModalStore();
-  const form = useForm<BetFormType>({
+  const { toast } = useToast();
+  const placeBetMutation = usePlaceBetMutation();
+
+  const form = useForm<BetSchemaType>({
     resolver: zodResolver(betSchema),
     defaultValues: {
       homeScore: '',
@@ -37,15 +24,33 @@ const BetForm: React.FC<{ matchId: number }> = ({ matchId }) => {
     mode: 'onChange',
   });
 
-  const onSubmit = (values: BetFormType) => {
+  const onSubmit = async (values: BetSchemaType) => {
     const payload = {
       matchId,
       predictedScore: `${values.homeScore}-${values.awayScore}`,
     };
+    try {
+      await placeBetMutation.mutateAsync(payload);
 
-    console.log('Dane do wysłania:', payload);
-
-    closeModal();
+      toast({
+        title: 'Sukces',
+        description: 'Zakład dodany pomyślnie!',
+        variant: 'positive',
+      });
+      closeModal();
+    } catch (error) {
+      handleError({
+        error,
+        form,
+        onToast: message => {
+          toast({
+            title: 'Błąd dodawania zakładu',
+            description: message,
+            variant: 'destructive',
+          });
+        },
+      });
+    }
   };
 
   return (

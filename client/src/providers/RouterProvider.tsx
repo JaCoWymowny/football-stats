@@ -14,7 +14,7 @@ import AuthGuard from '@/features/auth/guards/AuthGuard';
 import UnAuthGuard from '@/features/auth/guards/UnAuthGuard';
 import RootErrorBoundary from '@/pages/RootErrorBoundary';
 import MatchesPage from '@/features/matches/pages/MatchesPage';
-import BetPage from '@/features/bets/pages/PlaceBetPage';
+import BetPage from '@/features/bets/pages/BetScores';
 
 const router = createBrowserRouter(
   createRoutesFromElements(

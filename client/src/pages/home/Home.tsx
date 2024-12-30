@@ -14,8 +14,8 @@ const Home = () => {
           </CardHeader>
           <CardContent className='text-center text-gray-600'>
             <p>
-              MyApp to aplikacja do zarządzania wynikami i statystykami w piłce nożnej. Dołącz do
-              nas i śledź swoje postępy!
+              Football-Stats to aplikacja do zarządzania wynikami i statystykami w piłce nożnej.
+              Dołącz do nas i śledź swoje postępy!
             </p>
           </CardContent>
         </Card>
@@ -28,17 +28,12 @@ const Home = () => {
           link='/settings'
         />
         <Tile
-          title='Statystyki'
-          description='Śledź swoje wyniki i postępy na bieżąco.'
-          link='/statistics'
-        />
-        <Tile
           title='Dane Meczów'
           description='Śledź nadchodzące mecze i ich wyniki.'
           link='/matches'
         />
         <Tile
-          title='Obstawianie'
+          title='Wyniki'
           description='Opis innej funkcji, do której masz dostęp.'
           link='/bets'
         />

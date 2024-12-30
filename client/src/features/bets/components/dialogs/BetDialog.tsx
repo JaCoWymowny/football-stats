@@ -20,7 +20,7 @@ export const BetDialog: React.FC<BetDialogProps> = ({ matchId, homeTeam, awayTea
 
   return (
     <Dialog open={isOpen} onOpenChange={open => !open && closeModal()}>
-      <DialogContent className='max-w-md p-4 bg-white rounded-lg shadow-lg '>
+      <DialogContent className='max-w-md p-4 bg-white rounded-lg shadow-lg'>
         <DialogHeader>
           <DialogTitle className='flex justify-center my-4'>Dodaj Zakład</DialogTitle>
           <DialogDescription className='flex flex-col'>

@@ -21,7 +21,7 @@ const NavBar = () => {
     toast({
       title: 'Wylogowanie',
       description: 'Zostałeś pomyślnie wylogowany.',
-      variant: 'destructive',
+      variant: 'positive',
     });
     navigate('/');
   };
@@ -33,7 +33,7 @@ const NavBar = () => {
           <AvatarImage src={Logo} alt='Logo' />
           <AvatarFallback>LG</AvatarFallback>
         </Avatar>
-        <span className='text-lg md:text-xl font-bold'>MyApp</span>
+        <span className='text-lg md:text-xl font-bold'>Football-Stats</span>
       </div>
       <ul className='hidden md:flex items-center space-x-6'>
         <li className='cursor-pointer hover:text-stone-400' onClick={() => navigate('/about')}>
