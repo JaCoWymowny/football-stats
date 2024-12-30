@@ -35,6 +35,7 @@ export interface MatchesResponse {
 
 export interface Match {
   id: number;
+  status: string;
   utcDate: string;
   homeTeam: {
     name: string;

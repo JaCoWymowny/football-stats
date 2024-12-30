@@ -1,10 +1,12 @@
 import express from 'express';
 import userRouter from './user.routes';
-import matchRouter from './match-routes';
+import matchRouter from './match.routes';
+import betRouter from './bet.routes';
 
 const api = express.Router();
 
 api.use('/users', userRouter);
 api.use('/matches', matchRouter);
+api.use('/bets', betRouter);
 
 export default api;

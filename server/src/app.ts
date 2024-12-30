@@ -2,6 +2,7 @@ import express, { NextFunction, Request, Response } from 'express';
 import cors from 'cors';
 import { PrismaClient } from '@prisma/client';
 import apiRouter from './routes/api';
+import runScheduledTasks from './config/cron.config';
 
 const app = express();
 const prisma = new PrismaClient();
@@ -12,7 +13,6 @@ app.use(
     origin: 'http://localhost:5173',
   })
 );
-
 app.use('/', apiRouter);
 
 app.use((req: Request, res: Response, next: NextFunction) => {
@@ -32,4 +32,5 @@ app.get('/check', async (req, res) => {
 const PORT = process.env.PORT || 3009;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
+  runScheduledTasks();
 });

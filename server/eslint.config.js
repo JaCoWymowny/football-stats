@@ -16,11 +16,10 @@ export default [
             '@typescript-eslint': eslintPluginTypeScript,
         },
         rules: {
-            // Przykładowe reguły TypeScript, które były wcześniej zawarte w pluginie @typescript-eslint/recommended
             '@typescript-eslint/adjacent-overload-signatures': 'error',
             '@typescript-eslint/no-array-constructor': 'error',
             '@typescript-eslint/no-empty-function': 'warn',
-            '@typescript-eslint/no-empty-interface': 'warn',
+            '@typescript-eslint/no-empty-interface': 'off',
             '@typescript-eslint/no-explicit-any': 'warn',
             '@typescript-eslint/no-inferrable-types': 'warn',
             '@typescript-eslint/no-misused-new': 'error',
@@ -28,8 +27,6 @@ export default [
             '@typescript-eslint/no-non-null-assertion': 'warn',
             '@typescript-eslint/no-this-alias': 'warn',
             '@typescript-eslint/no-var-requires': 'off',
-
-            // Własne reguły projektu
             'no-console': 'warn',
             'eqeqeq': 'error',
             'curly': ['error', 'all'],
