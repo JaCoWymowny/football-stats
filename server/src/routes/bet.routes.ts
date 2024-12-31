@@ -1,10 +1,16 @@
 import express from 'express';
-import { httpPlaceBet, httpGetUserBets, updateBetResults } from '../controllers/bet.controller';
+import {
+  httpPlaceBet,
+  httpGetUserBets,
+  updateBetResults,
+  getBetRanking,
+} from '../controllers/bet.controller';
 import { authenticateJWT } from '../middlewares/auth.middleware';
 
 const betRouter = express.Router();
 
 betRouter.get('/user-bets/:id', authenticateJWT, httpGetUserBets);
+betRouter.get('/ranking', authenticateJWT, getBetRanking);
 betRouter.post('/', authenticateJWT, httpPlaceBet);
 betRouter.post('/update-results', authenticateJWT, async (req, res) => {
   try {

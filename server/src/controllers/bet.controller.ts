@@ -102,6 +102,38 @@ export async function httpPlaceBet(req: Request, res: Response): Promise<void> {
   }
 }
 
+export const calculateTotalPoints = async () => {
+  try {
+    console.log('Calculating total points for all users...');
+
+    const users = await prisma.user.findMany({
+      include: {
+        bets: {
+          where: { finalScore: { not: null } },
+          select: { pointsEarned: true },
+        },
+      },
+    });
+
+    for (const user of users) {
+      const totalPoints = user.bets.reduce((sum, bet) => sum + (bet.pointsEarned || 0), 0);
+
+      await prisma.ranking.upsert({
+        where: { userId: user.id },
+        update: { totalPoints },
+        create: {
+          userId: user.id,
+          totalPoints,
+        },
+      });
+    }
+
+    console.log('Total points calculated and rankings updated.');
+  } catch (error) {
+    console.error('Error while calculating total points:', error);
+  }
+};
+
 export const updateBetResults = async () => {
   try {
     console.log('Rozpoczęcie aktualizacji wyników zakładów...');
@@ -121,7 +153,7 @@ export const updateBetResults = async () => {
       return;
     }
 
-    const dateFrom = new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
+    const dateFrom = new Date(Date.now() - 10 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
     const dateTo = new Date().toISOString().split('T')[0];
     const response = await apiClient.get<API.MatchResponse>(`/matches`, {
       params: {
@@ -169,6 +201,7 @@ export const updateBetResults = async () => {
     const results = await Promise.all(updates.filter(Boolean));
 
     console.log(`Zaktualizowano ${results.length} zakładów`);
+    await calculateTotalPoints();
   } catch (error) {
     console.error('Błąd podczas aktualizacji wyników zakładów:', error);
   }
@@ -193,3 +226,43 @@ export async function httpGetUserBets(req: Request, res: Response): Promise<void
     res.status(500).json({ message: 'Wystąpił błąd serwera.' });
   }
 }
+
+export const getBetRanking = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { page = 1, limit = 10 } = req.query;
+
+    const skip = (Number(page) - 1) * Number(limit);
+    const take = Number(limit);
+
+    const [rankings, totalCount] = await Promise.all([
+      prisma.ranking.findMany({
+        skip,
+        take,
+        orderBy: {
+          totalPoints: 'desc',
+        },
+        include: {
+          user: {
+            select: { username: true },
+          },
+        },
+      }),
+      prisma.ranking.count(),
+    ]);
+
+    const totalPages = Math.ceil(totalCount / take);
+
+    res.status(200).json({
+      data: rankings,
+      meta: {
+        totalCount,
+        totalPages,
+        currentPage: Number(page),
+        limit: Number(limit),
+      },
+    });
+  } catch (error) {
+    console.error('Error fetching rankings:', error);
+    res.status(500).json({ message: 'Failed to fetch rankings.' });
+  }
+};

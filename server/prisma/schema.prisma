@@ -15,6 +15,7 @@ model User {
   role      String   @default("user")
   createdAt DateTime @default(now())
   bets      Bet[]
+  Ranking   Ranking?
 }
 
 model Bet {
@@ -30,4 +31,11 @@ model Bet {
   awayTeam       String   @default("UNKNOWN_AWAY")
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
+}
+
+model Ranking {
+  id          Int  @id @default(autoincrement())
+  userId      Int  @unique
+  totalPoints Int  @default(0)
+  user        User @relation(fields: [userId], references: [id])
 }
