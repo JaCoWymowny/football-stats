@@ -1,8 +1,11 @@
 import React from 'react';
 import Tile from '@/components/ui/Tile';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card';
+import { useUserContext } from '@/context/useUserContext';
 
 const Home = () => {
+  const { currentUser } = useUserContext();
+
   return (
     <div className='w-full max-w-screen-lg mx-auto p-4 sm:p-6 md:p-8'>
       <div className='mb-8'>
@@ -36,6 +39,11 @@ const Home = () => {
           title='Wyniki'
           description='Opis innej funkcji, do której masz dostęp.'
           link='/bets'
+        />
+        <Tile
+          title='Moje Zakłady'
+          description='Historia zakładów'
+          link={`/bets/user-bets/${currentUser?.id}`}
         />
       </div>
     </div>

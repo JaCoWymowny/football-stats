@@ -5,8 +5,10 @@ export const betsApi = {
     const response = await ApiClient.post('/bets', data);
     return response.data;
   },
-  getUserBets: async (userId: number) => {
-    const response = await ApiClient.get(`/bets/user-bets/${userId}`);
+  getUserBets: async (userId: number, page: number, limit: number) => {
+    const response = await ApiClient.get(`/bets/user-bets/${userId}`, {
+      params: { page, limit },
+    });
     return response.data;
   },
   getRanking: async (page: number, limit: number) => {

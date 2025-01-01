@@ -72,3 +72,12 @@ export interface RankingResponse {
     limit: number;
   };
 }
+
+export interface Bet {
+  id: number;
+  homeTeam: string;
+  awayTeam: string;
+  predictedScore: string;
+  finalScore: string | null;
+  pointsEarned: number;
+}

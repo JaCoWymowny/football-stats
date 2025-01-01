@@ -15,6 +15,7 @@ import UnAuthGuard from '@/features/auth/guards/UnAuthGuard';
 import RootErrorBoundary from '@/pages/RootErrorBoundary';
 import MatchesPage from '@/features/matches/pages/MatchesPage';
 import BetRankingScores from '@/features/bets/pages/BetRankingScores';
+import UserBetHistoryPage from '@/features/bets/pages/UserBetHistoryPage';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -38,6 +39,7 @@ const router = createBrowserRouter(
         <Route path='/users-list' element={<UserListPage />} />
         <Route path='/matches' element={<MatchesPage />} />
         <Route path='/bets' element={<BetRankingScores />} />
+        <Route path='/bets/user-bets/:id' element={<UserBetHistoryPage />} />
         <Route path='*' element={<NotFoundPage />} />
       </Route>
     </Route>

@@ -1,10 +1,20 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { betsApi } from '@/features/bets/services/betsApi';
-import { RankingResponse } from '@/types/types';
+import { Bet, RankingResponse } from '@/types/types';
 import { AxiosError } from 'axios';
 
 interface ErrorResponse {
   message?: string;
+}
+
+interface UserBetHistoryResponse {
+  data: Bet[];
+  meta: {
+    totalCount: number;
+    totalPages: number;
+    currentPage: number;
+    limit: number;
+  };
 }
 
 export const usePlaceBetMutation = () => {
@@ -15,14 +25,11 @@ export const usePlaceBetMutation = () => {
   });
 };
 
-export const useGetUserBetsQuery = (userId: number) => {
-  return useQuery({
-    queryKey: ['userBets', userId],
-    queryFn: async () => {
-      return await betsApi.getUserBets(userId);
-    },
-    enabled: !!userId,
-    staleTime: 5 * 60 * 1000,
+export const useUserBetHistoryQuery = (userId: number, page: number, limit: number) => {
+  return useQuery<UserBetHistoryResponse, AxiosError<ErrorResponse>>({
+    queryKey: ['userBets', userId, page, limit],
+    queryFn: () => betsApi.getUserBets(userId, page, limit),
+    staleTime: 0,
   });
 };
 
@@ -30,6 +37,6 @@ export const useRankingQuery = (page: number, limit: number) => {
   return useQuery<RankingResponse, AxiosError<ErrorResponse>>({
     queryKey: ['ranking', page, limit],
     queryFn: () => betsApi.getRanking(page, limit),
-    staleTime: 5 * 60 * 1000,
+    staleTime: 2 * 60 * 1000,
   });
 };

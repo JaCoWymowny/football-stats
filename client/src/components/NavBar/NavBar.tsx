@@ -18,6 +18,7 @@ const NavBar = () => {
   const handleLogout = () => {
     setStatus(AuthStatus.UNAUTHENTICATED);
     queryClient.removeQueries({ queryKey: ['user'] });
+    queryClient.clear();
     toast({
       title: 'Wylogowanie',
       description: 'Zostałeś pomyślnie wylogowany.',
