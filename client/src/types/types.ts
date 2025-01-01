@@ -55,3 +55,20 @@ export interface Match {
     name: string;
   };
 }
+
+export interface RankingResponse {
+  data: Array<{
+    id: number;
+    userId: number;
+    totalPoints: number;
+    user: {
+      username: string;
+    };
+  }>;
+  meta: {
+    totalCount: number;
+    totalPages: number;
+    currentPage: number;
+    limit: number;
+  };
+}
