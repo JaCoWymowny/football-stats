@@ -9,4 +9,10 @@ export const betsApi = {
     const response = await ApiClient.get(`/bets/user-bets/${userId}`);
     return response.data;
   },
+  getRanking: async (page: number, limit: number) => {
+    const response = await ApiClient.get('/bets/ranking', {
+      params: { page, limit },
+    });
+    return response.data;
+  },
 };
