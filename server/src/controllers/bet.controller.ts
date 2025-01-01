@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient, User } from '@prisma/client';
 import apiClient from '../config/axios.config';
 
 const prisma = new PrismaClient();
@@ -209,20 +209,47 @@ export const updateBetResults = async () => {
 
 export async function httpGetUserBets(req: Request, res: Response): Promise<void> {
   try {
+    const user = req.user as User;
     const userId = parseInt(req.params.id);
 
-    if (isNaN(userId)) {
-      res.status(400).json({ message: 'Nieprawidłowe ID użytkownika.' });
+    if (!user || isNaN(userId)) {
+      res.status(400).json({ message: 'Nieprawidłowe żądanie.' });
       return;
     }
 
-    const bets = await prisma.bet.findMany({
-      where: { betById: userId },
-    });
+    if (user.id !== userId) {
+      res.status(403).json({ message: 'Brak dostępu do tych danych.' });
+      return;
+    }
 
-    res.status(200).json(bets);
+    const { page = 1, limit = 10 } = req.query;
+
+    const skip = (Number(page) - 1) * Number(limit);
+    const take = Number(limit);
+
+    const [bets, totalCount] = await Promise.all([
+      prisma.bet.findMany({
+        where: { betById: userId },
+        skip,
+        take,
+        orderBy: { matchStartTime: 'desc' },
+      }),
+      prisma.bet.count({ where: { betById: userId } }),
+    ]);
+
+    const totalPages = Math.ceil(totalCount / take);
+
+    res.status(200).json({
+      data: bets,
+      meta: {
+        totalCount,
+        totalPages,
+        currentPage: Number(page),
+        limit: Number(limit),
+      },
+    });
   } catch (error) {
-    console.error('Błąd podczas pobierania zakładów użytkownika:');
+    console.error('Błąd podczas pobierania zakładów użytkownika:', error);
     res.status(500).json({ message: 'Wystąpił błąd serwera.' });
   }
 }
