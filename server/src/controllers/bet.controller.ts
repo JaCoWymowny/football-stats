@@ -67,17 +67,18 @@ export async function httpPlaceBet(req: Request, res: Response): Promise<void> {
       return;
     }
 
-    // const matchStartTime = new Date(matchData.utcDate).getTime();
-    // const now = Date.now();
-    // const marginTime = 5 * 60 * 1000;
-    //
-    // if (now >= matchStartTime - marginTime) {
-    //   res.status(400).json({
-    //     message: 'Nie można obstawić zakładu na mecz, który już się rozpoczął lub rozpocznie się za chwilę.',
-    //     fields: { matchId: 'Zakłady są możliwe tylko do 5 minut przed rozpoczęciem meczu.' },
-    //   });
-    //   return;
-    // }
+    const matchStartTime = new Date(matchData.utcDate).getTime();
+    const now = Date.now();
+    const marginTime = 5 * 60 * 1000;
+
+    if (now >= matchStartTime - marginTime) {
+      res.status(400).json({
+        message:
+          'Nie można obstawić zakładu na mecz, który już się rozpoczął lub rozpocznie się za chwilę.',
+        fields: { matchId: 'Zakłady są możliwe tylko do 5 minut przed rozpoczęciem meczu.' },
+      });
+      return;
+    }
 
     const newBet = await prisma.bet.create({
       data: {

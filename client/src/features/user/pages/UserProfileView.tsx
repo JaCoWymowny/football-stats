@@ -29,7 +29,7 @@ const UserProfileView: FC = () => {
         <CardContent className='space-y-4'>
           <div className='flex justify-between'>
             <span className='text-gray-700 font-semibold'>Email:</span>
-            <span className='text-gray-800'>{userToDisplay?.email}</span>
+            <span className='text-gray-800'>{isCurrentUser ? userToDisplay?.email : '-'}</span>
           </div>
           <div className='flex justify-between'>
             <span className='text-gray-700 font-semibold'>Nazwa Użytkownika:</span>
