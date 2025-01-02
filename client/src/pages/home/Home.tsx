@@ -36,13 +36,13 @@ const Home = () => {
           link='/matches'
         />
         <Tile
-          title='Wyniki'
-          description='Opis innej funkcji, do której masz dostęp.'
+          title='Tabela wyników'
+          description='Łączne wyniki za obstawianie meczów'
           link='/bets'
         />
         <Tile
           title='Moje Zakłady'
-          description='Historia zakładów'
+          description='Historia Twoich zakładów'
           link={`/bets/user-bets/${currentUser?.id}`}
         />
       </div>

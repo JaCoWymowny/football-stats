@@ -1,23 +1,11 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useQuery } from '@tanstack/react-query';
-import { authApi } from '@/features/auth/services/authApi';
-import { User } from '@/types/types';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card';
+import { useUsersQuery } from '@/features/user/settings/services/mutations';
 
 const UserListPage = () => {
   const navigate = useNavigate();
-
-  const {
-    data: users,
-    isPending,
-    error,
-  } = useQuery<User[]>({
-    queryKey: ['users'],
-    queryFn: authApi.getUsers,
-    staleTime: 300000,
-    retry: false,
-  });
+  const { data: users, isPending, error } = useUsersQuery();
 
   if (isPending) {
     return <div className='text-center mt-6'>Ładowanie listy użytkowników...</div>;
@@ -45,7 +33,6 @@ const UserListPage = () => {
               onClick={() => navigate(`/profile/${user.id}`)}
             >
               <span className='text-gray-800 font-semibold'>{user.username}</span>
-              <span className='text-gray-600'>{user.email}</span>
             </div>
           ))}
         </CardContent>

@@ -36,17 +36,6 @@ const NavBar = () => {
         </Avatar>
         <span className='text-lg md:text-xl font-bold'>Football-Stats</span>
       </div>
-      <ul className='hidden md:flex items-center space-x-6'>
-        <li className='cursor-pointer hover:text-stone-400' onClick={() => navigate('/about')}>
-          About
-        </li>
-        <li className='cursor-pointer hover:text-stone-400' onClick={() => navigate('/services')}>
-          Services
-        </li>
-        <li className='cursor-pointer hover:text-stone-400' onClick={() => navigate('/contact')}>
-          Contact
-        </li>
-      </ul>
       <div className='flex items-center space-x-2 md:space-x-4'>
         {currentUser && authStatus === AuthStatus.AUTHENTICATED ? (
           <>

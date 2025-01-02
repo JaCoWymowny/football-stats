@@ -8,11 +8,11 @@ const Welcome = () => {
         <Card className='shadow-md rounded-2xl col-span-1 md:col-span-2 lg:col-span-3'>
           <CardHeader>
             <CardTitle className='text-3xl font-bold text-gray-800 text-center'>
-              Witaj w MyApp!
+              Witaj w Football-Stats!
             </CardTitle>
           </CardHeader>
           <CardContent className='text-center text-gray-600'>
-            <p>Zaloguj się abny zobaczyć więcej treści</p>
+            <p>Zaloguj się aby zobaczyć więcej treści</p>
           </CardContent>
         </Card>
 
@@ -25,13 +25,13 @@ const Welcome = () => {
             <div>
               <h3 className='font-semibold text-gray-700'>Nowa funkcjonalność - Analiza meczów</h3>
               <p className='text-gray-600'>
-                Dodaliśmy nową funkcję, która pozwala na szczegółową analizę wyników i wydajności w
-                meczach. Sprawdź teraz! Zaloguj!
+                Dodaliśmy nową funkcję, która pozwala na obstawanie wyników na punkty! Sprawdź to
+                już teraz!
               </p>
             </div>
             <div>
-              <h3 className='font-semibold text-gray-700'>Aktualizacja aplikacji</h3>
-              <p className='text-gray-600'>Zaaaloguuuuj</p>
+              <h3 className='font-semibold text-gray-700'>Wersja aplikacji</h3>
+              <p className='text-gray-600'>1.0.0</p>
             </div>
           </CardContent>
         </Card>
@@ -68,16 +68,12 @@ const Welcome = () => {
             <div>
               <h3 className='font-semibold text-gray-700'>Turniej Międzynarodowy</h3>
               <p className='text-gray-600'>
-                Zbliża się międzynarodowy turniej piłkarski. Zarejestruj się i weź udział w
-                rozgrywkach!
+                Zbliża się nowy rok i druga część sezonu, oglądaj, graj i wygrywaj!
               </p>
             </div>
             <div>
-              <h3 className='font-semibold text-gray-700'>Mecz przyjaźni</h3>
-              <p className='text-gray-600'>
-                W przyszłym miesiącu organizujemy mecz przyjaźni z lokalną drużyną. Zapraszamy do
-                kibicowania!
-              </p>
+              <h3 className='font-semibold text-gray-700'>Wydarzenia</h3>
+              <p className='text-gray-600'>Puchar Króla w hiszpani zaraz się zacznie..</p>
             </div>
           </CardContent>
         </Card>

@@ -1,5 +1,6 @@
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { authApi } from '@/features/auth/services/authApi';
+import { User } from '@/types/types';
 
 interface UpdateUserData {
   email?: string;
@@ -12,5 +13,14 @@ export const useEditMutation = () => {
     mutationFn: async (data: UpdateUserData) => {
       return await authApi.updateUser(data);
     },
+  });
+};
+
+export const useUsersQuery = () => {
+  return useQuery<User[]>({
+    queryKey: ['users'],
+    queryFn: authApi.getUsers,
+    staleTime: 300000,
+    retry: false,
   });
 };
