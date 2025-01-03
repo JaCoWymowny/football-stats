@@ -2,6 +2,7 @@
 import tailwindcssForms from '@tailwindcss/forms';
 import tailwindcssTypography from '@tailwindcss/typography';
 import tailwindcssAnimate from 'tailwindcss-animate';
+import defaultTheme from 'tailwindcss/defaultTheme';
 
 export default {
 	darkMode: ['class'],
@@ -16,6 +17,9 @@ export default {
 			desktop: '1280px'
 		},
 		extend: {
+			fontFamily: {
+				sans: ['Raleway', ...defaultTheme.fontFamily.sans],
+			},
 			colors: {
 				primary: '#223564', // Primary Theme background
 				secondary: '#E9EFFF', // Secondary Theme Navbar + non-Navbar buttons

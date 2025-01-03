@@ -27,10 +27,10 @@ const NavBar = () => {
   };
 
   return (
-    <nav className='flex text-info items-center justify-between h-20 p-4 tablet:px-6 laptop:px-8 bg-secondary shadow-md flex-shrink-0'>
+    <nav className='flex items-center justify-between h-20 p-4 tablet:px-6 laptop:px-8 bg-secondary shadow-md flex-shrink-0'>
       <div className='container mx-auto flex items-center justify-between'>
         <div onClick={() => navigate('/')} className='flex items-center space-x-2 cursor-pointer'>
-          <img src={Logo} alt='Logo' className='text-infow-8 h-8 laptop:w-10 laptop:h-10' />
+          <img src={Logo} alt='Logo' className='w-8 h-8 laptop:w-10 laptop:h-10' />
           <span className='font-bold laptop:text-xl'>Football-Stats</span>
         </div>
 
