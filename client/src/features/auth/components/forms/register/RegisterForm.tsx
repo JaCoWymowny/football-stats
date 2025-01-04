@@ -83,12 +83,12 @@ const RegisterForm: FC = () => {
           name='username'
           render={({ field }) => (
             <FormItem>
-              <FormLabel className='text-gray-700'>Nazwa użytkownika</FormLabel>
+              <FormLabel className='text-primary_text'>Nazwa użytkownika</FormLabel>
               <FormControl>
                 <Input
                   {...field}
                   placeholder='Wprowadź nazwę użytkownika'
-                  className='border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500'
+                  className='border-secondary bg-white text-primary_text rounded-md shadow-sm focus:ring-2 focus:ring-accent focus:border-accent'
                 />
               </FormControl>
               <FormMessage />
@@ -99,12 +99,12 @@ const RegisterForm: FC = () => {
           name='email'
           render={({ field }) => (
             <FormItem>
-              <FormLabel className='text-gray-700'>Email</FormLabel>
+              <FormLabel className='text-primary_text'>Email</FormLabel>
               <FormControl>
                 <Input
                   {...field}
                   placeholder='Wprowadź swój email'
-                  className='border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500'
+                  className='border-secondary bg-white text-primary_text rounded-md shadow-sm focus:ring-2 focus:ring-accent focus:border-accent'
                 />
               </FormControl>
               <FormMessage />
@@ -115,13 +115,13 @@ const RegisterForm: FC = () => {
           name='password'
           render={({ field }) => (
             <FormItem>
-              <FormLabel className='text-gray-700'>Hasło</FormLabel>
+              <FormLabel className='text-primary_text'>Hasło</FormLabel>
               <FormControl>
                 <Input
                   {...field}
                   type='password'
                   placeholder='Wprowadź hasło'
-                  className='border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500'
+                  className='border-secondary bg-white text-primary_text rounded-md shadow-sm focus:ring-2 focus:ring-accent focus:border-accent'
                 />
               </FormControl>
               <FormMessage />
@@ -132,13 +132,13 @@ const RegisterForm: FC = () => {
           name='confirmPassword'
           render={({ field }) => (
             <FormItem>
-              <FormLabel className='text-gray-700'>Potwierdź hasło</FormLabel>
+              <FormLabel className='text-primary_text'>Potwierdź hasło</FormLabel>
               <FormControl>
                 <Input
                   {...field}
                   type='password'
                   placeholder='Potwierdź hasło'
-                  className='border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500'
+                  className='border-secondary bg-white text-primary_text rounded-md shadow-sm focus:ring-2 focus:ring-accent focus:border-accent'
                 />
               </FormControl>
               <FormMessage />
@@ -147,10 +147,11 @@ const RegisterForm: FC = () => {
         />
         <Button
           type='submit'
+          variant='secondary'
           disabled={
             !form.formState.isValid || form.formState.isSubmitting || registerMutation.isPending
           }
-          className='w-full py-3 bg-gray-800 text-white font-semibold rounded-full shadow hover:bg-gray-700 transition-all'
+          className='px-2 py-1 tablet:px-4 tablet:py-2 disabled:opacity-50 disabled:cursor-not-allowed'
         >
           {registerMutation.isPending ? 'Rejestrowanie...' : 'Zarejestruj się'}
         </Button>

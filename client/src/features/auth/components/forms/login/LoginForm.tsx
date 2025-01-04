@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import React, { FC } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { loginSchema, LoginSchemaType } from './loginSchema';
@@ -66,15 +66,17 @@ const LoginForm: FC = () => {
           name='username'
           render={({ field }) => (
             <FormItem>
-              <FormLabel className='text-gray-700'>Nazwa użytkownika</FormLabel>
+              <FormLabel className='text-primary_text mb-2'>Nazwa użytkownika</FormLabel>
               <FormControl>
                 <Input
                   {...field}
                   placeholder='Wprowadź nazwę użytkownika'
-                  className='border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500'
+                  className='border-secondary bg-white text-primary_text rounded-md shadow-sm focus:ring-2 focus:ring-accent focus:border-accent'
                 />
               </FormControl>
-              <FormMessage />
+              <div className='h-[1.25rem]'>
+                <FormMessage />
+              </div>
             </FormItem>
           )}
         />
@@ -82,25 +84,28 @@ const LoginForm: FC = () => {
           name='password'
           render={({ field }) => (
             <FormItem>
-              <FormLabel className='text-gray-700'>Hasło</FormLabel>
+              <FormLabel className='text-primary_text'>Hasło</FormLabel>
               <FormControl>
                 <Input
                   {...field}
                   type='password'
                   placeholder='Wprowadź hasło'
-                  className='border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500'
+                  className='border-secondary bg-white text-primary_text rounded-md shadow-sm focus:ring-2 focus:ring-accent focus:border-accent mt-4'
                 />
               </FormControl>
-              <FormMessage />
+              <div className='h-[1.25rem]'>
+                <FormMessage />
+              </div>
             </FormItem>
           )}
         />
         <Button
           type='submit'
+          variant='secondary'
           disabled={
             !form.formState.isValid || form.formState.isSubmitting || loginMutation.isPending
           }
-          className='w-full py-3 bg-gray-800 text-white font-semibold rounded-full shadow hover:bg-gray-700 transition-all'
+          className='px-2 py-1 tablet:px-4 tablet:py-2 disabled:border-disabled-border'
         >
           {loginMutation.isPending ? 'Logowanie...' : 'Zaloguj się'}
         </Button>
