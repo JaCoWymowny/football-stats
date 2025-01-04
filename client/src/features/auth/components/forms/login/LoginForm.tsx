@@ -61,7 +61,7 @@ const LoginForm: FC = () => {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(handleSubmit)} className='space-y-6'>
+      <form onSubmit={form.handleSubmit(handleSubmit)} className='space-y-6 mt-6'>
         <FormField
           name='username'
           render={({ field }) => (

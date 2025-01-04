@@ -7,24 +7,22 @@ const Home = () => {
   const { currentUser } = useUserContext();
 
   return (
-    <div className='w-full max-w-screen-lg mx-auto p-4 sm:p-6 md:p-8'>
-      <div className='mb-8'>
-        <Card className='shadow-md rounded-2xl'>
-          <CardHeader>
-            <CardTitle className='text-3xl font-bold text-gray-800 text-center'>
-              Witaj w MyApp!
-            </CardTitle>
-          </CardHeader>
-          <CardContent className='text-center text-gray-600'>
-            <p>
-              Football-Stats to aplikacja do zarządzania wynikami i statystykami w piłce nożnej.
-              Dołącz do nas i śledź swoje postępy!
-            </p>
-          </CardContent>
-        </Card>
-      </div>
+    <div className='space-y-8'>
+      <Card className='shadow-md rounded-lg bg-background_light'>
+        <CardHeader>
+          <CardTitle className='text-xl font-bold text-primary_text text-center'>
+            Witaj w Football-stats!
+          </CardTitle>
+        </CardHeader>
+        <CardContent className='text-center text-sm text-primary_text'>
+          <p>
+            Football-Stats to aplikacja do zarządzania wynikami i statystykami w piłce nożnej.
+            Dołącz do nas i śledź swoje postępy!
+          </p>
+        </CardContent>
+      </Card>
 
-      <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mt-8'>
+      <div className='grid grid-cols-1 tablet:grid-cols-2 laptop:grid-cols-3 gap-4'>
         <Tile
           title='Ustawienia'
           description='Przejdź do ustawień konta, aby zaktualizować swój dane'
