@@ -26,35 +26,49 @@ const MatchItem: React.FC<MatchItemProps> = ({ match, onBetClick }) => {
   const isDisabled = status === 'FINISHED' || status === 'IN_PLAY';
 
   return (
-    <div className='p-4 rounded-lg bg-background_light shadow-md'>
-      <div className='text-center text-secondary_text mb-2'>{matchTime}</div>
+    <div className='p-2 rounded-md bg-background_light shadow-sm tablet:p-4'>
+      <div className='text-center text-sm mb-2 tablet:text-base'>{matchTime}</div>
 
-      <div className='text-center text-xl font-bold text-primary_text mb-4'>
+      <div className='text-center text-lg font-bold mb-2 tablet:text-xl'>
         {fullTime.home !== null && fullTime.away !== null
           ? `${fullTime.home} - ${fullTime.away}`
           : '-- - --'}
       </div>
 
-      <div className='grid grid-cols-3 items-center gap-4'>
+      <div className='grid grid-cols-3 items-center gap-2 tablet:gap-4'>
         <div className='flex items-center justify-start'>
-          <img src={homeTeam.crest} alt={`${homeTeam.name} crest`} className='w-10 h-10 mr-2' />
-          <span className='font-medium text-primary_text'>{homeTeam.name}</span>
+          <img
+            src={homeTeam.crest}
+            alt={`${homeTeam.name} crest`}
+            className='w-6 h-6 mr-2 tablet:w-10 tablet:h-10'
+          />
+          <span className='max-w-[45px] tablet:max-w-full font-bold text-xs tablet:text-base'>
+            {homeTeam.name}
+          </span>
         </div>
 
-        <div className='text-center text-sm text-secondary_text'>{competition.name}</div>
+        <div className='mx-auto tablet:max-w-full text-center text-xs tablet:text-sm font-bold'>
+          {competition.name}
+        </div>
 
         <div className='flex items-center justify-end'>
-          <span className='font-medium text-primary_text'>{awayTeam.name}</span>
-          <img src={awayTeam.crest} alt={`${awayTeam.name} crest`} className='w-10 h-10 ml-2' />
+          <span className='max-w-[45px] tablet:max-w-full font-bold text-xs tablet:text-base'>
+            {awayTeam.name}
+          </span>
+          <img
+            src={awayTeam.crest}
+            alt={`${awayTeam.name} crest`}
+            className='w-6 h-6 ml-2 tablet:w-10 tablet:h-10'
+          />
         </div>
       </div>
 
-      <div className='flex justify-center mt-6'>
+      <div className='flex justify-center mt-4'>
         <Button
           onClick={() => onBetClick(id, homeTeam.name, awayTeam.name)}
           disabled={isDisabled}
           variant='secondary'
-          className='px-2 py-1 tablet:px-10 tablet:py-4'
+          className='px-4 py-2 text-sm tablet:px-10 tablet:py-4'
         >
           Obstaw!
         </Button>
