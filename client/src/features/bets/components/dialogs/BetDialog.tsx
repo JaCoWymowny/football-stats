@@ -20,16 +20,14 @@ export const BetDialog: React.FC<BetDialogProps> = ({ matchId, homeTeam, awayTea
 
   return (
     <Dialog open={isOpen} onOpenChange={open => !open && closeModal()}>
-      <DialogContent className='w-[90%] max-w-md p-4 bg-background_light rounded-lg shadow-lg mx-auto tablet:w-auto'>
+      <DialogContent className='w-[90%] max-w-md p-4 bg-background_light rounded-lg shadow-lg'>
         <DialogHeader>
-          <DialogTitle className='text-center my-4 text-lg tablet:text-xl'>
-            Dodaj Zakład
-          </DialogTitle>
-          <DialogDescription className='text-center text-sm tablet:text-base'>
-            <div>Czego się spodziewasz po meczu:</div>
-            <div className='font-bold'>
+          <DialogTitle className='flex justify-center my-4'>Dodaj Zakład</DialogTitle>
+          <DialogDescription className='flex flex-col'>
+            <span className='flex justify-center'>Czego się spodziewasz po meczu:</span>
+            <span className='flex justify-center font-bold'>
               {homeTeam} - {awayTeam}?
-            </div>
+            </span>
           </DialogDescription>
         </DialogHeader>
         <BetForm matchId={matchId} />
