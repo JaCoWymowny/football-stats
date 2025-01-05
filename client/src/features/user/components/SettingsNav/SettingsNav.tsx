@@ -6,16 +6,16 @@ const SettingsNav: FC = () => {
   const navigate = useNavigate();
 
   return (
-    <div className='flex justify-around mb-6 space-x-4'>
+    <div className='flex flex-col tablet:flex-row justify-center gap-4 mb-8'>
       <Button
         onClick={() => navigate('/settings/change-email')}
-        className='bg-gray-800 text-white px-4 py-2 shadow hover:bg-gray-700 rounded-full transition-all'
+        className='px-4 py-2 bg-accent text-secondary_text rounded-lg shadow hover:bg-accent/80'
       >
         Zmień Email
       </Button>
       <Button
         onClick={() => navigate('/settings/change-password')}
-        className='bg-gray-800 text-white px-4 py-2 shadow hover:bg-gray-700 rounded-full transition-all'
+        className='px-4 py-2 bg-accent text-secondary_text rounded-lg shadow hover:bg-accent/80'
       >
         Zmień Hasło
       </Button>

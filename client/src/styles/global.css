@@ -59,6 +59,16 @@ div {
   font-style: normal;
 }
 
+input::placeholder {
+  font-size: 0.675rem; /* odpowiada text-sm w Tailwind */
+}
+
+/*@media (min-width: 640px) {*/
+/*  input::placeholder {*/
+/*    font-size: 1rem; !* odpowiada text-base w Tailwind *!*/
+/*  }*/
+/*}*/
+
 @font-face {
   font-family: 'Raleway';
   src: url('@/assets/fonts/raleway/Raleway-Regular.ttf') format('truetype');

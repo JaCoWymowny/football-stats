@@ -61,19 +61,23 @@ const ChangeEmailForm: FC = () => {
   };
 
   const handleCancel = () => {
-    navigate(-1);
+    navigate('/settings');
   };
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(handleSubmit)} className='space-y-6'>
+      <form onSubmit={form.handleSubmit(handleSubmit)} className='space-y-6 mt-6'>
         <FormField
           name='email'
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Email</FormLabel>
+              <FormLabel className='text-primary_text'>Email</FormLabel>
               <FormControl>
-                <Input {...field} placeholder='Wprowadź swój nowy email' />
+                <Input
+                  {...field}
+                  placeholder='Wprowadź swój nowy email'
+                  className='placeholder:text-xs tablet:placeholder:text-sm border-secondary bg-white text-primary_text rounded-md shadow-sm focus:ring-2 focus:ring-accent focus:border-accent'
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -82,15 +86,20 @@ const ChangeEmailForm: FC = () => {
         <div className='flex justify-between space-x-4'>
           <Button
             type='submit'
-            disabled={editMutation.isPending || !form.formState.isValid}
-            className='w-full py-3 text-white font-semibold rounded-lg transition-colors bg-indigo-600 hover:bg-indigo-700'
+            variant='secondary'
+            disabled={
+              !form.formState.isValid || form.formState.isSubmitting || editMutation.isPending
+            }
+            className='px-2 py-1 tablet:px-4 tablet:py-2 disabled:opacity-50 disabled:cursor-not-allowed'
           >
             {editMutation.isPending ? 'Zapisywanie...' : 'Zapisz'}
           </Button>
+
           <Button
             type='button'
+            variant='secondary'
             onClick={handleCancel}
-            className='w-full py-3 text-gray-800 font-semibold rounded-lg border border-gray-300 hover:bg-gray-200'
+            className='px-2 py-1 tablet:px-4 tablet:py-2'
           >
             Anuluj
           </Button>

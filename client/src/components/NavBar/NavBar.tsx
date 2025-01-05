@@ -31,13 +31,18 @@ const NavBar = () => {
       <div className='container mx-auto flex items-center justify-between'>
         <div onClick={() => navigate('/')} className='flex items-center space-x-2 cursor-pointer'>
           <img src={Logo} alt='Logo' className='w-8 h-8 laptop:w-10 laptop:h-10' />
-          <span className='font-bold laptop:text-xl'>Football-Stats</span>
+          <span className='font-bold text-sm tablet:text-lg laptop:text-xl desktop:text-2xl'>
+            Football-Stats
+          </span>
         </div>
 
         <div className='flex items-center space-x-4'>
           {currentUser && authStatus === AuthStatus.AUTHENTICATED ? (
             <>
-              <Link to={`/profile/${currentUser.id}`} className='hover:underline'>
+              <Link
+                to={`/profile/${currentUser.id}`}
+                className='hover:underline text-sm tablet:text-lg laptop:text-xl desktop:text-2xl'
+              >
                 {currentUser.username}
               </Link>
               <Button
