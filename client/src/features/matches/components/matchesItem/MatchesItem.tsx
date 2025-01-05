@@ -35,30 +35,28 @@ const MatchItem: React.FC<MatchItemProps> = ({ match, onBetClick }) => {
           : '-- - --'}
       </div>
 
-      <div className='grid grid-cols-3 items-center gap-2 tablet:gap-4'>
-        <div className='flex items-center justify-start'>
+      <div className='grid grid-cols-1 gap-2 tablet:grid-cols-3 tablet:items-center tablet:gap-4'>
+        <div className='flex flex-col items-center tablet:flex-row tablet:justify-start'>
           <img
             src={homeTeam.crest}
             alt={`${homeTeam.name} crest`}
-            className='w-6 h-6 mr-2 tablet:w-10 tablet:h-10'
+            className='w-10 h-10 mb-1 tablet:mb-0 tablet:mr-2'
           />
-          <span className='max-w-[45px] tablet:max-w-full font-bold text-xs tablet:text-base'>
+          <span className='font-bold text-xs tablet:text-base text-center tablet:text-left'>
             {homeTeam.name}
           </span>
         </div>
 
-        <div className='mx-auto tablet:max-w-full text-center text-xs tablet:text-sm font-bold'>
-          {competition.name}
-        </div>
+        <div className='text-center text-xs tablet:text-sm font-bold'>{competition.name}</div>
 
-        <div className='flex items-center justify-end'>
-          <span className='max-w-[45px] tablet:max-w-full font-bold text-xs tablet:text-base'>
+        <div className='flex flex-col items-center tablet:flex-row tablet:justify-end'>
+          <span className='font-bold text-xs tablet:text-base text-center tablet:text-right'>
             {awayTeam.name}
           </span>
           <img
             src={awayTeam.crest}
             alt={`${awayTeam.name} crest`}
-            className='w-6 h-6 ml-2 tablet:w-10 tablet:h-10'
+            className='w-10 h-10 mb-1 tablet:mb-0 tablet:ml-2'
           />
         </div>
       </div>
