@@ -2,7 +2,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card';
 
 const Welcome = () => {
   return (
-    <div className='w-[90%] mx-auto p-8'>
+    <div className='space-y-8'>
       <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8'>
         {/* Hero Section */}
         <Card className='shadow-md rounded-2xl col-span-1 md:col-span-2 lg:col-span-3 bg-background_light'>
@@ -32,27 +32,6 @@ const Welcome = () => {
             <div>
               <h3 className='font-semibold text-test2'>Wersja aplikacji</h3>
               <p className='text-test2'>1.0.0</p>
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* Stats Section */}
-        <Card className='shadow-md rounded-2xl bg-background_light'>
-          <CardHeader>
-            <CardTitle className='text-2xl font-semibold text-gray-800'>Statystyki</CardTitle>
-          </CardHeader>
-          <CardContent className='space-y-4'>
-            <div className='flex justify-between'>
-              <span className='text-gray-700'>Rozegrane mecze:</span>
-              <span className='font-bold text-gray-800'>3</span>
-            </div>
-            <div className='flex justify-between'>
-              <span className='text-gray-700'>Wygrane mecze:</span>
-              <span className='font-bold text-green-600'>2</span>
-            </div>
-            <div className='flex justify-between'>
-              <span className='text-gray-700'>Przegrane mecze:</span>
-              <span className='font-bold text-red-600'>1</span>
             </div>
           </CardContent>
         </Card>

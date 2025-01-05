@@ -19,7 +19,7 @@ const UserProfileView: FC = () => {
   }
 
   return (
-    <div className='w-full max-w-md mx-auto px-4 tablet:px-6 laptop:px-8 mt-8 space-y-8'>
+    <div className='w-full max-w-md mx-auto px-4 tablet:px-6 laptop:px-8 space-y-8'>
       <Card className='rounded-2xl shadow-lg bg-background_light'>
         <CardHeader>
           <CardTitle className='text-center text-primary_text'>
