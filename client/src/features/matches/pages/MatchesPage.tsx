@@ -29,12 +29,10 @@ const MatchesPage = () => {
   };
 
   return (
-    <div className='w-full max-w-screen-lg mx-auto flex justify-center'>
-      <Card className='shadow-md rounded-2xl w-full overflow-hidden'>
-        <CardHeader className='bg-gray-100'>
-          <CardTitle className='text-3xl font-bold text-gray-800 text-center'>
-            Dane Meczów
-          </CardTitle>
+    <div className='w-full max-w-4xl mx-auto mt-8 px-4 tablet:px-6 laptop:px-8'>
+      <Card className='rounded-2xl shadow-lg bg-background_light'>
+        <CardHeader>
+          <CardTitle className='text-center text-primary_text text-2xl'>Dane Meczów</CardTitle>
         </CardHeader>
         <CardContent className='p-4'>
           {isError || !data?.matches?.length ? (
@@ -43,14 +41,12 @@ const MatchesPage = () => {
               description={errorMessage || 'Nie znaleziono danych meczów.'}
             />
           ) : (
-            <div className='rounded-md p-4 max-h-[500px] overflow-auto'>
+            <div className='space-y-6 max-h-[500px] overflow-auto'>
               {Object.entries(groupMatchesByLeague(data.matches)).map(([league, matches]) => (
-                <div key={league} className='mb-6 text-center'>
-                  <div className='space-y-4'>
-                    {matches.map(match => (
-                      <MatchItem key={match.id} match={match} onBetClick={handleOpenBetDialog} />
-                    ))}
-                  </div>
+                <div key={league} className='space-y-4'>
+                  {matches.map(match => (
+                    <MatchItem key={match.id} match={match} onBetClick={handleOpenBetDialog} />
+                  ))}
                 </div>
               ))}
             </div>

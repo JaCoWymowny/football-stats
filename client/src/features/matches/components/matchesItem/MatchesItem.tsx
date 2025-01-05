@@ -26,12 +26,10 @@ const MatchItem: React.FC<MatchItemProps> = ({ match, onBetClick }) => {
   const isDisabled = status === 'FINISHED' || status === 'IN_PLAY';
 
   return (
-    <div className='mb-4 p-4 border-b border-gray-300'>
-      <div className='text-center text-gray-600 mb-2'>
-        <span>{matchTime}</span>
-      </div>
+    <div className='p-4 rounded-lg bg-background_light shadow-md'>
+      <div className='text-center text-secondary_text mb-2'>{matchTime}</div>
 
-      <div className='text-center text-lg font-semibold text-gray-700 mb-2'>
+      <div className='text-center text-xl font-bold text-primary_text mb-4'>
         {fullTime.home !== null && fullTime.away !== null
           ? `${fullTime.home} - ${fullTime.away}`
           : '-- - --'}
@@ -39,27 +37,24 @@ const MatchItem: React.FC<MatchItemProps> = ({ match, onBetClick }) => {
 
       <div className='grid grid-cols-3 items-center gap-4'>
         <div className='flex items-center justify-start'>
-          <img src={homeTeam.crest} alt={`${homeTeam.name} crest`} className='w-8 h-8 mr-2' />
-          <span className='font-bold text-gray-800'>{homeTeam.name}</span>
+          <img src={homeTeam.crest} alt={`${homeTeam.name} crest`} className='w-10 h-10 mr-2' />
+          <span className='font-medium text-primary_text'>{homeTeam.name}</span>
         </div>
 
-        <div className='text-center text-sm text-gray-500'>{competition.name}</div>
+        <div className='text-center text-sm text-secondary_text'>{competition.name}</div>
 
         <div className='flex items-center justify-end'>
-          <span className='font-bold text-gray-800'>{awayTeam.name}</span>
-          <img src={awayTeam.crest} alt={`${awayTeam.name} crest`} className='w-8 h-8 ml-2' />
+          <span className='font-medium text-primary_text'>{awayTeam.name}</span>
+          <img src={awayTeam.crest} alt={`${awayTeam.name} crest`} className='w-10 h-10 ml-2' />
         </div>
       </div>
 
-      <div className='flex justify-center mt-4'>
+      <div className='flex justify-center mt-6'>
         <Button
           onClick={() => onBetClick(id, homeTeam.name, awayTeam.name)}
           disabled={isDisabled}
-          className={`py-2 px-6 font-semibold rounded-full shadow transition-all ${
-            isDisabled
-              ? 'bg-gray-400 text-gray-700 cursor-not-allowed'
-              : 'bg-gray-800 text-white hover:bg-gray-700'
-          }`}
+          variant='secondary'
+          className='px-2 py-1 tablet:px-10 tablet:py-4'
         >
           Obstaw!
         </Button>
