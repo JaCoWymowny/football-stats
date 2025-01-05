@@ -46,12 +46,17 @@ const BetTable = <T,>({
   }
 
   return (
-    <div className='w-[90%] border rounded-md'>
-      <Table>
+    <div className='w-full max-w-4xl mx-auto border rounded-md bg-background_light p-2 tablet:p-6'>
+      <Table className='w-full'>
         <TableHeader>
           <TableRow>
             {columnHeaders.map((header, index) => (
-              <TableHead key={index} className={`border-l border-gray-300 text-center`}>
+              <TableHead
+                key={index}
+                className={`border-b border-gray-400 text-center text-[0.66rem] tablet:text-sm ${
+                  index < columnHeaders.length - 1 ? 'border-r' : ''
+                }`}
+              >
                 {header}
               </TableHead>
             ))}
@@ -61,13 +66,17 @@ const BetTable = <T,>({
           {data.map((row, rowIndex) => (
             <TableRow
               key={rowIndex}
-              className={onRowClick ? 'cursor-pointer hover:bg-gray-100' : ''}
+              className={
+                onRowClick ? 'cursor-pointer border-gray-400 hover:bg-gray-100' : 'border-gray-400'
+              }
               onClick={() => onRowClick && onRowClick(row)}
             >
               {columns.map((col, colIndex) => (
                 <TableCell
                   key={colIndex}
-                  className={`${colIndex > 0 ? 'text-center border-l border-gray-300' : ''}`}
+                  className={`${
+                    colIndex > 0 ? 'text-center border-l border-gray-400' : ''
+                  } text-[0.66rem] tablet:text-sm`}
                 >
                   {row[col] as React.ReactNode}
                 </TableCell>
@@ -76,29 +85,24 @@ const BetTable = <T,>({
           ))}
         </TableBody>
       </Table>
-      <div className='flex justify-between items-center p-4'>
+      <div className='flex justify-between items-center p-4 text-[0.66rem] tablet:text-sm'>
         <Button
           onClick={onPreviousPage}
           disabled={currentPage === 1}
-          className={`px-4 py-2 rounded ${
-            currentPage === 1
-              ? 'bg-gray-400 cursor-not-allowed'
-              : 'bg-gray-800 text-white hover:bg-gray-700'
-          }`}
+          variant='secondary'
+          className='px-4 py-2 rounded'
         >
           Poprzednia
         </Button>
-        <span>
-          Strona {currentPage} z {totalPages}
-        </span>
+        <div className='flex flex-col'>
+          <span className='text-center w-full'>Strona</span>
+          <span className='text-center w-full'>{`${currentPage} z ${totalPages}`}</span>
+        </div>
         <Button
           onClick={onNextPage}
           disabled={currentPage === totalPages}
-          className={`px-4 py-2 rounded ${
-            currentPage === totalPages
-              ? 'bg-gray-400 cursor-not-allowed'
-              : 'bg-gray-800 text-white hover:bg-gray-700'
-          }`}
+          variant='secondary'
+          className='px-4 py-2 rounded'
         >
           Następna
         </Button>

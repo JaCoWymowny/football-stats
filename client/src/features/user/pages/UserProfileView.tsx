@@ -19,34 +19,34 @@ const UserProfileView: FC = () => {
   }
 
   return (
-    <div className='w-full max-w-lg px-4 sm:px-6 md:px-8 lg:px-12 mx-auto mt-6 sm:mt-12 space-y-6'>
-      <Card className='shadow-md rounded-2xl'>
+    <div className='w-full max-w-md mx-auto px-4 tablet:px-6 laptop:px-8 space-y-8'>
+      <Card className='rounded-2xl shadow-lg bg-background_light'>
         <CardHeader>
-          <CardTitle className='text-center text-gray-800'>
+          <CardTitle className='text-center text-primary_text'>
             {isCurrentUser ? 'Twój Profil' : 'Profil Użytkownika'}
           </CardTitle>
         </CardHeader>
         <CardContent className='space-y-4'>
           <div className='flex justify-between'>
-            <span className='text-gray-700 font-semibold'>Email:</span>
-            <span className='text-gray-800'>{isCurrentUser ? userToDisplay?.email : '-'}</span>
+            <span className='font-medium text-primary_text'>Email:</span>
+            <span>{isCurrentUser ? userToDisplay?.email : '-'}</span>
           </div>
           <div className='flex justify-between'>
-            <span className='text-gray-700 font-semibold'>Nazwa Użytkownika:</span>
-            <span className='text-gray-800'>{userToDisplay?.username}</span>
+            <span className='font-medium text-primary_text'>Nazwa Użytkownika:</span>
+            <span>{userToDisplay?.username}</span>
           </div>
           <div className='flex justify-between'>
-            <span className='text-gray-700 font-semibold'>Rola:</span>
-            <span className='text-gray-800'>{userToDisplay?.role}</span>
+            <span className='font-medium text-primary_text'>Rola:</span>
+            <span>{userToDisplay?.role}</span>
           </div>
         </CardContent>
       </Card>
 
       {isCurrentUser && (
-        <div className='text-center mt-4'>
+        <div className='text-center'>
           <Button
             onClick={() => navigate('/settings')}
-            className='bg-gray-800 text-white px-4 py-2 shadow hover:bg-gray-700 rounded-full transition-all'
+            className='px-4 py-2 bg-accent text-secondary_text rounded-lg shadow hover:bg-accent/80'
           >
             Przejdź do ustawień
           </Button>

@@ -10,6 +10,9 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default: 'bg-primary text-primary-foreground shadow hover:bg-primary/90',
+        navbar: 'bg-accent text-secondary_text shadow-sm hover:bg-accent/90',
+        first:
+          'border border-input bg-background_light shadow-sm hover:bg-secondary hover:text-primary_text',
         destructive: 'bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90',
         outline:
           'border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground',
@@ -26,7 +29,6 @@ const buttonVariants = cva(
     },
     defaultVariants: {
       variant: 'default',
-      size: 'default',
     },
   }
 );

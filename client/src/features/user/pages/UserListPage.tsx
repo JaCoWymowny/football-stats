@@ -20,24 +20,24 @@ const UserListPage = () => {
   }
 
   return (
-    <div className='w-full max-w-4xl px-4 sm:px-6 md:px-8 lg:px-12 mx-auto mt-6 sm:mt-12'>
-      <Card className='shadow-md rounded-2xl'>
-        <CardHeader>
-          <CardTitle className='text-center text-gray-800'>Lista Użytkowników</CardTitle>
-        </CardHeader>
-        <CardContent className='space-y-4'>
-          {users?.map(user => (
-            <div
-              key={user.id}
-              className='flex justify-between items-center p-4 border-b border-gray-200 cursor-pointer hover:bg-gray-100'
-              onClick={() => navigate(`/profile/${user.id}`)}
-            >
-              <span className='text-gray-800 font-semibold'>{user.username}</span>
-            </div>
-          ))}
-        </CardContent>
-      </Card>
-    </div>
+    <Card className='w-full max-w-4xl mx-auto mt-4 shadow-md rounded-lg bg-background_light'>
+      <CardHeader className='p-4'>
+        <CardTitle className='text-center text-lg text-gray-800'>Lista Użytkowników</CardTitle>
+      </CardHeader>
+      <CardContent>
+        {users?.map((user, index) => (
+          <div
+            key={user.id}
+            className={`flex justify-between items-center px-4 py-3 cursor-pointer hover:bg-gray-100 ${
+              index < users.length - 1 ? 'border-b border-gray-400' : ''
+            }`}
+            onClick={() => navigate(`/profile/${user.id}`)}
+          >
+            <span className='text-gray-800 font-medium'>{user.username}</span>
+          </div>
+        ))}
+      </CardContent>
+    </Card>
   );
 };
 

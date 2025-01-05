@@ -55,7 +55,7 @@ const BetForm: React.FC<{ matchId: number }> = ({ matchId }) => {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-4'>
+      <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-6 mt-6'>
         <div className='flex items-center justify-between space-x-4'>
           <FormField
             name='homeScore'
@@ -65,7 +65,8 @@ const BetForm: React.FC<{ matchId: number }> = ({ matchId }) => {
                   <Input
                     {...field}
                     type='number'
-                    className='border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500'
+                    placeholder='Gospodarze'
+                    className='placeholder:text-xs tablet:placeholder:text-sm border-secondary bg-white text-primary_text rounded-md shadow-sm focus:ring-2 focus:ring-accent focus:border-accent'
                   />
                 </FormControl>
                 <div className='h-[1.25rem]'>
@@ -74,7 +75,7 @@ const BetForm: React.FC<{ matchId: number }> = ({ matchId }) => {
               </FormItem>
             )}
           />
-          <span className='text-xl font-bold'>-</span>
+          <span className='text-xl font-bold tablet:text-2xl mb-[1.5rem]'>-</span>
           <FormField
             name='awayScore'
             render={({ field }) => (
@@ -83,7 +84,8 @@ const BetForm: React.FC<{ matchId: number }> = ({ matchId }) => {
                   <Input
                     {...field}
                     type='number'
-                    className='border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500'
+                    placeholder='Goście'
+                    className='placeholder:text-xs tablet:placeholder:text-sm border-secondary bg-white text-primary_text rounded-md shadow-sm focus:ring-2 focus:ring-accent focus:border-accent'
                   />
                 </FormControl>
                 <div className='h-[1.25rem]'>
@@ -96,9 +98,13 @@ const BetForm: React.FC<{ matchId: number }> = ({ matchId }) => {
         <div className='flex justify-center'>
           <Button
             type='submit'
-            className='w-[50%] px-4 py-2 bg-gray-800 text-white font-semibold rounded-full shadow hover:bg-gray-700 transition-all'
+            variant='secondary'
+            disabled={
+              !form.formState.isValid || form.formState.isSubmitting || placeBetMutation.isPending
+            }
+            className='px-2 py-1 tablet:px-8 tablet:py-2 disabled:opacity-50 disabled:cursor-not-allowed'
           >
-            Zapisz
+            {placeBetMutation.isPending ? 'Zapisywanie...' : 'Zapisz'}
           </Button>
         </div>
       </form>
