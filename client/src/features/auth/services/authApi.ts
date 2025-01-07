@@ -2,6 +2,15 @@ import { ApiClient } from '@/services/ApiClient';
 import { User, AuthData } from '@/types/types';
 
 export const authApi = {
+  checkServerAvailability: async (): Promise<boolean> => {
+    try {
+      const response = await ApiClient.get('/check');
+      return response.status === 200;
+    } catch (error) {
+      return false;
+    }
+  },
+
   register: async (data: AuthData) => {
     const response = await ApiClient.post('/users/register', data);
     const { token, refreshToken } = response.data;

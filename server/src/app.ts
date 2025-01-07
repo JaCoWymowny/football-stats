@@ -15,10 +15,6 @@ app.use(
 );
 app.use('/', apiRouter);
 
-app.use((req: Request, res: Response, next: NextFunction) => {
-  res.status(404).json({ message: 'Not Found' });
-});
-
 app.get('/check', async (req, res) => {
   try {
     await prisma.$connect();
@@ -27,6 +23,10 @@ app.get('/check', async (req, res) => {
     console.error('Błąd połączenia z bazą danych', error);
     res.status(500).send('Błąd połączenia z bazą danych');
   }
+});
+
+app.use((req: Request, res: Response, next: NextFunction) => {
+  res.status(404).json({ message: 'Not Found' });
 });
 
 const PORT = process.env.PORT || 3009;
