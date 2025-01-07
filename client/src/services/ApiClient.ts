@@ -7,6 +7,16 @@ export const ApiClient = axios.create({
   },
 });
 
+ApiClient.interceptors.response.use(
+  response => response,
+  error => {
+    if (error.code === 'ERR_NETWORK') {
+      return Promise.reject(new Error('NETWORK_ERROR'));
+    }
+    return Promise.reject(error);
+  }
+);
+
 ApiClient.interceptors.request.use(config => {
   const token = localStorage.getItem('authToken');
 
