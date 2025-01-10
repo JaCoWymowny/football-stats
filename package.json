@@ -9,7 +9,9 @@
     "install": "npm run client-install && npm run server-install ",
     "server": "cd server && npm run watch",
     "client": "cd client && npm run dev",
-    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "prisma": "cd server && npx prisma studio",
+    "prisma-migrate": "cd server && npx prisma migrate dev --name init && npx prisma generate",
+    "dev": "concurrently \"npm run server\" \"npm run client\" \"npm run prisma\"",
     "pcheck": "prettier --check 'client/src/**/*' 'server/src/**/*'",
     "pformat": "prettier --write 'client/src/**/*' 'server/src/**/*'",
     "prepare": "husky install"

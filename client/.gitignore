@@ -25,3 +25,6 @@ tsconfig.tsbuildinfo
 *.sln
 *.sw?
 .env
+
+# Keep .env.example
+!.env.example

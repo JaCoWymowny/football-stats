@@ -29,4 +29,8 @@ prisma/dev.db-journal
 *.sln
 *.sw?
 
+# Ignore .env
 .env
+
+# Keep .env.example
+!.env.example
