@@ -3,7 +3,20 @@ import apiClient from '../config/axios.config';
 
 export async function httpGetMatches(req: Request, res: Response): Promise<void> {
   try {
-    const response = await apiClient.get('/matches');
+    const today = new Date();
+    const fiveDaysLater = new Date();
+    fiveDaysLater.setDate(today.getDate() + 6);
+
+    const dateFrom = today.toISOString().split('T')[0]; // YYYY-MM-DD
+    const dateTo = fiveDaysLater.toISOString().split('T')[0]; // YYYY-MM-DD
+
+    const response = await apiClient.get('/matches', {
+      params: {
+        dateFrom,
+        dateTo,
+      },
+    });
+
     res.status(200).json(response.data);
   } catch (error) {
     console.error('Błąd podczas pobierania meczów:', error);

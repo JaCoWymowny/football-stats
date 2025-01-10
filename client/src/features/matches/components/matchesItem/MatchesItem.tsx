@@ -18,16 +18,22 @@ const MatchItem: React.FC<MatchItemProps> = ({ match, onBetClick }) => {
     status,
   } = match;
 
-  const matchTime = new Date(utcDate).toLocaleTimeString([], {
+  const date = new Date(utcDate);
+
+  const formattedDate = date.toLocaleString('pl-PL', {
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric',
     hour: '2-digit',
     minute: '2-digit',
+    hour12: false,
   });
 
   const isDisabled = status === 'FINISHED' || status === 'IN_PLAY';
 
   return (
     <div className='p-2 rounded-md bg-background_light shadow-sm tablet:p-4'>
-      <div className='text-center text-sm mb-2 tablet:text-base'>{matchTime}</div>
+      <div className='text-center text-sm mb-2 tablet:text-base'>{formattedDate}</div>
 
       <div className='text-center text-lg font-bold mb-2 tablet:text-xl'>
         {fullTime.home !== null && fullTime.away !== null
