@@ -3,9 +3,12 @@
   "version": "1.0.0",
   "description": "My server application",
   "module": "src/app.ts",
-  "type": "module",
+  "type": "commonjs",
   "scripts": {
+    "dev": "tsx watch src/app.ts",
     "start": "tsx src/app.ts",
+    "build": "tsc -p tsconfig.build.json",
+    "serve": "node --enable-source-maps dist/app.js",
     "watch": "tsx watch src/app.ts",
     "lint": "eslint 'src/**/*.ts'",
     "fix": "eslint 'src/**/*.ts' --fix",
