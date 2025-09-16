@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { PrismaClient, User } from '@prisma/client';
+import { PrismaClient } from '@prisma/client';
 import apiClient from '../config/axios.config';
 
 const prisma = new PrismaClient();
@@ -45,7 +45,7 @@ export async function httpPlaceBet(req: Request, res: Response): Promise<void> {
     }
 
     const existingBet = await prisma.bet.findFirst({
-      where: { betById: user.id, matchId },
+      where: { betById: (user as { id: number }).id, matchId },
     });
 
     if (existingBet) {
@@ -82,7 +82,7 @@ export async function httpPlaceBet(req: Request, res: Response): Promise<void> {
 
     const newBet = await prisma.bet.create({
       data: {
-        betById: user.id,
+        betById: (user as { id: number }).id,
         matchId,
         predictedScore,
         matchStartTime: new Date(matchData.utcDate),
@@ -117,7 +117,10 @@ export const calculateTotalPoints = async () => {
     });
 
     for (const user of users) {
-      const totalPoints = user.bets.reduce((sum, bet) => sum + (bet.pointsEarned || 0), 0);
+      const totalPoints = user.bets.reduce(
+        (sum: number, bet: { pointsEarned: number | null }) => sum + (bet.pointsEarned ?? 0),
+        0
+      );
 
       await prisma.ranking.upsert({
         where: { userId: user.id },
@@ -182,7 +185,7 @@ export const updateBetResults = async () => {
         {} as { [key: number]: string }
       );
 
-    const updates = bets.map(bet => {
+    const updates = bets.map((bet: (typeof bets)[number]) => {
       const actualScore = matchResults[bet.matchId];
       if (!actualScore) {
         return null;
@@ -210,7 +213,7 @@ export const updateBetResults = async () => {
 
 export async function httpGetUserBets(req: Request, res: Response): Promise<void> {
   try {
-    const user = req.user as User;
+    const user = req.user;
     const userId = parseInt(req.params.id);
 
     if (!user || isNaN(userId)) {
@@ -218,7 +221,7 @@ export async function httpGetUserBets(req: Request, res: Response): Promise<void
       return;
     }
 
-    if (user.id !== userId) {
+    if ((user as { id: number }).id !== userId) {
       res.status(403).json({ message: 'Brak dostępu do tych danych.' });
       return;
     }

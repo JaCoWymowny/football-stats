@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { PrismaClient, User } from '@prisma/client';
+import { PrismaClient } from '@prisma/client';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { validatePasswordChange } from '../helpers/validationHelper';
@@ -198,7 +198,7 @@ export async function httpGetAllUsers(req: Request, res: Response): Promise<void
 
 export async function httpGetCurrentUser(req: Request, res: Response): Promise<void> {
   try {
-    const user = req.user as User;
+    const user = req.user;
 
     if (!user) {
       res.status(404).json({ message: 'User not found' });
@@ -219,7 +219,11 @@ export async function httpGetCurrentUser(req: Request, res: Response): Promise<v
 
 export async function httpUpdateUserEmail(req: Request, res: Response): Promise<void> {
   try {
-    const user = req.user as User;
+    const user = req.user;
+    if (!user) {
+      res.status(401).json({ message: 'Użytkownik nie jest uwierzytelniony.' });
+      return;
+    }
     const { email } = req.body;
 
     if (!email) {
@@ -253,7 +257,11 @@ export async function httpUpdateUserEmail(req: Request, res: Response): Promise<
 
 export async function httpUpdateUserPassword(req: Request, res: Response): Promise<void> {
   try {
-    const user = req.user as User;
+    const user = req.user;
+    if (!user) {
+      res.status(401).json({ message: 'Użytkownik nie jest uwierzytelniony.' });
+      return;
+    }
     const { currentPassword, newPassword } = req.body;
 
     if (!currentPassword || !newPassword) {
