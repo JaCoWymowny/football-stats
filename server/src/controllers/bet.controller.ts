@@ -157,8 +157,8 @@ export const updateBetResults = async () => {
       return;
     }
 
-    const dateFrom = new Date(Date.now() - 10 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
-    const dateTo = new Date().toISOString().split('T')[0];
+    const dateFrom = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString().split('T')[0];
+    const dateTo = new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString().split('T')[0];
     const response = await apiClient.get<API.MatchResponse>(`/matches`, {
       params: {
         dateFrom,
