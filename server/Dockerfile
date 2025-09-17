@@ -1,27 +1,35 @@
-# Używamy Node 20
-FROM node:20.18.0
+FROM node:20.18.0-alpine AS builder
 
-# katalog roboczy
 WORKDIR /app
 
-# kopiujemy package.json i package-lock.json
-COPY package*.json ./
+RUN apk add --no-cache python3 make g++
 
-# instalujemy wszystkie zależności (łącznie z dev – bo potrzebne do builda)
+COPY package*.json ./
 RUN npm ci
 
-# kopiujemy resztę kodu
 COPY . .
 
-# generujemy klienta Prisma
 RUN npx prisma generate
-
-# budujemy TypeScript -> dist/
 RUN npm run build
 
-# ustawiamy zmienne środowiskowe
-ENV NODE_ENV=production
-EXPOSE 3009
+# =========================
+# Stage 2: Runtime
+# =========================
+FROM node:20.18.0-alpine
 
-# uruchamiamy gotowy build
-CMD ["npm", "run", "serve"]
+WORKDIR /app
+
+COPY package*.json ./
+RUN npm ci --omit=dev --prefer-offline --no-audit --no-fund \
+  && npm cache clean --force
+
+COPY --from=builder /app/dist ./dist
+COPY --from=builder /app/prisma ./prisma
+
+COPY --from=builder /app/node_modules/.prisma ./node_modules/.prisma
+
+ENV NODE_ENV=production
+ENV PORT=3009
+
+EXPOSE 3009
+CMD ["node", "dist/app.js"]
