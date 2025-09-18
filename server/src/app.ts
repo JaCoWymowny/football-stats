@@ -1,11 +1,10 @@
 import express, { NextFunction, Request, Response } from 'express';
 import cors from 'cors';
-import { PrismaClient } from '@prisma/client';
+import { prisma } from './db/prisma';
 import apiRouter from './routes/api';
 import runScheduledTasks from './config/cron.config';
 
 const app = express();
-const prisma = new PrismaClient();
 app.use(express.json());
 
 app.use(
@@ -15,13 +14,16 @@ app.use(
 );
 app.use('/', apiRouter);
 
-app.get('/check', async (req, res) => {
+app.get('/healthz', async (req, res) => {
   try {
-    await prisma.$connect();
-    res.status(200).send('Połączenie z bazą danych działa poprawnie.');
+    await prisma.$queryRaw`SELECT 1`;
+    // res.status(200).send('Połączenie z bazą danych działa poprawnie.');
+    res.set('Cache-Control', 'no-store');
+    res.status(200).json({ status: 'Połączenie z bazą danych działa poprawnie.' });
   } catch (error) {
     console.error('Błąd połączenia z bazą danych', error);
-    res.status(500).send('Błąd połączenia z bazą danych');
+    // res.status(500).send('Błąd połączenia z bazą danych');
+    res.status(500).json({ status: 'Błąd połączenia z bazą danych' });
   }
 });
 
