@@ -11,13 +11,13 @@ const SettingsNav: FC = () => {
         onClick={() => navigate('/settings/change-email')}
         className='px-4 py-2 bg-accent text-secondary_text rounded-lg shadow hover:bg-accent/80'
       >
-        Zmień Email
+        Change Email
       </Button>
       <Button
         onClick={() => navigate('/settings/change-password')}
         className='px-4 py-2 bg-accent text-secondary_text rounded-lg shadow hover:bg-accent/80'
       >
-        Zmień Hasło
+        Change Password
       </Button>
     </div>
   );

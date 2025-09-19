@@ -23,7 +23,7 @@ const UserBetHistoryPage = () => {
     data?.data.map(bet => ({
       match: `${bet.homeTeam} vs ${bet.awayTeam}`,
       predictedScore: bet.predictedScore,
-      finalScore: bet.finalScore || 'Oczekuje',
+      finalScore: bet.finalScore || 'Pending',
       points: bet.pointsEarned,
     })) || [];
 
@@ -35,7 +35,7 @@ const UserBetHistoryPage = () => {
       <BetTable
         data={formattedData}
         columns={columns}
-        columnHeaders={['Mecz', 'Obstawiony Wynik', 'Faktyczny Wynik', 'Punkty']}
+        columnHeaders={['match', 'predictedScore', 'finalScore', 'points']}
         isPending={isPending || isCurrentUserPending}
         isError={isError}
         errorMessage={error?.response?.data?.message}

@@ -33,8 +33,8 @@ const BetForm: React.FC<{ matchId: number }> = ({ matchId }) => {
       await placeBetMutation.mutateAsync(payload);
 
       toast({
-        title: 'Sukces',
-        description: 'Zakład dodany pomyślnie!',
+        title: 'Success',
+        description: 'Bet added successfully!',
         variant: 'positive',
       });
       closeModal();
@@ -44,7 +44,7 @@ const BetForm: React.FC<{ matchId: number }> = ({ matchId }) => {
         form,
         onToast: message => {
           toast({
-            title: 'Błąd dodawania zakładu',
+            title: 'Error adding bet',
             description: message,
             variant: 'destructive',
           });
@@ -65,7 +65,7 @@ const BetForm: React.FC<{ matchId: number }> = ({ matchId }) => {
                   <Input
                     {...field}
                     type='number'
-                    placeholder='Gospodarze'
+                    placeholder='Home Team'
                     className='placeholder:text-xs tablet:placeholder:text-sm border-secondary bg-white text-primary_text rounded-md shadow-sm focus:ring-2 focus:ring-accent focus:border-accent'
                   />
                 </FormControl>
@@ -84,7 +84,7 @@ const BetForm: React.FC<{ matchId: number }> = ({ matchId }) => {
                   <Input
                     {...field}
                     type='number'
-                    placeholder='Goście'
+                    placeholder='Away Team'
                     className='placeholder:text-xs tablet:placeholder:text-sm border-secondary bg-white text-primary_text rounded-md shadow-sm focus:ring-2 focus:ring-accent focus:border-accent'
                   />
                 </FormControl>
@@ -104,7 +104,7 @@ const BetForm: React.FC<{ matchId: number }> = ({ matchId }) => {
             }
             className='px-2 py-1 tablet:px-8 tablet:py-2 disabled:opacity-50 disabled:cursor-not-allowed'
           >
-            {placeBetMutation.isPending ? 'Zapisywanie...' : 'Zapisz'}
+            {placeBetMutation.isPending ? 'Saving...' : 'Save'}
           </Button>
         </div>
       </form>

@@ -40,8 +40,8 @@ const LoginForm: FC = () => {
       queryClient.invalidateQueries({ queryKey: ['user'] });
       setStatus(AuthStatus.AUTHENTICATED);
       toast({
-        title: 'Sukces',
-        description: 'Zalogowano pomyślnie!',
+        title: 'Success',
+        description: 'Logged in successfully!',
         variant: 'positive',
       });
     } catch (error) {
@@ -50,7 +50,7 @@ const LoginForm: FC = () => {
         form,
         onToast: message => {
           toast({
-            title: 'Błąd logowania',
+            title: 'Login error',
             description: message,
             variant: 'destructive',
           });
@@ -66,11 +66,11 @@ const LoginForm: FC = () => {
           name='username'
           render={({ field }) => (
             <FormItem>
-              <FormLabel className='text-primary_text mb-2'>Nazwa użytkownika</FormLabel>
+              <FormLabel className='text-primary_text mb-2'>Username</FormLabel>
               <FormControl>
                 <Input
                   {...field}
-                  placeholder='Wprowadź nazwę użytkownika'
+                  placeholder='Enter your username'
                   className='border-secondary bg-white text-primary_text rounded-md shadow-sm focus:ring-2 focus:ring-accent focus:border-accent'
                 />
               </FormControl>
@@ -84,12 +84,12 @@ const LoginForm: FC = () => {
           name='password'
           render={({ field }) => (
             <FormItem>
-              <FormLabel className='text-primary_text'>Hasło</FormLabel>
+              <FormLabel className='text-primary_text'>Password</FormLabel>
               <FormControl>
                 <Input
                   {...field}
                   type='password'
-                  placeholder='Wprowadź hasło'
+                  placeholder='Type password'
                   className='border-secondary bg-white text-primary_text rounded-md shadow-sm focus:ring-2 focus:ring-accent focus:border-accent mt-4'
                 />
               </FormControl>
@@ -107,7 +107,7 @@ const LoginForm: FC = () => {
           }
           className='px-2 py-1 tablet:px-4 tablet:py-2 disabled:border-disabled-border'
         >
-          {loginMutation.isPending ? 'Logowanie...' : 'Zaloguj się'}
+          {loginMutation.isPending ? 'Login...' : 'Log in'}
         </Button>
       </form>
     </Form>

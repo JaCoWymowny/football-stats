@@ -42,7 +42,9 @@ const BetTable = <T,>({
   }
 
   if (isError) {
-    return <div className='text-center p-4 text-red-600'>{errorMessage || 'Wystąpił błąd.'}</div>;
+    return (
+      <div className='text-center p-4 text-red-600'>{errorMessage || 'An error occurred.'}</div>
+    );
   }
 
   return (
@@ -92,11 +94,11 @@ const BetTable = <T,>({
           variant='secondary'
           className='px-4 py-2 rounded'
         >
-          Poprzednia
+          Previous
         </Button>
         <div className='flex flex-col'>
-          <span className='text-center w-full'>Strona</span>
-          <span className='text-center w-full'>{`${currentPage} z ${totalPages}`}</span>
+          <span className='text-center w-full'>Page</span>
+          <span className='text-center w-full'>{`${currentPage} of ${totalPages}`}</span>
         </div>
         <Button
           onClick={onNextPage}
@@ -104,7 +106,7 @@ const BetTable = <T,>({
           variant='secondary'
           className='px-4 py-2 rounded'
         >
-          Następna
+          Next
         </Button>
       </div>
     </div>

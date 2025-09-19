@@ -25,8 +25,8 @@ export const useAuthEffect = () => {
         } else {
           setStatus(AuthStatus.UNAUTHENTICATED);
           toast({
-            title: 'Serwer niedostępny',
-            description: 'Problem z połączeniem, spróbuj później',
+            title: 'Server unavailable',
+            description: 'Connection problem, please try again later',
             variant: 'destructive',
           });
         }

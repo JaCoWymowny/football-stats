@@ -21,7 +21,7 @@ export const useMatchesQuery = () => {
           error,
           onToast: message => {
             toast({
-              title: 'Błąd pobierania danych',
+              title: 'Data download error',
               description: message,
               variant: 'destructive',
             });

@@ -8,29 +8,30 @@ const Welcome = () => {
         <Card className='shadow-md rounded-2xl col-span-1 md:col-span-2 lg:col-span-3 bg-background_light'>
           <CardHeader>
             <CardTitle className='text-3xl font-bold text-gray-800 text-center'>
-              Witaj w Football-Stats!
+              Welcome to Football-Stats!
             </CardTitle>
           </CardHeader>
           <CardContent className='text-center text-gray-600'>
-            <p>Zaloguj się aby zobaczyć więcej treści</p>
+            <p></p>
           </CardContent>
         </Card>
 
         {/* News Section */}
         <Card className='shadow-md rounded-2xl bg-background_light'>
           <CardHeader>
-            <CardTitle className='text-2xl font-semibold text-gray-800'>Aktualności</CardTitle>
+            <CardTitle className='text-2xl font-semibold text-gray-800'>News</CardTitle>
           </CardHeader>
           <CardContent className='space-y-4'>
             <div>
-              <h3 className='font-semibold text-gray-700'>Nowa funkcjonalność - Analiza meczów</h3>
+              <h3 className='font-semibold text-gray-700'>
+                New functionality - betting on matches
+              </h3>
               <p className='text-gray-600'>
-                Dodaliśmy nową funkcję, która pozwala na obstawanie wyników na punkty! Sprawdź to
-                już teraz!
+                We've added a new feature that lets you bet on points! Check it out now!
               </p>
             </div>
             <div>
-              <h3 className='font-semibold text-test2'>Wersja aplikacji</h3>
+              <h3 className='font-semibold text-test2'>App Version</h3>
               <p className='text-test2'>1.0.0</p>
             </div>
           </CardContent>
@@ -39,20 +40,18 @@ const Welcome = () => {
         {/* Upcoming Events Section */}
         <Card className='shadow-md rounded-2xl col-span-1 md:col-span-2 lg:col-span-1 bg-background_light'>
           <CardHeader>
-            <CardTitle className='text-2xl font-semibold text-gray-800'>
-              Nadchodzące Wydarzenia
-            </CardTitle>
+            <CardTitle className='text-2xl font-semibold text-gray-800'>Important Notes:</CardTitle>
           </CardHeader>
           <CardContent className='space-y-4'>
             <div>
-              <h3 className='font-semibold text-gray-700'>Turniej Międzynarodowy</h3>
+              <h3 className='font-semibold text-gray-700'>Results updates</h3>
               <p className='text-gray-600'>
-                Zbliża się nowy rok i druga część sezonu, oglądaj, graj i wygrywaj!
+                Due to external API limitations, results are updated daily at 12:00 AM Polish time.
               </p>
             </div>
             <div>
-              <h3 className='font-semibold text-gray-700'>Wydarzenia</h3>
-              <p className='text-gray-600'>Puchar Króla w hiszpani zaraz się zacznie..</p>
+              <h3 className='font-semibold text-gray-700'>Availability</h3>
+              <p className='text-gray-600'>Content available only after logging in</p>
             </div>
           </CardContent>
         </Card>

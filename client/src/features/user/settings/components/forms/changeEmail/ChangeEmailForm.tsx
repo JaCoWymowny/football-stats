@@ -38,8 +38,8 @@ const ChangeEmailForm: FC = () => {
     try {
       await editMutation.mutateAsync({ email: data.email });
       toast({
-        title: 'Sukces',
-        description: 'Email został zaktualizowany pomyślnie!',
+        title: 'Success',
+        description: 'Email has been updated successfully!',
         variant: 'positive',
       });
       queryClient.invalidateQueries({ queryKey: ['user'] });
@@ -51,7 +51,7 @@ const ChangeEmailForm: FC = () => {
         form,
         onToast: message => {
           toast({
-            title: 'Błąd',
+            title: 'Error',
             description: message,
             variant: 'destructive',
           });
@@ -75,7 +75,7 @@ const ChangeEmailForm: FC = () => {
               <FormControl>
                 <Input
                   {...field}
-                  placeholder='Wprowadź swój nowy email'
+                  placeholder='Enter your new email address'
                   className='placeholder:text-xs tablet:placeholder:text-sm border-secondary bg-white text-primary_text rounded-md shadow-sm focus:ring-2 focus:ring-accent focus:border-accent'
                 />
               </FormControl>
@@ -92,7 +92,7 @@ const ChangeEmailForm: FC = () => {
             }
             className='px-2 py-1 tablet:px-4 tablet:py-2 disabled:opacity-50 disabled:cursor-not-allowed'
           >
-            {editMutation.isPending ? 'Zapisywanie...' : 'Zapisz'}
+            {editMutation.isPending ? 'Saving...' : 'Save'}
           </Button>
 
           <Button
@@ -101,7 +101,7 @@ const ChangeEmailForm: FC = () => {
             onClick={handleCancel}
             className='px-2 py-1 tablet:px-4 tablet:py-2'
           >
-            Anuluj
+            Cancel
           </Button>
         </div>
       </form>
