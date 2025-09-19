@@ -1,25 +1,13 @@
 import { Request, Response } from 'express';
 import apiClient from '../config/axios.config';
+import { fetchMatches, getMatchesDateRange } from '../services/matches';
 
-export async function httpGetMatches(req: Request, res: Response): Promise<void> {
+export async function httpGetMatches(_req: Request, res: Response): Promise<void> {
   try {
-    const today = new Date();
-    const fiveDaysLater = new Date();
-    fiveDaysLater.setDate(today.getDate() + 6);
-
-    const dateFrom = today.toISOString().split('T')[0]; // YYYY-MM-DD
-    const dateTo = fiveDaysLater.toISOString().split('T')[0]; // YYYY-MM-DD
-
-    const response = await apiClient.get('/matches', {
-      params: {
-        dateFrom,
-        dateTo,
-      },
-    });
-
-    res.status(200).json(response.data);
-  } catch (error) {
-    console.error('Błąd podczas pobierania meczów:', error);
+    const matches = await fetchMatches(getMatchesDateRange());
+    res.status(200).json({ matches });
+  } catch (e) {
+    console.error('Błąd podczas pobierania meczów:', e);
     res.status(500).json({ message: 'Nie udało się pobrać danych z API.' });
   }
 }

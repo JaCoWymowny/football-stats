@@ -1,10 +1,9 @@
 import { Request, Response } from 'express';
-import { PrismaClient } from '@prisma/client';
+import { prisma } from '../db/prisma';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { validatePasswordChange } from '../helpers/validationHelper';
 
-const prisma = new PrismaClient();
 const JWT_SECRET = process.env.JWT_SECRET || 'secret-key';
 const TOKEN_EXPIRATION = '1h';
 const REFRESH_TOKEN_EXPIRATION = '7d';

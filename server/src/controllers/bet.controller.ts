@@ -1,8 +1,7 @@
 import { Request, Response } from 'express';
-import { PrismaClient } from '@prisma/client';
+import { prisma } from '../db/prisma';
 import apiClient from '../config/axios.config';
-
-const prisma = new PrismaClient();
+import { fetchMatches, getMatchesDateRange } from '../services/matches';
 
 export async function httpPlaceBet(req: Request, res: Response): Promise<void> {
   try {
@@ -56,8 +55,8 @@ export async function httpPlaceBet(req: Request, res: Response): Promise<void> {
       return;
     }
 
-    const matchResponse = await apiClient.get(`/matches/${matchId}`);
-    const matchData = matchResponse.data;
+    const matches = await fetchMatches(getMatchesDateRange());
+    const matchData = matches.find(m => m.id === matchId);
 
     if (!matchData || !matchData.utcDate) {
       res.status(404).json({
@@ -157,7 +156,7 @@ export const updateBetResults = async () => {
       return;
     }
 
-    const dateFrom = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString().split('T')[0];
+    const dateFrom = new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
     const dateTo = new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString().split('T')[0];
     const response = await apiClient.get<API.MatchResponse>(`/matches`, {
       params: {

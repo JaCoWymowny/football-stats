@@ -1,15 +1,14 @@
 declare global {
   namespace Express {
-    // Dokładny kształt użytkownika, którego masz w req.user
     interface User {
       id: number;
       username: string;
       email: string;
       role: string;
-      password: string; // masz do niego dostęp w update password
+      password: string;
     }
     interface Request {
-      user: User; // bez undefined – middleware musi gwarantować
+      user: User;
     }
   }
 

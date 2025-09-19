@@ -4,7 +4,7 @@ import { User, AuthData } from '@/types/types';
 export const authApi = {
   checkServerAvailability: async (): Promise<boolean> => {
     try {
-      const response = await ApiClient.get('/check');
+      const response = await ApiClient.get('/healthz');
       return response.status === 200;
     } catch (error) {
       return false;
