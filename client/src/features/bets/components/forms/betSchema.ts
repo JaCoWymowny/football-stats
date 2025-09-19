@@ -3,17 +3,17 @@ import { z } from 'zod';
 export const betSchema = z.object({
   homeScore: z
     .string()
-    .regex(/^([1-9][0-9]{0,2}|0)$/, 'Nieprawidłowy format wyniku') // Uproszczony komunikat
+    .regex(/^([1-9][0-9]{0,2}|0)$/, 'Incorrect result format')
     .refine(
       val => parseInt(val, 10) >= 0 && parseInt(val, 10) <= 999,
-      'Wynik musi być w zakresie 0-999'
+      'The result must be in the range 0-999'
     ),
   awayScore: z
     .string()
-    .regex(/^([1-9][0-9]{0,2}|0)$/, 'Nieprawidłowy format wyniku') // Uproszczony komunikat
+    .regex(/^([1-9][0-9]{0,2}|0)$/, 'Incorrect result format')
     .refine(
       val => parseInt(val, 10) >= 0 && parseInt(val, 10) <= 999,
-      'Wynik musi być w zakresie 0-999'
+      'The result must be in the range 0-999'
     ),
 });
 

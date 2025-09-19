@@ -22,9 +22,9 @@ export const BetDialog: React.FC<BetDialogProps> = ({ matchId, homeTeam, awayTea
     <Dialog open={isOpen} onOpenChange={open => !open && closeModal()}>
       <DialogContent className='w-[90%] max-w-md p-4 bg-background_light rounded-lg shadow-lg'>
         <DialogHeader>
-          <DialogTitle className='flex justify-center my-4'>Dodaj Zakład</DialogTitle>
+          <DialogTitle className='flex justify-center my-4'>Place Bet</DialogTitle>
           <DialogDescription className='flex flex-col'>
-            <span className='flex justify-center'>Czego się spodziewasz po meczu:</span>
+            <span className='flex justify-center'>What do you expect from the match?:</span>
             <span className='flex justify-center font-bold'>
               {homeTeam} - {awayTeam}?
             </span>

@@ -8,13 +8,13 @@ const UserListPage = () => {
   const { data: users, isPending, error } = useUsersQuery();
 
   if (isPending) {
-    return <div className='text-center mt-6'>Ładowanie listy użytkowników...</div>;
+    return <div className='text-center mt-6'>Loading user list...</div>;
   }
 
   if (error) {
     return (
       <div className='text-center mt-6 text-red-600'>
-        Wystąpił błąd podczas pobierania listy użytkowników: {error.message}
+        An error occurred while retrieving the user list: {error.message}
       </div>
     );
   }
@@ -22,7 +22,7 @@ const UserListPage = () => {
   return (
     <Card className='w-full max-w-4xl mx-auto mt-4 shadow-md rounded-lg bg-background_light'>
       <CardHeader className='p-4'>
-        <CardTitle className='text-center text-lg text-gray-800'>Lista Użytkowników</CardTitle>
+        <CardTitle className='text-center text-lg text-gray-800'>User List</CardTitle>
       </CardHeader>
       <CardContent>
         {users?.map((user, index) => (

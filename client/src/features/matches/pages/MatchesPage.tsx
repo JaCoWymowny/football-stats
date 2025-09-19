@@ -32,13 +32,13 @@ const MatchesPage = () => {
     <div className='w-full max-w-4xl mx-auto mt-8 px-4 tablet:px-6 laptop:px-8'>
       <Card className='rounded-2xl shadow-lg bg-background_light'>
         <CardHeader>
-          <CardTitle className='text-center text-primary_text text-2xl'>Dane Meczów</CardTitle>
+          <CardTitle className='text-center text-primary_text text-2xl'>Match Data</CardTitle>
         </CardHeader>
         <CardContent className='p-4'>
           {isError || !data?.matches?.length ? (
             <ErrorAlert
-              title={isError ? 'Błąd' : 'Brak danych'}
-              description={errorMessage || 'Nie znaleziono danych meczów.'}
+              title={isError ? 'Error' : 'No data available'}
+              description={errorMessage || 'No match data found.'}
             />
           ) : (
             <div className='space-y-6 max-h-[500px] overflow-auto'>

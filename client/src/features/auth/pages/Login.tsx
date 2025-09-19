@@ -6,7 +6,7 @@ const Login = () => {
     <div className='w-full max-w-md px-4 tablet:px-6 laptop:px-8 mx-auto'>
       <Card className='shadow-md rounded-2xl transform transition-transform duration-200 hover:scale-105 bg-background_light'>
         <CardHeader>
-          <CardTitle className='text-center text-primary_text'>Logowanie</CardTitle>
+          <CardTitle className='text-center text-primary_text'>Login</CardTitle>
         </CardHeader>
         <CardContent>
           <LoginForm />

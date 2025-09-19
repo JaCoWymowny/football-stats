@@ -74,7 +74,7 @@ const MatchItem: React.FC<MatchItemProps> = ({ match, onBetClick }) => {
           variant='secondary'
           className='px-4 py-2 text-sm tablet:px-10 tablet:py-4'
         >
-          Obstaw!
+          Bet!
         </Button>
       </div>
     </div>

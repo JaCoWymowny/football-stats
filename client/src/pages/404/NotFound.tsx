@@ -23,12 +23,12 @@ const NotFound = () => {
       </div>
       <div className='text-center'>
         <h1 className='text-4xl font-bold text-gray-800 mb-4'>Oops!</h1>
-        <p className='text-lg text-gray-600'>Przepraszamy, wystąpił nieoczekiwany błąd.</p>
-        <p className='text-md text-gray-500 mt-2 mb-6'>404 - Strona nie znaleziona</p>
+        <p className='text-lg text-gray-600'>Sorry, an unexpected error occurred.</p>
+        <p className='text-md text-gray-500 mt-2 mb-6'>404 - Page not found</p>
 
         <Link to='/'>
           <Button className='bg-gray-800 text-white px-4 py-2 rounded-full shadow hover:bg-gray-700 transition-all'>
-            Powrót do strony głównej
+            Back to the main page
           </Button>
         </Link>
       </div>

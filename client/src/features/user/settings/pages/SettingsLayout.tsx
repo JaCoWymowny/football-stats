@@ -9,10 +9,10 @@ const SettingsLayout: FC = () => {
   const isChangePassword = location.pathname.includes('change-password');
 
   const title = isChangeEmail
-    ? 'Zmień Email'
+    ? 'Change Email'
     : isChangePassword
-      ? 'Zmień Hasło'
-      : 'Ustawienia Konta';
+      ? 'Change Password'
+      : 'Account Settings';
 
   return (
     <div className='w-full max-w-md mx-auto px-4 tablet:px-6 laptop:px-8'>

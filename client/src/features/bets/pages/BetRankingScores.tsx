@@ -28,7 +28,7 @@ const BetRankingScores = () => {
       <BetTable
         data={formattedData}
         columns={columns}
-        columnHeaders={['Pozycja', 'Użytkownik', 'Punkty']}
+        columnHeaders={['position', 'username', 'points']}
         isPending={isPending}
         isError={isError}
         errorMessage={error?.response?.data?.message}

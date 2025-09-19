@@ -23,7 +23,7 @@ const UserProfileView: FC = () => {
       <Card className='rounded-2xl shadow-lg bg-background_light'>
         <CardHeader>
           <CardTitle className='text-center text-primary_text'>
-            {isCurrentUser ? 'Twój Profil' : 'Profil Użytkownika'}
+            {isCurrentUser ? 'Your Profile' : 'User Profile'}
           </CardTitle>
         </CardHeader>
         <CardContent className='space-y-4'>
@@ -32,11 +32,11 @@ const UserProfileView: FC = () => {
             <span>{isCurrentUser ? userToDisplay?.email : '-'}</span>
           </div>
           <div className='flex justify-between'>
-            <span className='font-medium text-primary_text'>Nazwa Użytkownika:</span>
+            <span className='font-medium text-primary_text'>Username:</span>
             <span>{userToDisplay?.username}</span>
           </div>
           <div className='flex justify-between'>
-            <span className='font-medium text-primary_text'>Rola:</span>
+            <span className='font-medium text-primary_text'>Role:</span>
             <span>{userToDisplay?.role}</span>
           </div>
         </CardContent>
@@ -48,7 +48,7 @@ const UserProfileView: FC = () => {
             onClick={() => navigate('/settings')}
             className='px-4 py-2 bg-accent text-secondary_text rounded-lg shadow hover:bg-accent/80'
           >
-            Przejdź do ustawień
+            Go to settings
           </Button>
         </div>
       )}

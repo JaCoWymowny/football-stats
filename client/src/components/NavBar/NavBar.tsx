@@ -19,8 +19,8 @@ const NavBar = () => {
     queryClient.removeQueries({ queryKey: ['user'] });
     queryClient.clear();
     toast({
-      title: 'Wylogowanie',
-      description: 'Zostałeś pomyślnie wylogowany.',
+      title: 'Logout',
+      description: 'Logged out successfully',
       variant: 'positive',
     });
     navigate('/');

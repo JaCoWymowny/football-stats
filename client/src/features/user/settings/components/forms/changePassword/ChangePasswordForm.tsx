@@ -43,8 +43,8 @@ const ChangePasswordForm: FC = () => {
         newPassword: data.newPassword,
       });
       toast({
-        title: 'Sukces',
-        description: 'Hasło zostało zaktualizowane pomyślnie!',
+        title: 'Success',
+        description: 'Password updated successfully!',
         variant: 'positive',
       });
       queryClient.invalidateQueries({ queryKey: ['user'] });
@@ -56,7 +56,7 @@ const ChangePasswordForm: FC = () => {
         form,
         onToast: message => {
           toast({
-            title: 'Błąd',
+            title: 'Error',
             description: message,
             variant: 'destructive',
           });
@@ -75,12 +75,12 @@ const ChangePasswordForm: FC = () => {
           name='currentPassword'
           render={({ field }) => (
             <FormItem>
-              <FormLabel className='text-primary_text'>Obecne hasło</FormLabel>
+              <FormLabel className='text-primary_text'>Current password</FormLabel>
               <FormControl>
                 <Input
                   {...field}
                   type='password'
-                  placeholder='Wprowadź obecne hasło'
+                  placeholder='Type your current password'
                   className='placeholder:text-xs tablet:placeholder:text-sm border-secondary bg-white text-primary_text rounded-md shadow-sm focus:ring-2 focus:ring-accent focus:border-accent'
                 />
               </FormControl>
@@ -92,12 +92,12 @@ const ChangePasswordForm: FC = () => {
           name='newPassword'
           render={({ field }) => (
             <FormItem>
-              <FormLabel className='text-primary_text'>Nowe hasło</FormLabel>
+              <FormLabel className='text-primary_text'>New password</FormLabel>
               <FormControl>
                 <Input
                   {...field}
                   type='password'
-                  placeholder='Wprowadź nowe hasło'
+                  placeholder='Type your new password'
                   className='placeholder:text-xs tablet:placeholder:text-sm border-secondary bg-white text-primary_text rounded-md shadow-sm focus:ring-2 focus:ring-accent focus:border-accent'
                 />
               </FormControl>
@@ -109,12 +109,12 @@ const ChangePasswordForm: FC = () => {
           name='confirmPassword'
           render={({ field }) => (
             <FormItem>
-              <FormLabel className='text-primary_text'>Potwierdź nowe hasło</FormLabel>
+              <FormLabel className='text-primary_text'>Confirm new password</FormLabel>
               <FormControl>
                 <Input
                   {...field}
                   type='password'
-                  placeholder='Potwierdź nowe hasło'
+                  placeholder='Confirm new password'
                   className='placeholder:text-xs tablet:placeholder:text-sm border-secondary bg-white text-primary_text rounded-md shadow-sm focus:ring-2 focus:ring-accent focus:border-accent'
                 />
               </FormControl>
@@ -132,7 +132,7 @@ const ChangePasswordForm: FC = () => {
             }
             className='px-2 py-1 tablet:px-4 tablet:py-2 disabled:opacity-50 disabled:cursor-not-allowed'
           >
-            {editMutation.isPending ? 'Zapisywanie...' : 'Zapisz'}
+            {editMutation.isPending ? 'Saving...' : 'Save'}
           </Button>
 
           <Button
@@ -141,7 +141,7 @@ const ChangePasswordForm: FC = () => {
             onClick={handleCancel}
             className='px-2 py-1 tablet:px-4 tablet:py-2'
           >
-            Anuluj
+            Cancel
           </Button>
         </div>
       </form>

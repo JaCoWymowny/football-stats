@@ -55,19 +55,19 @@ const RegisterForm: FC = () => {
       queryClient.setQueryData(UserQueries.getCurrentUser().queryKey, loginResponse.user);
       setStatus(AuthStatus.AUTHENTICATED);
       toast({
-        title: 'Sukces',
-        description: 'Zarejestrowano i zalogowano pomyślnie!',
+        title: 'Success',
+        description: 'Registered and logged in successfully!',
         variant: 'positive',
       });
     } catch (error) {
-      console.error('Błąd rejestracji:   ', error);
+      console.error('Registration error:   ', error);
       setStatus(AuthStatus.UNAUTHENTICATED);
       handleError({
         error,
         form,
         onToast: message => {
           toast({
-            title: 'Błąd',
+            title: 'Error',
             description: message,
             variant: 'destructive',
           });
@@ -83,11 +83,11 @@ const RegisterForm: FC = () => {
           name='username'
           render={({ field }) => (
             <FormItem>
-              <FormLabel className='text-primary_text'>Nazwa użytkownika</FormLabel>
+              <FormLabel className='text-primary_text'>Username</FormLabel>
               <FormControl>
                 <Input
                   {...field}
-                  placeholder='Wprowadź nazwę użytkownika'
+                  placeholder='Enter your username'
                   className='border-secondary bg-white text-primary_text rounded-md shadow-sm focus:ring-2 focus:ring-accent focus:border-accent'
                 />
               </FormControl>
@@ -103,7 +103,7 @@ const RegisterForm: FC = () => {
               <FormControl>
                 <Input
                   {...field}
-                  placeholder='Wprowadź swój email'
+                  placeholder='Enter your email address'
                   className='border-secondary bg-white text-primary_text rounded-md shadow-sm focus:ring-2 focus:ring-accent focus:border-accent'
                 />
               </FormControl>
@@ -115,12 +115,12 @@ const RegisterForm: FC = () => {
           name='password'
           render={({ field }) => (
             <FormItem>
-              <FormLabel className='text-primary_text'>Hasło</FormLabel>
+              <FormLabel className='text-primary_text'>Password</FormLabel>
               <FormControl>
                 <Input
                   {...field}
                   type='password'
-                  placeholder='Wprowadź hasło'
+                  placeholder='Type password'
                   className='border-secondary bg-white text-primary_text rounded-md shadow-sm focus:ring-2 focus:ring-accent focus:border-accent'
                 />
               </FormControl>
@@ -132,12 +132,12 @@ const RegisterForm: FC = () => {
           name='confirmPassword'
           render={({ field }) => (
             <FormItem>
-              <FormLabel className='text-primary_text'>Potwierdź hasło</FormLabel>
+              <FormLabel className='text-primary_text'>Confirm password</FormLabel>
               <FormControl>
                 <Input
                   {...field}
                   type='password'
-                  placeholder='Potwierdź hasło'
+                  placeholder='Confirm password'
                   className='border-secondary bg-white text-primary_text rounded-md shadow-sm focus:ring-2 focus:ring-accent focus:border-accent'
                 />
               </FormControl>
@@ -153,7 +153,7 @@ const RegisterForm: FC = () => {
           }
           className='px-2 py-1 tablet:px-4 tablet:py-2 disabled:opacity-50 disabled:cursor-not-allowed'
         >
-          {registerMutation.isPending ? 'Rejestrowanie...' : 'Zarejestruj się'}
+          {registerMutation.isPending ? 'Registration...' : 'Register'}
         </Button>
       </form>
     </Form>
