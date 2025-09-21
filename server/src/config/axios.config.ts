@@ -9,7 +9,7 @@ const apiClient = setupCache(
     },
   }),
   {
-    ttl: 60 * 5000,
+    ttl: 60 * 1000 * 5,
   }
 );
 
