@@ -17,12 +17,10 @@ app.use('/', apiRouter);
 app.get('/healthz', async (req, res) => {
   try {
     await prisma.$queryRaw`SELECT 1`;
-    // res.status(200).send('Połączenie z bazą danych działa poprawnie.');
     res.set('Cache-Control', 'no-store');
     res.status(200).json({ status: 'Połączenie z bazą danych działa poprawnie.' });
   } catch (error) {
     console.error('Błąd połączenia z bazą danych', error);
-    // res.status(500).send('Błąd połączenia z bazą danych');
     res.status(500).json({ status: 'Błąd połączenia z bazą danych' });
   }
 });

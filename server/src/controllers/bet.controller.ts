@@ -8,7 +8,7 @@ export async function httpPlaceBet(req: Request, res: Response): Promise<void> {
     const user = req.user;
 
     if (!user) {
-      res.status(401).json({ message: 'Użytkownik nie jest uwierzytelniony.' });
+      res.status(401).json({ message: 'The user is not authenticated.' });
       return;
     }
 
@@ -16,10 +16,10 @@ export async function httpPlaceBet(req: Request, res: Response): Promise<void> {
 
     if (!matchId || !predictedScore) {
       res.status(400).json({
-        message: 'Wszystkie pola są wymagane.',
+        message: 'All fields are required.',
         fields: {
-          ...(matchId ? {} : { matchId: 'ID meczu jest wymagane.' }),
-          ...(predictedScore ? {} : { predictedScore: 'Przewidywany wynik jest wymagany.' }),
+          ...(matchId ? {} : { matchId: 'Match ID is required.' }),
+          ...(predictedScore ? {} : { predictedScore: 'A predicted score is required.' }),
         },
       });
       return;
@@ -27,8 +27,8 @@ export async function httpPlaceBet(req: Request, res: Response): Promise<void> {
 
     if (!/^\d+-\d+$/.test(predictedScore)) {
       res.status(400).json({
-        message: 'Przewidywany wynik musi zawierać same cyfry np. 2-1',
-        fields: { predictedScore: 'Niepoprawny format wyniku.' },
+        message: 'The predicted result must contain only numbers, e.g. 2-1',
+        fields: { predictedScore: 'Incorrect result format.' },
       });
       return;
     }
@@ -37,8 +37,8 @@ export async function httpPlaceBet(req: Request, res: Response): Promise<void> {
 
     if (homeScore > 999 || awayScore > 999) {
       res.status(400).json({
-        message: 'Wynik nie może przekraczać 999 dla żadnej drużyny.',
-        fields: { predictedScore: 'Nieprawidłowy wynik.' },
+        message: 'The score cannot exceed 999 for any team..',
+        fields: { predictedScore: 'Incorrect result.' },
       });
       return;
     }
@@ -49,8 +49,8 @@ export async function httpPlaceBet(req: Request, res: Response): Promise<void> {
 
     if (existingBet) {
       res.status(400).json({
-        message: 'Zakład na ten mecz został już obstawiony.',
-        fields: { matchId: 'Nie możesz obstawić tego samego meczu więcej niż raz.' },
+        message: 'A bet on this match has already been placed.',
+        fields: { matchId: 'You cannot bet on the same match more than once.' },
       });
       return;
     }
@@ -60,8 +60,8 @@ export async function httpPlaceBet(req: Request, res: Response): Promise<void> {
 
     if (!matchData || !matchData.utcDate) {
       res.status(404).json({
-        message: 'Nie znaleziono meczu o podanym ID.',
-        fields: { matchId: 'Nieprawidłowe ID meczu.' },
+        message: 'No match found with the given ID.',
+        fields: { matchId: 'Invalid match ID.' },
       });
       return;
     }
@@ -73,8 +73,10 @@ export async function httpPlaceBet(req: Request, res: Response): Promise<void> {
     if (now >= matchStartTime - marginTime) {
       res.status(400).json({
         message:
-          'Nie można obstawić zakładu na mecz, który już się rozpoczął lub rozpocznie się za chwilę.',
-        fields: { matchId: 'Zakłady są możliwe tylko do 5 minut przed rozpoczęciem meczu.' },
+          'You cannot place a bet on a match that has already started or is about to start..',
+        fields: {
+          matchId: 'Bets are only possible up to 5 minutes before the start of the match..',
+        },
       });
       return;
     }
@@ -91,13 +93,13 @@ export async function httpPlaceBet(req: Request, res: Response): Promise<void> {
     });
 
     res.status(201).json({
-      message: 'Zakład został dodany pomyślnie.',
+      message: 'The bet was added successfully.',
       bet: newBet,
     });
   } catch (error) {
     console.error('Błąd w httpPlaceBet:', error);
     res.status(500).json({
-      message: 'Wystąpił błąd serwera. Spróbuj ponownie później.',
+      message: 'A server error occurred. Please try again later..',
     });
   }
 }
@@ -139,7 +141,7 @@ export const calculateTotalPoints = async () => {
 
 export const updateBetResults = async () => {
   try {
-    console.log('Rozpoczęcie aktualizacji wyników zakładów...');
+    console.log('Betting results update starts...');
 
     const bets = await prisma.bet.findMany({
       where: {
@@ -152,7 +154,7 @@ export const updateBetResults = async () => {
     });
 
     if (!bets.length) {
-      console.log('Brak zakładów do aktualizacji');
+      console.log('No bets to update');
       return;
     }
 
@@ -166,10 +168,10 @@ export const updateBetResults = async () => {
     });
 
     const matches = response.data.matches;
-    console.log(`Liczba meczów pobranych z API: ${matches.length}`);
+    console.log(`Number of matches downloaded from API: ${matches.length}`);
 
     if (!matches || !matches.length) {
-      console.log('Brak meczów do analizy.');
+      console.log('No matches to analyze.');
       return;
     }
 
@@ -203,10 +205,10 @@ export const updateBetResults = async () => {
 
     const results = await Promise.all(updates.filter(Boolean));
 
-    console.log(`Zaktualizowano ${results.length} zakładów`);
+    console.log(`Updated ${results.length} bets`);
     await calculateTotalPoints();
   } catch (error) {
-    console.error('Błąd podczas aktualizacji wyników zakładów:', error);
+    console.error('Error updating betting results:', error);
   }
 };
 
@@ -216,12 +218,12 @@ export async function httpGetUserBets(req: Request, res: Response): Promise<void
     const userId = parseInt(req.params.id);
 
     if (!user || isNaN(userId)) {
-      res.status(400).json({ message: 'Nieprawidłowe żądanie.' });
+      res.status(400).json({ message: 'Invalid request.' });
       return;
     }
 
     if ((user as { id: number }).id !== userId) {
-      res.status(403).json({ message: 'Brak dostępu do tych danych.' });
+      res.status(403).json({ message: 'No access to this data.' });
       return;
     }
 
@@ -252,8 +254,8 @@ export async function httpGetUserBets(req: Request, res: Response): Promise<void
       },
     });
   } catch (error) {
-    console.error('Błąd podczas pobierania zakładów użytkownika:', error);
-    res.status(500).json({ message: 'Wystąpił błąd serwera.' });
+    console.error('Error while downloading user bets:', error);
+    res.status(500).json({ message: 'A server error occurred.' });
   }
 }
 

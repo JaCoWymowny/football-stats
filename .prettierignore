@@ -1,2 +1,13 @@
 client/src/assets/*.svg
 client/tailwind.config.js
+
+node_modules
+dist
+build
+coverage
+
+**/*.ttf
+**/*.otf
+**/*.woff
+**/*.woff2
+client/src/assets/fonts/**
